@@ -1,0 +1,236 @@
+/* --- ПЕРЕМЕННЫЕ --- */
+:root {
+    --bg-base: #050505;
+    --bg-highlight: #1a1a1a;
+    --card-bg: linear-gradient(145deg, #252525, #151515);
+    /* Цвет обводки для ВСЕХ блоков одинаковый */
+    --border-color: #333;
+    --accent: #ff2d2d;
+    --text-main: #ffffff;
+    --text-muted: #d1d1d1;
+    --radius: 20px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-base);
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    padding: 30px 15px;
+    min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; display: block; }
+
+/* --- ФОН --- */
+.bg-depth {
+    position: fixed; inset: 0; z-index: -2;
+    background: radial-gradient(circle at center top, var(--bg-highlight) 0%, var(--bg-base) 80%);
+}
+.bg-grid {
+    position: fixed; inset: 0; z-index: -1;
+    background-image:
+            linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+}
+
+/* --- КОНТЕЙНЕР --- */
+.container {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* --- КАРТОЧКА --- */
+.card {
+    background: var(--card-bg);
+    /* Единая обводка для всего */
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+a.card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 40px rgba(255, 45, 45, 0.15);
+    z-index: 2;
+}
+
+/* --- СТРЕЛКА --- */
+.arrow-icon {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-size: 1.2rem;
+    color: #fff;
+    opacity: 0.1;
+    transition: all 0.3s ease;
+}
+
+a.card:hover .arrow-icon {
+    opacity: 1;
+    color: var(--accent);
+    transform: translateX(5px);
+}
+
+/* --- 1. ШАПКА --- */
+.header-card {
+    min-height: 180px;
+    background: radial-gradient(circle at center, #333 0%, #1a1a1a 100%);
+    /* Шапка тоже использует общий цвет */
+    border: 1px solid var(--border-color);
+}
+.logo { font-size: 3rem; font-weight: 900; margin-bottom: 20px; letter-spacing: -1px; }
+.red-text { color: var(--accent); }
+.desc { max-width: 650px; color: var(--text-muted); line-height: 1.4; font-size: 1rem; }
+
+/* --- 2. МЕНЮ --- */
+.grid-menu {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+.social-btn {
+    min-height: 60px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    background: linear-gradient(135deg, #333 0%, #222 100%);
+}
+.social-btn span { display: flex; align-items: center; gap: 8px; justify-content: center; }
+
+/* Стиль для иконки VK */
+.btn-icon-img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    display: block;
+}
+
+/* --- 3. ПРО НАС --- */
+.about-card { min-height: 120px; }
+.about-card p { font-size: 1.1rem; line-height: 1.5; color: var(--text-muted); max-width: 800px; }
+.about-card b { color: #fff; }
+
+/* --- 4. ДВЕ КОЛОНКИ --- */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.action-card { min-height: 160px; gap: 10px; }
+
+.action-card h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 15px 0;
+}
+
+.action-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin: 0 15px;
+}
+
+/* --- 5. ЧЕТЫРЕ КОЛОНКИ --- */
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+.info-card {
+    min-height: 110px;
+    font-weight: 600;
+}
+.info-card h3 { font-size: 1rem; margin: 0; }
+
+/* --- 6. ТРИ КОЛОНКИ --- */
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+.empty-slot {
+    background: transparent;
+    border: 2px dashed #444;
+    color: #666;
+    font-weight: 600;
+    cursor: default;
+    box-shadow: none;
+}
+.empty-slot:hover { transform: none; box-shadow: none; border-color: #444; }
+
+/* --- 7. ФУТЕР --- */
+.footer-card {
+    min-height: 70px;
+    background: #0f0f0f;
+    /* Футер тоже использует общий цвет */
+    border: 1px solid var(--border-color);
+    padding: 20px 30px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-left {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+}
+.copyright { font-weight: 700; color: #fff; font-size: 0.95rem; }
+.footer-sub { color: #666; font-size: 0.8rem; }
+
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.footer-links-row {
+    display: flex; gap: 20px;
+}
+.footer-links-row a { color: var(--text-muted); font-size: 0.85rem; transition: 0.2s; }
+.footer-links-row a:hover { color: var(--accent); }
+
+/* ДИЗАЙНЕР */
+.designer-link {
+    font-size: 0.7rem;
+    color: #444;
+    transition: 0.3s;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+.designer-link:hover { color: #fff; }
+
+.designer-link .red-text {
+    color: var(--accent);
+    font-weight: 800;
+    opacity: 0.5;
+    transition: 0.3s;
+}
+.designer-link:hover .red-text { opacity: 1; }
+
+
+/* --- АДАПТИВНОСТЬ --- */
+@media (max-width: 900px) {
+    .grid-menu { grid-template-columns: 1fr 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+
+    .footer-card {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+    .footer-left { align-items: center; }
+    .footer-right { align-items: center; }
+}
