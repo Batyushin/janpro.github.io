@@ -127,14 +127,14 @@ a.card:hover .arrow-icon {
 .header-content {
     position: relative; z-index: 4;
     display: flex; flex-direction: row; align-items: center;
-    /* Убрал паддинг, регулируем шириной колонок */
+    /* Убрал отступ, регулируем шириной колонок */
     justify-content: flex-start;
     padding-left: 0;
     gap: 40px; width: 100%;
 }
 
 .header-col-logo {
-    /* ИДЕАЛЬНОЕ СМЕЩЕНИЕ: 32% */
+    /* 32% для идеального смещения влево */
     flex: 0 0 32%;
     display: flex; justify-content: flex-end; align-items: center;
 }
@@ -148,7 +148,6 @@ a.card:hover .arrow-icon {
     transition: filter 0.3s ease;
 }
 
-/* Огненный неон */
 .logo-link:hover .main-logo-img {
     filter:
             drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))
@@ -157,6 +156,7 @@ a.card:hover .arrow-icon {
 }
 
 .header-col-text {
+    /* Текст по центру оставшегося места */
     text-align: center;
     flex: 1;
 }
@@ -280,7 +280,7 @@ a.card:hover .arrow-icon {
     }
 
     .main-logo-img {
-        max-width: 270px; /* Фиксировано 270px */
+        max-width: 270px; /* Размер 270px */
         display: block;
     }
 
@@ -303,12 +303,13 @@ a.card:hover .arrow-icon {
         line-height: 1;
     }
 
-    /* Описание: ДВЕ СТРОКИ, ПРАВЫЙ КРАЙ, КРУПНЕЕ */
+    /* Описание: ДВЕ СТРОКИ, ПРАВЫЙ КРАЙ, ЧУТЬ МЕНЬШЕ ШРИФТ */
     .desc br { display: inline; }
 
     .desc {
         display: block;
-        font-size: 1.05rem; /* КРУПНЫЙ ШРИФТ */
+        /* Уменьшили с 1.05rem до 0.9rem */
+        font-size: 0.9rem;
         white-space: normal;
         text-align: right; /* Строго вправо */
         opacity: 0.8;
