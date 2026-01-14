@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты и Реквизиты | JanPro.ru</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site/styles.css">
+    <link rel="icon" type="image/x-icon" href="site/favicon.ico" />
+    <script src="site/metrics.js"></script>
+
+    <style>
+        /* --- Стили сетки контактов (внутри страницы, чтобы не трогать styles.css) --- */
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* На десктопе: сетка делится корректно */
+        @media (min-width: 768px) {
+            .info-grid-top {
+                grid-template-columns: 1fr 1fr 1fr; /* 3 колонки: TG, WA, Инфо */
+            }
+            .info-grid-bottom {
+                grid-template-columns: 2fr 1fr; /* 2 колонки: Реквизиты (шире), QR (уже) */
+            }
+        }
+
+        /* Заголовки карточек */
+        .card-title {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 8px;
+        }
+
+        /* Списки данных */
+        .data-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.9rem;
+            color: #ccc;
+            line-height: 1.7;
+        }
+        .data-list li {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end; /* Выравнивание по нижней линии текста */
+            border-bottom: 1px dashed rgba(255,255,255,0.05); /* Легкий пунктир для связки */
+        }
+        .data-list li:last-child { border-bottom: none; }
+
+        .data-label { color: #777; margin-right: 10px; white-space: nowrap; }
+        .data-val { color: #fff; text-align: right; font-weight: 500; }
+
+        /* Ссылки */
+        .text-link { color: #fff; text-decoration: none; border-bottom: 1px dashed #555; transition: 0.2s; }
+        .text-link:hover { color: #e53935; border-bottom-color: #e53935; }
+
+        /* Кнопки мессенджеров */
+        .messenger-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-decoration: none;
+            color: #fff;
+            min-height: 120px; /* Чуть выше */
+        }
+        .messenger-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 12px;
+            object-fit: contain;
+        }
+        .messenger-name { font-weight: 700; font-size: 1.1rem; }
+        .messenger-sub { font-size: 0.8rem; color: #777; margin-top: 4px; }
+
+        /* QR зона */
+        .qr-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        .qr-img {
+            max-width: 140px;
+            width: 100%;
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: #fff;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-depth"></div>
+<div class="container">
+
+    <div class="card header-card">
+        <div class="header-content">
+            <div class="header-col-logo">
+                <a href="index.html" class="logo-link">
+                    <img src="site/img/logo.png" alt="JanPro Logo" class="main-logo-img">
+                </a>
+            </div>
+            <div class="header-col-text">
+                <h1 class="logo-text">JanPro<span class="red-text">.ru</span></h1>
+                <p class="desc">Профессиональная сборка и электромонтаж щитов<br>домашней и промышленной автоматизации.</p>
+            </div>
+        </div>
+    </div>
+
+    <nav class="grid-menu">
+        <a href="https://www.youtube.com/@jan.pro59" target="_blank" class="card social-btn">
+            <span><img src="site/img/youtube.png" class="btn-icon-img" alt="YT">Youtube</span>
+        </a>
+        <a href="https://instagram.com/Jan.pro59" target="_blank" class="card social-btn">
+            <span><img src="site/img/instagram.png" class="btn-icon-img" alt="Insta">Instagram</span>
+        </a>
+        <a href="https://vk.com/Jan.pro59" target="_blank" class="card social-btn">
+            <span><img src="site/img/vk.png" class="btn-icon-img" alt="VK">ВКонтакте</span>
+        </a>
+        <a href="#" class="card social-btn" style="border: 1px solid rgba(229, 57, 53, 0.5); background: rgba(229, 57, 53, 0.05);">
+            <span><img src="site/img/contact.png" class="btn-icon-img" alt="Contact">Связаться</span>
+        </a>
+    </nav>
+
+    <div class="info-grid info-grid-top">
+
+        <div class="card">
+            <a href="https://t.me/JanPro59" target="_blank" class="messenger-link">
+                <img src="site/img/telegram.png" alt="TG" class="messenger-icon">
+                <span class="messenger-name">Telegram</span>
+                <span class="messenger-sub">@JanPro59</span>
+            </a>
+        </div>
+
+        <div class="card">
+            <a href="https://wa.me/79990000000" target="_blank" class="messenger-link">
+                <img src="site/img/whatsapp.png" alt="WA" class="messenger-icon">
+                <span class="messenger-name">WhatsApp</span>
+                <span class="messenger-sub">Написать</span>
+            </a>
+        </div>
+
+        <div class="card" style="padding: 20px;">
+            <div class="card-title">Прямая связь</div>
+            <ul class="data-list">
+                <li>
+                    <span class="data-label">Тел:</span>
+                    <span class="data-val"><a href="tel:+79990000000" class="text-link">+7 (999) 000-00-00</a></span>
+                </li>
+                <li>
+                    <span class="data-label">Email:</span>
+                    <span class="data-val"><a href="mailto:info@janpro.ru" class="text-link">info@janpro.ru</a></span>
+                </li>
+                <li>
+                    <span class="data-label">Режим:</span>
+                    <span class="data-val">Пн-Пт, 10:00 - 19:00</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="info-grid info-grid-bottom" style="margin-top: 0;">
+
+        <div class="card" style="padding: 20px;">
+            <div class="card-title">Реквизиты ИП</div>
+            <ul class="data-list">
+                <li><span class="data-label">Наименование</span> <span class="data-val">ИП Савченко Я.К.</span></li>
+                <li><span class="data-label">Полное ФИО</span> <span class="data-val" style="font-size: 0.8rem;">Савченко Ян Константинович</span></li>
+                <li><span class="data-label">ИНН</span> <span class="data-val">591111683676</span></li>
+                <li><span class="data-label">ОГРН</span> <span class="data-val">322595800013544</span></li>
+                <li><span class="data-label">Регистрация</span> <span class="data-val">01.02.2022</span></li>
+
+                <li><span class="data-label">Р/счет</span> <span class="data-val">—</span></li>
+                <li><span class="data-label">БИК банка</span> <span class="data-val">—</span></li>
+            </ul>
+        </div>
+
+        <div class="card" style="padding: 20px;">
+            <div class="qr-area">
+                <img src="site/img/qr-placeholder.png" alt="QR Code" class="qr-img">
+                <div style="text-align: center; color: #888; font-size: 0.8rem; line-height: 1.4;">
+                    Сканируйте для оплаты<br>через приложение банка
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="card footer-card">
+        <div class="footer-left">
+            <div class="copyright-wrap">
+                <img src="site/favicon.ico" alt="Logo" class="footer-mini-logo">
+                <span class="copyright">© 2026 JanPro<span class="red-text">.ru</span></span>
+            </div>
+            <span class="footer-sub">Ян Савченко: Электрощиты нового времени</span>
+        </div>
+        <div class="footer-right">
+            <div class="footer-links-row">
+                <a href="#">Оферта</a>
+                <a href="#">Конфиденциальность</a>
+            </div>
+            <a href="https://batyushin.ru" target="_blank" class="designer-link">
+                DESIGNED BY <span class="red-text">ReD</span>
+            </a>
+        </div>
+    </footer>
+
+</div>
+
+<script>
+    // Эффект прожектора
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+</script>
+
+</body>
+</html>
