@@ -8,7 +8,7 @@
     /* Единый цвет рамки */
     --border-color: rgba(255, 255, 255, 0.12);
 
-    /* ИЗМЕНЕНО: Чистый красный #FF0000 */
+    /* АКЦЕНТ: ЧИСТЫЙ КРАСНЫЙ */
     --accent: #FF0000;
 
     --text-main: #ffffff;
@@ -94,9 +94,9 @@ a.card:hover {
     border-color: var(--accent);
     transform: translateY(-4px);
     box-shadow:
-            0 15px 35px rgba(255, 69, 0, 0.25),
+            0 15px 35px rgba(255, 0, 0, 0.25), /* Красное свечение */
             inset 0 1px 0 rgba(255, 255, 255, 0.2),
-            inset 0 0 30px rgba(255, 69, 0, 0.1);
+            inset 0 0 30px rgba(255, 0, 0, 0.1);
     z-index: 2;
     background: rgba(40, 15, 15, 0.6);
 }
@@ -116,7 +116,7 @@ a.card:hover .arrow-icon {
     opacity: 1;
     color: var(--accent);
     transform: translateX(5px);
-    text-shadow: 0 0 15px rgba(255, 69, 0, 1);
+    text-shadow: 0 0 15px rgba(255, 0, 0, 1);
 }
 
 /* --- 1. ШАПКА (ДЕСКТОП) --- */
@@ -135,6 +135,7 @@ a.card:hover .arrow-icon {
 }
 
 .header-col-logo {
+    /* 32% для идеального смещения влево */
     flex: 0 0 32%;
     display: flex; justify-content: flex-end; align-items: center;
 }
@@ -144,10 +145,11 @@ a.card:hover .arrow-icon {
 
 .main-logo-img {
     max-width: 270px; height: auto; object-fit: contain;
-    filter: drop-shadow(0 0 20px rgba(255, 69, 0, 0.25));
+    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.25));
     transition: filter 0.3s ease;
 }
 
+/* ОГНЕННЫЙ НЕОН */
 .logo-link:hover .main-logo-img {
     filter:
             drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))
@@ -159,7 +161,7 @@ a.card:hover .arrow-icon {
     text-align: center;
     flex: 1;
 }
-.logo-text { font-size: 3rem; font-weight: 900; margin-bottom: 15px; letter-spacing: -1px; text-shadow: 0 0 30px rgba(255, 69, 0, 0.3); line-height: 1; }
+.logo-text { font-size: 3rem; font-weight: 900; margin-bottom: 15px; letter-spacing: -1px; text-shadow: 0 0 30px rgba(255, 0, 0, 0.3); line-height: 1; }
 .red-text { color: var(--accent); }
 .desc { max-width: 650px; color: var(--text-muted); line-height: 1.4; font-size: 1.1rem; margin: 0 auto; }
 
@@ -183,7 +185,7 @@ a.card:hover .arrow-icon {
     min-height: 220px; padding: 10px; cursor: pointer; position: relative; transition: all 0.3s; backdrop-filter: blur(10px);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
-.about-video:hover { border-color: var(--accent); box-shadow: 0 10px 30px rgba(255, 69, 0, 0.2); transform: translateY(-2px); background: rgba(40, 15, 15, 0.5); }
+.about-video:hover { border-color: var(--accent); box-shadow: 0 10px 30px rgba(255, 0, 0, 0.2); transform: translateY(-2px); background: rgba(40, 15, 15, 0.5); }
 .video-cover { width: 100%; height: 100%; position: relative; border-radius: 8px; overflow: hidden; }
 .video-cover img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: opacity 0.3s; }
 .about-video:hover .video-cover img { opacity: 0.8; }
@@ -197,7 +199,7 @@ a.card:hover .arrow-icon {
     transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 .about-video:hover .custom-play-btn {
-    background: rgba(255, 69, 0, 0.2); border-color: var(--accent); box-shadow: 0 0 25px rgba(255, 69, 0, 0.6); transform: translate(-50%, -50%) scale(1.1);
+    background: rgba(255, 0, 0, 0.2); border-color: var(--accent); box-shadow: 0 0 25px rgba(255, 0, 0, 0.6); transform: translate(-50%, -50%) scale(1.1);
 }
 
 .about-description {
@@ -207,15 +209,152 @@ a.card:hover .arrow-icon {
 .about-description p { margin-bottom: 15px; }
 .about-description b { color: #fff; }
 
-/* --- ОСТАЛЬНЫЕ БЛОКИ --- */
+/* --- 4. КАРТОЧКИ ДЕЙСТВИЙ (Калькулятор и Партнеры) --- */
 .card-content { position: relative; z-index: 4; }
-.info-card h3 { font-size: 1.1rem; margin: 0; position: relative; z-index: 5; }
+
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.action-card { min-height: 180px; gap: 15px; }
-.action-card h3 { font-size: 1.4rem; font-weight: 700; line-height: 1.2; margin: 0 0 15px 0; }
-.action-card p { color: var(--text-muted); font-size: 1rem; margin: 0 15px; }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-.info-card { min-height: 140px; font-weight: 600; }
+
+.action-card {
+    min-height: 160px;
+    gap: 25px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 30px;
+    text-align: left;
+}
+
+.action-icon-wrap {
+    width: 70px; height: 70px;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.action-img {
+    width: 36px; height: 36px;
+    object-fit: contain;
+    /* Убираем фильтр тени, так как у SVG свои линии */
+    transition: transform 0.3s;
+}
+
+/* === ИСПРАВЛЕНИЕ ЗДЕСЬ === */
+.action-card:hover .action-icon-wrap {
+    border-color: var(--accent);
+    /* Теперь заливка сплошная красная, как в нижних блоках */
+    background: var(--accent);
+    /* Тень поярче */
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+    transform: scale(1.05) rotate(10deg);
+}
+/* ========================= */
+
+.action-card:hover .action-img {
+    transform: scale(1.1); /* Убрал поворот иконки отдельно, вращаем весь круг выше */
+}
+
+.action-card h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0 0 8px 0;
+    letter-spacing: 0px;
+}
+.action-card p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin: 0;
+    line-height: 1.4;
+}
+.action-card .arrow-icon { bottom: 20px; right: 20px; }
+
+/* --- 5. ИНФОРМАЦИОННЫЕ КНОПКИ (Сетка 4) --- */
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.info-card {
+    min-height: 160px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    gap: 15px;
+    position: relative; /* Для стрелки */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.info-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+    color: #e0e0e0;
+    position: relative;
+    z-index: 5;
+    max-width: 90%;
+}
+
+/* Иконка в круге */
+.info-icon-wrap {
+    width: 50px; height: 50px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+.info-img {
+    width: 24px; height: 24px;
+    object-fit: contain;
+    opacity: 0.8;
+    transition: all 0.3s;
+}
+
+/* Ховер */
+.info-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 30px rgba(255, 0, 0, 0.15), inset 0 -10px 20px rgba(255, 0, 0, 0.05);
+}
+.info-card:hover .info-icon-wrap {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+    transform: scale(1.1) rotate(10deg);
+}
+.info-card:hover .info-img {
+    opacity: 1;
+    filter: brightness(100);
+}
+.info-card:hover h3 { color: #fff; }
+
+/* Стрелка в инфо-карточках */
+.info-card .arrow-icon {
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 1rem;
+    opacity: 0.4;
+    transition: all 0.3s;
+}
+.info-card:hover .arrow-icon {
+    opacity: 1;
+    color: var(--accent);
+    transform: translateX(3px);
+}
+
+
+/* --- 6. ДОП УСЛУГИ --- */
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
 
 .empty-slot {
@@ -244,7 +383,25 @@ a.card:hover .arrow-icon {
 /* --- АДАПТИВНОСТЬ (MOBILE) --- */
 @media (max-width: 900px) {
     .grid-menu { grid-template-columns: 1fr 1fr; }
-    .grid-4 { grid-template-columns: 1fr 1fr; }
+
+    /* INFO CARDS: Плитка 2x2 */
+    .grid-4 {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .info-card {
+        min-height: 140px;
+        padding: 15px;
+    }
+    .info-card h3 { font-size: 0.95rem; }
+
+    .info-card .arrow-icon {
+        font-size: 0.9rem;
+        bottom: 8px;
+        right: 8px;
+    }
+
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
     .footer-card { flex-direction: column; gap: 25px; text-align: center; }
     .footer-left { align-items: center; }
@@ -252,6 +409,25 @@ a.card:hover .arrow-icon {
     .about-top { flex-direction: column; }
     .about-intro { text-align: center; }
     .about-video { min-height: 250px; }
+
+    /* Адаптив для Action Cards (остаются горизонтальными) */
+    .action-card {
+        min-height: auto;
+        padding: 20px;
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+    }
+
+    .action-icon-wrap {
+        width: 50px; height: 50px;
+        margin-bottom: 0;
+    }
+
+    .action-img { width: 24px; height: 24px; }
+
+    .action-card h3 { font-size: 1.2rem; }
+    .action-card p { font-size: 0.9rem; }
 
     /* ШАПКА МОБИЛЬНАЯ */
     .header-card {
@@ -279,7 +455,7 @@ a.card:hover .arrow-icon {
     }
 
     .main-logo-img {
-        max-width: 270px;
+        max-width: 270px; /* Размер 270px */
         display: block;
     }
 
@@ -302,16 +478,39 @@ a.card:hover .arrow-icon {
         line-height: 1;
     }
 
-    /* Описание: 0.9rem */
+    /* Описание: ДВЕ СТРОКИ, ПРАВЫЙ КРАЙ, 0.9rem */
     .desc br { display: inline; }
 
     .desc {
         display: block;
-        font-size: 0.9rem; /* Уменьшили шрифт */
+        font-size: 0.9rem; /* Размер шрифта 0.9rem */
         white-space: normal;
         text-align: right;
         opacity: 0.8;
         margin-top: 5px;
         line-height: 1.3;
+    }
+}
+
+/* --- Спец-стиль для нижнего ряда (Горизонтальный) --- */
+.info-card.horizontal-mode {
+    flex-direction: row; /* В ряд */
+    justify-content: flex-start; /* Влево */
+    text-align: left; /* Текст влево */
+    padding: 25px; /* Чуть больше отступы */
+    min-height: 120px; /* Высота поменьше */
+}
+
+/* Убираем ограничение ширины заголовка в этом режиме */
+.info-card.horizontal-mode h3 {
+    max-width: none;
+    font-size: 1.15rem; /* Чуть крупнее шрифт */
+}
+
+/* На мобильном тоже оставляем горизонтально, это удобно */
+@media (max-width: 900px) {
+    .info-card.horizontal-mode {
+        padding: 20px;
+        min-height: 100px;
     }
 }
