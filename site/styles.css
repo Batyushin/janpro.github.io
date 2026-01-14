@@ -1,13 +1,19 @@
 /* --- ПЕРЕМЕННЫЕ --- */
 :root {
-    --bg-base: #050505;
-    --bg-highlight: #1a1a1a;
-    --card-bg: linear-gradient(145deg, #252525, #151515);
-    /* Цвет обводки для ВСЕХ блоков одинаковый */
-    --border-color: #333;
-    --accent: #ff2d2d;
+    --bg-base: #080808; /* Глубокий черный */
+
+    /* --- СПОКОЙНОЕ ТЕМНОЕ СТЕКЛО --- */
+    /* Карточки теперь нейтрально-черные, без красного оттенка */
+    --card-bg: rgba(20, 20, 20, 0.7);
+
+    /* Тонкая, едва заметная белая рамка (как блик) */
+    --border-color: rgba(255, 255, 255, 0.08);
+
+    /* Акцент остался огненным, но используется точечно */
+    --accent: #ff4500;
+
     --text-main: #ffffff;
-    --text-muted: #d1d1d1;
+    --text-muted: #b0b0b0; /* Спокойный серый текст */
     --radius: 20px;
 }
 
@@ -25,19 +31,11 @@ body {
 
 a { text-decoration: none; color: inherit; display: block; }
 
-/* --- ФОН --- */
+/* --- ФОН: ТЛЕЮЩИЕ УГЛИ (МЕНЕЕ ЯРКИЙ) --- */
 .bg-depth {
     position: fixed; inset: 0; z-index: -2;
-    background: radial-gradient(circle at center top, var(--bg-highlight) 0%, var(--bg-base) 80%);
-}
-.bg-grid {
-    position: fixed; inset: 0; z-index: -1;
-    background-image:
-            linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
-    background-size: 50px 50px;
-    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+    /* Градиент стал темнее и благороднее (Dark Red -> Black) */
+    background: radial-gradient(circle at 50% 0%, #4a1515 0%, #1a0505 45%, #080808 100%);
 }
 
 /* --- КОНТЕЙНЕР --- */
@@ -46,10 +44,10 @@ a { text-decoration: none; color: inherit; display: block; }
     max-width: 1000px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
 }
 
-/* --- КАРТОЧКА (ОБЩИЕ СТИЛИ) --- */
+/* --- КАРТОЧКА (ТЕМНОЕ СТЕКЛО) --- */
 .card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -58,22 +56,32 @@ a { text-decoration: none; color: inherit; display: block; }
     position: relative;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
-    /* ЦЕНТРИРОВАНИЕ ВСЕГО ПО УМОЛЧАНИЮ */
+    /* Размытие фона под карточкой */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    /* Легкая тень */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     overflow: hidden;
 }
 
+/* --- ХОВЕР: ОГОНЬ ЗАГОРАЕТСЯ ПРИ НАВЕДЕНИИ --- */
 a.card:hover {
     border-color: var(--accent);
     transform: translateY(-4px);
-    box-shadow: 0 10px 40px rgba(255, 45, 45, 0.15);
+    /* Тень при наведении (свечение) */
+    box-shadow:
+            0 10px 30px rgba(255, 69, 0, 0.15), /* Внешнее свечение */
+            inset 0 0 20px rgba(255, 69, 0, 0.05); /* Внутреннее свечение */
     z-index: 2;
+    /* Стекло становится чуть светлее */
+    background: rgba(30, 30, 30, 0.8);
 }
 
 /* --- СТРЕЛКА --- */
@@ -83,7 +91,7 @@ a.card:hover {
     right: 15px;
     font-size: 1.2rem;
     color: #fff;
-    opacity: 0.1;
+    opacity: 0.2;
     transition: all 0.3s ease;
     z-index: 5;
 }
@@ -92,15 +100,21 @@ a.card:hover .arrow-icon {
     opacity: 1;
     color: var(--accent);
     transform: translateX(5px);
+    text-shadow: 0 0 8px rgba(255, 69, 0, 0.8);
 }
 
 /* --- 1. ШАПКА --- */
 .header-card {
     min-height: 180px;
-    background: radial-gradient(circle at center, #333 0%, #1a1a1a 100%);
+    /* Фон шапки чуть прозрачнее */
+    background: rgba(20, 10, 10, 0.5);
     border: 1px solid var(--border-color);
+    position: relative;
 }
-.logo { font-size: 3rem; font-weight: 900; margin-bottom: 20px; letter-spacing: -1px; }
+
+.header-content { position: relative; z-index: 1; }
+/* Логотип светится только слегка */
+.logo { font-size: 3rem; font-weight: 900; margin-bottom: 20px; letter-spacing: -1px; text-shadow: 0 0 30px rgba(255, 69, 0, 0.2); }
 .red-text { color: var(--accent); }
 .desc { max-width: 650px; color: var(--text-muted); line-height: 1.4; font-size: 1rem; }
 
@@ -114,48 +128,138 @@ a.card:hover .arrow-icon {
     min-height: 60px;
     font-weight: 700;
     font-size: 0.95rem;
-    background: linear-gradient(135deg, #333 0%, #222 100%);
+    background: rgba(30, 30, 30, 0.5);
+}
+.social-btn:hover {
+    background: rgba(50, 50, 50, 0.6);
 }
 .social-btn span { display: flex; align-items: center; gap: 8px; justify-content: center; }
 .btn-icon-img { width: 24px; height: 24px; object-fit: contain; display: block; }
 
-/* --- 3. ПРО НАС --- */
-.about-card { min-height: 120px; }
-.about-card p { font-size: 1.1rem; line-height: 1.5; color: var(--text-muted); max-width: 800px; }
-.about-card b { color: #fff; }
+/* --- 3. БЛОК "КТО МЫ" --- */
+.about-section {
+    align-items: flex-start;
+    text-align: left;
+    gap: 20px;
+    padding: 25px;
+}
 
-/* --- 4. ДВЕ КОЛОНКИ --- */
+.about-top {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 20px;
+    min-height: 200px;
+}
+
+.about-intro {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.about-intro h2 { font-size: 1.8rem; margin-bottom: 15px; color: #fff; }
+.about-slogan { font-size: 1.1rem; line-height: 1.5; color: var(--text-muted); font-weight: 500; }
+
+/* --- ВИДЕО ПЛЕЕР --- */
+.about-video {
+    flex: 1;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border-color);
+    min-height: 200px;
+    padding: 10px;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    backdrop-filter: blur(5px);
+}
+.about-video:hover {
+    border-color: var(--accent);
+    box-shadow: 0 5px 20px rgba(255, 69, 0, 0.1);
+}
+
+/* Обложка видео */
+.video-cover {
+    width: 100%; height: 100%;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.video-cover img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+}
+.about-video:hover .video-cover img { opacity: 0.8; }
+
+/* Кнопка Play */
+.custom-play-btn {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    color: #fff;
+    width: 60px; height: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    padding-left: 5px;
+    transition: all 0.3s;
+}
+.about-video:hover .custom-play-btn {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(255, 69, 0, 0.4);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Описание снизу */
+.about-description {
+    width: 100%;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+.about-description p { margin-bottom: 10px; }
+.about-description b { color: #fff; }
+
+
+/* --- ОСТАЛЬНЫЕ БЛОКИ --- */
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .action-card { min-height: 160px; gap: 10px; }
 .action-card h3 { font-size: 1.3rem; font-weight: 700; line-height: 1.2; margin: 0 0 15px 0; }
 .action-card p { color: var(--text-muted); font-size: 0.95rem; margin: 0 15px; }
 
-/* --- 5. ЧЕТЫРЕ КОЛОНКИ (ПРИМЕРЫ) --- */
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 .info-card { min-height: 130px; font-weight: 600; }
 .info-card h3 { font-size: 1rem; margin: 0; position: relative; z-index: 5; }
 
-/* --- 6. ТРИ КОЛОНКИ --- */
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-.empty-slot {
-    background: transparent;
-    border: 2px dashed #444;
-    color: #666;
-    font-weight: 600;
-    cursor: default;
-    box-shadow: none;
-}
-.empty-slot:hover { transform: none; box-shadow: none; border-color: #444; }
 
-/* --- 7. ФУТЕР --- */
+/* Пустой слот */
+.empty-slot {
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    color: #666; font-weight: 600; cursor: default;
+    backdrop-filter: blur(5px);
+}
+
 .footer-card {
     min-height: 70px;
-    background: #0f0f0f;
+    background: #050505; /* Футер плотный черный */
     border: 1px solid var(--border-color);
-    padding: 20px 30px;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    padding: 20px 30px; flex-direction: row; justify-content: space-between; align-items: center;
 }
 .footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
 .copyright { font-weight: 700; color: #fff; font-size: 0.95rem; }
@@ -169,6 +273,7 @@ a.card:hover .arrow-icon {
 .designer-link .red-text { color: var(--accent); font-weight: 800; opacity: 0.5; transition: 0.3s; }
 .designer-link:hover .red-text { opacity: 1; }
 
+
 /* --- АДАПТИВНОСТЬ --- */
 @media (max-width: 900px) {
     .grid-menu { grid-template-columns: 1fr 1fr; }
@@ -177,4 +282,7 @@ a.card:hover .arrow-icon {
     .footer-card { flex-direction: column; gap: 20px; text-align: center; }
     .footer-left { align-items: center; }
     .footer-right { align-items: center; }
+    .about-top { flex-direction: column; }
+    .about-intro { text-align: center; }
+    .about-video { min-height: 250px; }
 }

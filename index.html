@@ -8,41 +8,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="site/styles.css">
     <link rel="icon" type="image/x-icon" href="site/favicon.ico" />
-
     <script src="site/metrics.js"></script>
 </head>
 <body>
 
 <div class="bg-depth"></div>
-<div class="bg-grid"></div>
-
 <div class="container">
 
     <div class="card header-card">
-        <h1 class="logo">JanPro<span class="red-text">.ru</span></h1>
-        <p class="desc">Профессиональная сборка и электромонтаж щитов<br>домашней и промышленной автоматизации.</p>
+        <div class="header-content">
+            <h1 class="logo">JanPro<span class="red-text">.ru</span></h1>
+            <p class="desc">Профессиональная сборка и электромонтаж щитов<br>домашней и промышленной автоматизации.</p>
+        </div>
     </div>
 
     <nav class="grid-menu">
         <a href="#" class="card social-btn">
             <span>
-                    <img src="site/img/contact.png" class="btn-icon-img" alt="VK">
+                    <img src="site/img/contact.png" class="btn-icon-img" alt="Contact">
                     Связаться
             </span>
         </a>
-        <a href="#" class="card social-btn">
+        <a href="https://www.youtube.com/@jan.pro59" target="_blank" class="card social-btn">
             <span>
-                    <img src="site/img/youtube.png" class="btn-icon-img" alt="VK">
+                    <img src="site/img/youtube.png" class="btn-icon-img" alt="YT">
                     Youtube
             </span>
         </a>
-        <a href="#" class="card social-btn">
+        <a href="https://instagram.com/Jan.pro59" target="_blank" class="card social-btn">
              <span>
-                    <img src="site/img/instagram.png" class="btn-icon-img" alt="VK">
+                    <img src="site/img/instagram.png" class="btn-icon-img" alt="Insta">
                     Instagram
             </span>
         </a>
-        <a href="#" class="card social-btn">
+        <a href="https://vk.com/Jan.pro59" target="_blank" class="card social-btn">
                 <span>
                     <img src="site/img/vk.png" class="btn-icon-img" alt="VK">
                     ВКонтакте
@@ -50,8 +49,33 @@
         </a>
     </nav>
 
-    <div class="card about-card">
-        <p>👋 <b>Кто мы?</b><br>Мы поможем вам стать великим «нехочухой», добавив в вашу жизнь комфорт, лень и щепотку безопасности.</p>
+    <div class="card about-section">
+
+        <div class="about-top">
+            <div class="about-intro">
+                <h2>👋 Кто мы?</h2>
+                <p class="about-slogan">
+                    Мы поможем вам стать великим «нехочухой», добавив в вашу жизнь комфорт, лень и щепотку безопасности.
+                </p>
+            </div>
+
+            <div class="about-video" onclick="loadVideo(this)" data-video="ikEOSRbk9Ho" data-start="374">
+                <div class="video-cover">
+                    <img src="https://img.youtube.com/vi/ikEOSRbk9Ho/maxresdefault.jpg" alt="Video Preview">
+                    <div class="custom-play-btn">▶</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-description">
+            <p>
+                Мы — инженерная команда <b>JanPro</b>. Специализируемся на проектировании и сборке современных электрощитов для квартир, загородных домов и коммерческих помещений.
+            </p>
+            <p>
+                Наша главная цель — создать систему, о которой вы забудете сразу после установки. Мы производим щиты, которые управляют светом, климатом и безопасностью вашего дома, пока вы занимаетесь любимыми делами. Работаем только с проверенными комплектующими и даем гарантию на каждое соединение.
+            </p>
+        </div>
+
     </div>
 
     <section class="grid-2">
@@ -98,7 +122,7 @@
         </a>
 
         <div class="card empty-slot">
-            <span>🔒 Место вакантно</span>
+            <span>🛡 Тех. поддержка</span>
         </div>
 
         <a href="#" class="card info-card">
@@ -108,12 +132,10 @@
     </section>
 
     <footer class="card footer-card">
-
         <div class="footer-left">
             <span class="copyright">© 2026 JanPro.ru</span>
             <span class="footer-sub">Ян Савченко: Электрощиты нового времени</span>
         </div>
-
         <div class="footer-right">
             <div class="footer-links-row">
                 <a href="#">Оферта</a>
@@ -123,10 +145,25 @@
                 DESIGNED BY <span class="red-text">ReD</span>
             </a>
         </div>
-
     </footer>
 
 </div>
+
+<script>
+    function loadVideo(element) {
+        const videoId = element.getAttribute('data-video');
+        const start = element.getAttribute('data-start');
+        const iframe = document.createElement('iframe');
+        iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?start=${start}&autoplay=1&rel=0&modestbranding=1`);
+        iframe.setAttribute('width', '100%');
+        iframe.setAttribute('height', '100%');
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+        iframe.setAttribute('allowfullscreen', '');
+        element.innerHTML = '';
+        element.appendChild(iframe);
+    }
+</script>
 
 </body>
 </html>
