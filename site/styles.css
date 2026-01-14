@@ -510,3 +510,28 @@ a.card:hover .arrow-icon {
         line-height: 1.3;
     }
 }
+
+/* --- Обновления для Футера (Мини-лого) --- */
+
+/* Контейнер для иконки и текста копирайта (в одну строку) */
+.copyright-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Отступ между иконкой и годом */
+    margin-bottom: 5px; /* Отступ до нижнего текста (Ян Савченко...) */
+}
+
+/* Сама иконка */
+.footer-mini-logo {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.3)); /* Легкое красное свечение */
+}
+
+/* На мобильном центруем этот блок */
+@media (max-width: 900px) {
+    .copyright-wrap {
+        justify-content: center;
+    }
+}
