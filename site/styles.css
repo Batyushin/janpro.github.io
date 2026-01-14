@@ -28,10 +28,9 @@ body {
 
 a { text-decoration: none; color: inherit; display: block; }
 
-/* --- ФОН (ЧУТЬ БОЛЬШЕ ЖАРА) --- */
+/* --- ФОН --- */
 .bg-depth {
     position: fixed; inset: 0; z-index: -2;
-    /* Сделали центр немного ярче и радиус чуть шире */
     background: radial-gradient(circle at 50% 0%, #801500 0%, #330808 45%, #080808 100%);
 }
 
@@ -57,7 +56,6 @@ a { text-decoration: none; color: inherit; display: block; }
     backdrop-filter: blur(40px) saturate(120%);
     -webkit-backdrop-filter: blur(40px) saturate(120%);
 
-    /* Тени и блики */
     box-shadow:
             0 20px 40px rgba(0, 0, 0, 0.5),
             inset 0 1px 0 rgba(255, 255, 255, 0.15),
@@ -119,7 +117,7 @@ a.card:hover .arrow-icon {
     text-shadow: 0 0 15px rgba(255, 69, 0, 1);
 }
 
-/* --- 1. ШАПКА --- */
+/* --- 1. ШАПКА (ДЕСКТОП - ВОССТАНОВЛЕНО) --- */
 .header-card {
     min-height: 200px;
     background: rgba(15, 10, 10, 0.6);
@@ -129,15 +127,19 @@ a.card:hover .arrow-icon {
 .header-content {
     position: relative; z-index: 4;
     display: flex; flex-direction: row; align-items: center;
+    /* ВОССТАНОВЛЕНО: Выравнивание влево + отступ 5% */
     justify-content: flex-start;
-    /* ИЗМЕНЕНО: Уменьшил отступ, чтобы сдвинуть логотип левее */
     padding-left: 5%;
     gap: 40px; width: 100%;
 }
 
 .header-col-logo {
-    flex-shrink: 0;
-    display: flex; justify-content: center; align-items: center;
+    /* ВОССТАНОВЛЕНО: Колонка 35% */
+    flex: 0 0 35%;
+    display: flex;
+    /* ВОССТАНОВЛЕНО: Логотип прижат к правому краю своей колонки */
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .logo-link { display: block; transition: transform 0.3s; }
@@ -149,7 +151,6 @@ a.card:hover .arrow-icon {
     transition: filter 0.3s ease;
 }
 
-/* Неон для логотипа */
 .logo-link:hover .main-logo-img {
     filter:
             drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))
@@ -157,10 +158,15 @@ a.card:hover .arrow-icon {
             drop-shadow(0 0 30px rgba(255, 0, 0, 0.4));
 }
 
-.header-col-text { text-align: center; flex: 1; }
+.header-col-text {
+    /* ВОССТАНОВЛЕНО: Текст по центру оставшегося места */
+    text-align: center;
+    flex: 1;
+}
 .logo-text { font-size: 3rem; font-weight: 900; margin-bottom: 15px; letter-spacing: -1px; text-shadow: 0 0 30px rgba(255, 69, 0, 0.3); line-height: 1; }
 .red-text { color: var(--accent); }
 .desc { max-width: 650px; color: var(--text-muted); line-height: 1.4; font-size: 1.1rem; margin: 0 auto; }
+
 
 /* --- 2. МЕНЮ --- */
 .grid-menu { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
@@ -239,7 +245,7 @@ a.card:hover .arrow-icon {
 .designer-link .red-text { color: var(--accent); font-weight: 800; opacity: 0.5; transition: 0.3s; }
 .designer-link:hover .red-text { opacity: 1; }
 
-/* --- АДАПТИВНОСТЬ --- */
+/* --- АДАПТИВНОСТЬ (MOBILE) --- */
 @media (max-width: 900px) {
     .grid-menu { grid-template-columns: 1fr 1fr; }
     .grid-4 { grid-template-columns: 1fr 1fr; }
@@ -251,7 +257,63 @@ a.card:hover .arrow-icon {
     .about-intro { text-align: center; }
     .about-video { min-height: 250px; }
 
-    .header-content { flex-direction: column; gap: 20px; text-align: center; padding-left: 0; }
-    .header-col-text { text-align: center; }
-    .main-logo-img { max-width: 250px; }
+    /* ШАПКА МОБИЛЬНАЯ */
+    .header-card {
+        min-height: auto;
+        padding: 20px 15px; /* Стандартные отступы */
+        display: flex;
+        flex-direction: column; /* Вертикальный поток */
+    }
+
+    .header-content {
+        flex-direction: column;
+        gap: 0;
+        padding-left: 0;
+        justify-content: flex-start; /* Прижимаем к верху */
+        align-items: center;
+        height: auto;
+    }
+
+    /* ЛОГОТИП */
+    .header-col-logo {
+        flex: 0 0 auto;
+        width: 100%;
+        justify-content: center; /* Центрируем лого по горизонтали */
+        margin-bottom: 0; /* НИКАКИХ ОТСТУПОВ СНИЗУ */
+    }
+
+    .main-logo-img {
+        max-width: 270px; /* Размер 270px */
+        display: block; /* Убираем инлайновые отступы картинки */
+    }
+
+    /* ТЕКСТ */
+    .header-col-text {
+        width: 100%;
+        text-align: right; /* ВЫРАВНИВАНИЕ ВПРАВО */
+        margin-top: -10px; /* Чуть подтягиваем вверх к логотипу */
+        position: relative;
+        flex: auto;
+    }
+
+    .logo-text {
+        font-size: 1.3rem;
+        margin: 0;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    /* Описание: Скрываем <br> для одной строки */
+    .desc br { display: none; }
+
+    .desc {
+        display: block;
+        font-size: 0.8rem; /* Крупный шрифт */
+        white-space: nowrap; /* В одну строку */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        opacity: 0.8;
+        margin-top: 5px;
+        text-align: right; /* Убеждаемся, что прижато вправо */
+    }
 }
