@@ -1,20 +1,18 @@
 /* --- ПЕРЕМЕННЫЕ --- */
 :root {
-    --bg-base: #080808; /* Глубокий черный */
+    --bg-base: #080808;
 
-    /* --- СПОКОЙНОЕ ТЕМНОЕ СТЕКЛО --- */
-    /* Карточки теперь нейтрально-черные, без красного оттенка */
-    --card-bg: rgba(20, 20, 20, 0.7);
+    /* --- УСИЛЕННОЕ СТЕКЛО --- */
+    /* Фон стал прозрачнее (было 0.7, стало 0.4) и темнее */
+    --card-bg: rgba(10, 10, 10, 0.4);
 
-    /* Тонкая, едва заметная белая рамка (как блик) */
-    --border-color: rgba(255, 255, 255, 0.08);
+    /* Цвет обводки теперь ярче, как блик на грани стекла */
+    --border-color: rgba(255, 255, 255, 0.15);
 
-    /* Акцент остался огненным, но используется точечно */
     --accent: #ff4500;
-
     --text-main: #ffffff;
-    --text-muted: #b0b0b0; /* Спокойный серый текст */
-    --radius: 20px;
+    --text-muted: #c0c0c0; /* Текст чуть светлее для контраста на прозрачном */
+    --radius: 24px; /* Радиус чуть больше для мягкости */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,10 +29,9 @@ body {
 
 a { text-decoration: none; color: inherit; display: block; }
 
-/* --- ФОН: ТЛЕЮЩИЕ УГЛИ (МЕНЕЕ ЯРКИЙ) --- */
+/* --- ФОН: ТЛЕЮЩИЕ УГЛИ --- */
 .bg-depth {
     position: fixed; inset: 0; z-index: -2;
-    /* Градиент стал темнее и благороднее (Dark Red -> Black) */
     background: radial-gradient(circle at 50% 0%, #4a1515 0%, #1a0505 45%, #080808 100%);
 }
 
@@ -44,24 +41,32 @@ a { text-decoration: none; color: inherit; display: block; }
     max-width: 1000px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px; /* Увеличил отступы между стеклами */
 }
 
-/* --- КАРТОЧКА (ТЕМНОЕ СТЕКЛО) --- */
+/* --- КАРТОЧКА (МАКСИМАЛЬНОЕ СТЕКЛО) --- */
 .card {
     background: var(--card-bg);
-    border: 1px solid var(--border-color);
+    /* Обводка теперь составная: яркий верх, темный низ для объема */
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+
     border-radius: var(--radius);
-    padding: 20px;
+    padding: 25px;
     position: relative;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
-    /* Размытие фона под карточкой */
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    /* СИЛЬНОЕ РАЗМЫТИЕ ФОНА */
+    backdrop-filter: blur(40px) saturate(120%);
+    -webkit-backdrop-filter: blur(40px) saturate(120%);
 
-    /* Легкая тень */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    /* Сложная тень для объема + внутреннее свечение */
+    box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.6), /* Глубокая тень снаружи */
+            inset 0 1px 2px rgba(255, 255, 255, 0.1), /* Верхний внутренний блик */
+            inset 0 -1px 2px rgba(0, 0, 0, 0.3); /* Нижняя внутренняя тень */
 
     display: flex;
     flex-direction: column;
@@ -71,27 +76,32 @@ a { text-decoration: none; color: inherit; display: block; }
     overflow: hidden;
 }
 
-/* --- ХОВЕР: ОГОНЬ ЗАГОРАЕТСЯ ПРИ НАВЕДЕНИИ --- */
+/* --- ХОВЕР: СТЕКЛО НАКАЛЯЕТСЯ --- */
 a.card:hover {
+    /* При наведении рамка становится огненной */
     border-color: var(--accent);
+    border-top-color: #ff6a00; /* Верх ярче */
+
     transform: translateY(-4px);
-    /* Тень при наведении (свечение) */
+
+    /* Огненное свечение + подсветка стекла изнутри */
     box-shadow:
-            0 10px 30px rgba(255, 69, 0, 0.15), /* Внешнее свечение */
-            inset 0 0 20px rgba(255, 69, 0, 0.05); /* Внутреннее свечение */
+            0 15px 35px rgba(255, 69, 0, 0.3), /* Внешний жар */
+            inset 0 0 30px rgba(255, 69, 0, 0.1); /* Внутренний жар */
+
     z-index: 2;
-    /* Стекло становится чуть светлее */
-    background: rgba(30, 30, 30, 0.8);
+    /* Стекло становится чуть светлее и краснее */
+    background: rgba(40, 20, 20, 0.5);
 }
 
 /* --- СТРЕЛКА --- */
 .arrow-icon {
     position: absolute;
-    bottom: 15px;
-    right: 15px;
+    bottom: 20px;
+    right: 20px;
     font-size: 1.2rem;
     color: #fff;
-    opacity: 0.2;
+    opacity: 0.3;
     transition: all 0.3s ease;
     z-index: 5;
 }
@@ -100,56 +110,54 @@ a.card:hover .arrow-icon {
     opacity: 1;
     color: var(--accent);
     transform: translateX(5px);
-    text-shadow: 0 0 8px rgba(255, 69, 0, 0.8);
+    text-shadow: 0 0 15px rgba(255, 69, 0, 1);
 }
 
 /* --- 1. ШАПКА --- */
 .header-card {
-    min-height: 180px;
-    /* Фон шапки чуть прозрачнее */
-    background: rgba(20, 10, 10, 0.5);
-    border: 1px solid var(--border-color);
-    position: relative;
+    min-height: 200px;
+    /* Шапка чуть темнее и плотнее остальных карт */
+    background: rgba(15, 10, 10, 0.5);
 }
 
 .header-content { position: relative; z-index: 1; }
-/* Логотип светится только слегка */
-.logo { font-size: 3rem; font-weight: 900; margin-bottom: 20px; letter-spacing: -1px; text-shadow: 0 0 30px rgba(255, 69, 0, 0.2); }
+.logo { font-size: 3.5rem; font-weight: 900; margin-bottom: 20px; letter-spacing: -1px; text-shadow: 0 0 30px rgba(255, 69, 0, 0.3); }
 .red-text { color: var(--accent); }
-.desc { max-width: 650px; color: var(--text-muted); line-height: 1.4; font-size: 1rem; }
+.desc { max-width: 650px; color: var(--text-muted); line-height: 1.4; font-size: 1.1rem; }
 
 /* --- 2. МЕНЮ --- */
 .grid-menu {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    gap: 15px;
 }
 .social-btn {
-    min-height: 60px;
+    min-height: 70px;
     font-weight: 700;
-    font-size: 0.95rem;
-    background: rgba(30, 30, 30, 0.5);
+    font-size: 1rem;
+    /* Кнопки тоже стеклянные */
+    background: rgba(255, 255, 255, 0.03);
 }
 .social-btn:hover {
-    background: rgba(50, 50, 50, 0.6);
+    background: rgba(255, 69, 0, 0.1); /* Красный оттенок при наведении */
 }
-.social-btn span { display: flex; align-items: center; gap: 8px; justify-content: center; }
-.btn-icon-img { width: 24px; height: 24px; object-fit: contain; display: block; }
+.social-btn span { display: flex; align-items: center; gap: 10px; justify-content: center; }
+.btn-icon-img { width: 26px; height: 26px; object-fit: contain; display: block; }
 
 /* --- 3. БЛОК "КТО МЫ" --- */
 .about-section {
     align-items: flex-start;
     text-align: left;
-    gap: 20px;
-    padding: 25px;
+    gap: 25px;
+    padding: 30px;
 }
 
 .about-top {
     display: flex;
     flex-direction: row;
     width: 100%;
-    gap: 20px;
-    min-height: 200px;
+    gap: 25px;
+    min-height: 220px;
 }
 
 .about-intro {
@@ -159,36 +167,43 @@ a.card:hover .arrow-icon {
     justify-content: flex-start;
     align-items: center;
     text-align: center;
-    padding-top: 10px;
+    padding-top: 15px;
 }
 
-.about-intro h2 { font-size: 1.8rem; margin-bottom: 15px; color: #fff; }
-.about-slogan { font-size: 1.1rem; line-height: 1.5; color: var(--text-muted); font-weight: 500; }
+.about-intro h2 { font-size: 2rem; margin-bottom: 15px; color: #fff; }
+.about-slogan { font-size: 1.15rem; line-height: 1.5; color: var(--text-muted); font-weight: 500; }
 
 /* --- ВИДЕО ПЛЕЕР --- */
 .about-video {
     flex: 1;
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
     background: rgba(0,0,0,0.3);
-    border: 1px solid var(--border-color);
-    min-height: 200px;
+    /* У видео своя стеклянная рамка */
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+
+    min-height: 220px;
     padding: 10px;
     cursor: pointer;
     position: relative;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    backdrop-filter: blur(5px);
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
 }
 .about-video:hover {
     border-color: var(--accent);
-    box-shadow: 0 5px 20px rgba(255, 69, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(255, 69, 0, 0.2);
+    transform: translateY(-2px);
 }
 
 /* Обложка видео */
 .video-cover {
     width: 100%; height: 100%;
     position: relative;
-    border-radius: 6px;
+    border-radius: 8px;
     overflow: hidden;
 }
 .video-cover img {
@@ -204,71 +219,73 @@ a.card:hover .arrow-icon {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 30px;
+    font-size: 35px;
     color: #fff;
-    width: 60px; height: 60px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 70px; height: 70px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     padding-left: 5px;
     transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 .about-video:hover .custom-play-btn {
-    background: var(--accent);
+    background: rgba(255, 69, 0, 0.2);
     border-color: var(--accent);
-    box-shadow: 0 0 15px rgba(255, 69, 0, 0.4);
+    box-shadow: 0 0 25px rgba(255, 69, 0, 0.6);
     transform: translate(-50%, -50%) scale(1.1);
 }
 
 /* Описание снизу */
 .about-description {
     width: 100%;
-    border-top: 1px solid var(--border-color);
-    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 25px;
     color: var(--text-muted);
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 1.05rem;
+    line-height: 1.7;
 }
-.about-description p { margin-bottom: 10px; }
+.about-description p { margin-bottom: 15px; }
 .about-description b { color: #fff; }
 
 
 /* --- ОСТАЛЬНЫЕ БЛОКИ --- */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.action-card { min-height: 160px; gap: 10px; }
-.action-card h3 { font-size: 1.3rem; font-weight: 700; line-height: 1.2; margin: 0 0 15px 0; }
-.action-card p { color: var(--text-muted); font-size: 0.95rem; margin: 0 15px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.action-card { min-height: 180px; gap: 15px; }
+.action-card h3 { font-size: 1.4rem; font-weight: 700; line-height: 1.2; margin: 0 0 15px 0; }
+.action-card p { color: var(--text-muted); font-size: 1rem; margin: 0 15px; }
 
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.info-card { min-height: 130px; font-weight: 600; }
-.info-card h3 { font-size: 1rem; margin: 0; position: relative; z-index: 5; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+.info-card { min-height: 140px; font-weight: 600; }
+.info-card h3 { font-size: 1.1rem; margin: 0; position: relative; z-index: 5; }
 
-.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
 
 /* Пустой слот */
 .empty-slot {
-    background: rgba(255, 255, 255, 0.02);
-    border: 2px dashed rgba(255, 255, 255, 0.1);
-    color: #666; font-weight: 600; cursor: default;
-    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.01);
+    border: 2px dashed rgba(255, 255, 255, 0.15);
+    color: #888; font-weight: 600; cursor: default;
+    backdrop-filter: blur(10px);
+    box-shadow: none;
 }
+.empty-slot:hover { transform: none; box-shadow: none; border-color: rgba(255, 255, 255, 0.15); }
 
 .footer-card {
-    min-height: 70px;
-    background: #050505; /* Футер плотный черный */
-    border: 1px solid var(--border-color);
-    padding: 20px 30px; flex-direction: row; justify-content: space-between; align-items: center;
+    min-height: 80px;
+    background: rgba(5, 5, 5, 0.8);
+    padding: 25px 35px; flex-direction: row; justify-content: space-between; align-items: center;
 }
-.footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
-.copyright { font-weight: 700; color: #fff; font-size: 0.95rem; }
-.footer-sub { color: #666; font-size: 0.8rem; }
-.footer-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-.footer-links-row { display: flex; gap: 20px; }
-.footer-links-row a { color: var(--text-muted); font-size: 0.85rem; transition: 0.2s; }
+.footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.copyright { font-weight: 700; color: #fff; font-size: 1rem; }
+.footer-sub { color: #888; font-size: 0.85rem; }
+.footer-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.footer-links-row { display: flex; gap: 25px; }
+.footer-links-row a { color: var(--text-muted); font-size: 0.9rem; transition: 0.2s; }
 .footer-links-row a:hover { color: var(--accent); }
-.designer-link { font-size: 0.7rem; color: #444; transition: 0.3s; font-weight: 600; letter-spacing: 0.5px; }
+.designer-link { font-size: 0.75rem; color: #555; transition: 0.3s; font-weight: 600; letter-spacing: 0.5px; }
 .designer-link:hover { color: #fff; }
 .designer-link .red-text { color: var(--accent); font-weight: 800; opacity: 0.5; transition: 0.3s; }
 .designer-link:hover .red-text { opacity: 1; }
@@ -279,7 +296,7 @@ a.card:hover .arrow-icon {
     .grid-menu { grid-template-columns: 1fr 1fr; }
     .grid-4 { grid-template-columns: 1fr 1fr; }
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    .footer-card { flex-direction: column; gap: 20px; text-align: center; }
+    .footer-card { flex-direction: column; gap: 25px; text-align: center; }
     .footer-left { align-items: center; }
     .footer-right { align-items: center; }
     .about-top { flex-direction: column; }
