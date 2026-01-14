@@ -17,8 +17,18 @@
 
     <div class="card header-card">
         <div class="header-content">
-            <h1 class="logo">JanPro<span class="red-text">.ru</span></h1>
-            <p class="desc">Профессиональная сборка и электромонтаж щитов<br>домашней и промышленной автоматизации.</p>
+
+            <div class="header-col-logo">
+                <a href="index.html" class="logo-link">
+                    <img src="site/img/logo.png" alt="JanPro Logo" class="main-logo-img">
+                </a>
+            </div>
+
+            <div class="header-col-text">
+                <h1 class="logo-text">JanPro<span class="red-text">.ru</span></h1>
+                <p class="desc">Профессиональная сборка и электромонтаж щитов<br>домашней и промышленной автоматизации.</p>
+            </div>
+
         </div>
     </div>
 
@@ -41,6 +51,7 @@
                     ВКонтакте
                 </span>
         </a>
+
         <a href="#" class="card social-btn">
             <span>
                     <img src="site/img/contact.png" class="btn-icon-img" alt="Contact">
@@ -165,7 +176,7 @@
         element.appendChild(iframe);
     }
 
-    // 2. Эффект прожектора (Spotlight) на стекле
+    // 2. Эффект прожектора
     document.querySelectorAll('.card').forEach(card => {
         card.addEventListener('mousemove', e => {
             const rect = card.getBoundingClientRect();
