@@ -117,7 +117,7 @@ a.card:hover .arrow-icon {
     text-shadow: 0 0 15px rgba(255, 69, 0, 1);
 }
 
-/* --- 1. ШАПКА (ДЕСКТОП - ВОССТАНОВЛЕНО) --- */
+/* --- 1. ШАПКА (ДЕСКТОП) --- */
 .header-card {
     min-height: 200px;
     background: rgba(15, 10, 10, 0.6);
@@ -127,19 +127,16 @@ a.card:hover .arrow-icon {
 .header-content {
     position: relative; z-index: 4;
     display: flex; flex-direction: row; align-items: center;
-    /* ВОССТАНОВЛЕНО: Выравнивание влево + отступ 5% */
+    /* Убрал отступ, чтобы сдвинуть левее */
     justify-content: flex-start;
-    padding-left: 5%;
+    padding-left: 0;
     gap: 40px; width: 100%;
 }
 
 .header-col-logo {
-    /* ВОССТАНОВЛЕНО: Колонка 35% */
-    flex: 0 0 35%;
-    display: flex;
-    /* ВОССТАНОВЛЕНО: Логотип прижат к правому краю своей колонки */
-    justify-content: flex-end;
-    align-items: center;
+    /* Сдвигаем влево, уменьшая ширину колонки */
+    flex: 0 0 32%;
+    display: flex; justify-content: flex-end; align-items: center;
 }
 
 .logo-link { display: block; transition: transform 0.3s; }
@@ -159,7 +156,7 @@ a.card:hover .arrow-icon {
 }
 
 .header-col-text {
-    /* ВОССТАНОВЛЕНО: Текст по центру оставшегося места */
+    /* Текст по центру оставшегося места */
     text-align: center;
     flex: 1;
 }
@@ -260,16 +257,16 @@ a.card:hover .arrow-icon {
     /* ШАПКА МОБИЛЬНАЯ */
     .header-card {
         min-height: auto;
-        padding: 20px 15px; /* Стандартные отступы */
+        padding: 30px 15px;
         display: flex;
-        flex-direction: column; /* Вертикальный поток */
+        flex-direction: column;
     }
 
     .header-content {
         flex-direction: column;
         gap: 0;
         padding-left: 0;
-        justify-content: flex-start; /* Прижимаем к верху */
+        justify-content: flex-start;
         align-items: center;
         height: auto;
     }
@@ -278,20 +275,23 @@ a.card:hover .arrow-icon {
     .header-col-logo {
         flex: 0 0 auto;
         width: 100%;
-        justify-content: center; /* Центрируем лого по горизонтали */
-        margin-bottom: 0; /* НИКАКИХ ОТСТУПОВ СНИЗУ */
+        justify-content: center;
+        margin-bottom: 0;
     }
 
     .main-logo-img {
         max-width: 270px; /* Размер 270px */
-        display: block; /* Убираем инлайновые отступы картинки */
+        display: block;
     }
 
-    /* ТЕКСТ */
+    /* ТЕКСТ ВНИЗУ */
     .header-col-text {
         width: 100%;
         text-align: right; /* ВЫРАВНИВАНИЕ ВПРАВО */
-        margin-top: -10px; /* Чуть подтягиваем вверх к логотипу */
+
+        /* ОТРИЦАТЕЛЬНЫЙ ОТСТУП, ЧТОБЫ УБРАТЬ ВОЗДУХ */
+        margin-top: -25px;
+
         position: relative;
         flex: auto;
     }
@@ -303,17 +303,16 @@ a.card:hover .arrow-icon {
         line-height: 1;
     }
 
-    /* Описание: Скрываем <br> для одной строки */
-    .desc br { display: none; }
+    /* Описание: ДВЕ СТРОКИ, ПРАВЫЙ КРАЙ */
+    .desc br { display: inline; }
 
     .desc {
         display: block;
-        font-size: 0.8rem; /* Крупный шрифт */
-        white-space: nowrap; /* В одну строку */
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-size: 0.8rem;
+        white-space: normal;
+        text-align: right; /* Строго вправо */
         opacity: 0.8;
         margin-top: 5px;
-        text-align: right; /* Убеждаемся, что прижато вправо */
+        line-height: 1.3;
     }
 }
