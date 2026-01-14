@@ -246,10 +246,12 @@ a.card:hover .arrow-icon {
     /* Заливка красным */
     background: var(--accent);
     box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+    /* Убрали rotate(10deg), оставили только небольшое увеличение */
     transform: scale(1.05);
 }
 .action-card:hover .action-img {
-    transform: scale(1.1);
+    /* Добавили наклон и чуть большее увеличение */
+    transform: scale(1.15) rotate(12deg);
 }
 
 .action-card h3 {
