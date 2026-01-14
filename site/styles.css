@@ -2,10 +2,11 @@
 :root {
     --bg-base: #080808;
 
-    /* СТЕКЛО: Базовый фон карточек */
+    /* СТЕКЛО */
     --card-bg: rgba(15, 15, 15, 0.5);
-    /* Цвет обводки (базовый) */
-    --border-color: rgba(255, 255, 255, 0.1);
+
+    /* Единый цвет рамки (тонкий и едва заметный) */
+    --border-color: rgba(255, 255, 255, 0.12);
 
     --accent: #ff4500;
     --text-main: #ffffff;
@@ -27,7 +28,7 @@ body {
 
 a { text-decoration: none; color: inherit; display: block; }
 
-/* --- ФОН: ТЛЕЮЩИЕ УГЛИ --- */
+/* --- ФОН --- */
 .bg-depth {
     position: fixed; inset: 0; z-index: -2;
     background: radial-gradient(circle at 50% 0%, #4a1515 0%, #1a0505 45%, #080808 100%);
@@ -47,26 +48,26 @@ a { text-decoration: none; color: inherit; display: block; }
 /* ========================================= */
 .card {
     background: var(--card-bg);
-    /* Сложная стеклянная рамка с бликами */
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+
+    /* ИСПРАВЛЕНИЕ РАМОК: */
+    /* Теперь рамка одинаковая и тонкая со всех сторон */
+    border: 1px solid var(--border-color);
 
     border-radius: var(--radius);
     padding: 25px;
     position: relative;
     transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s, border-color 0.3s;
 
-    /* Размытие фона (матовое стекло) */
     backdrop-filter: blur(40px) saturate(120%);
     -webkit-backdrop-filter: blur(40px) saturate(120%);
 
-    /* Тени для объема */
+    /* ТЕНИ И БЛИКИ (Вместо жирных рамок): */
     box-shadow:
-            0 20px 40px rgba(0, 0, 0, 0.5),
-            inset 0 1px 2px rgba(255, 255, 255, 0.1),
-            inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+            0 20px 40px rgba(0, 0, 0, 0.5), /* Глубокая тень снаружи */
+                /* Мягкий белый блик ВНУТРИ сверху (создает объем без жирной линии) */
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                /* Мягкая тень ВНУТРИ снизу */
+            inset 0 -1px 0 rgba(0, 0, 0, 0.3);
 
     display: flex;
     flex-direction: column;
@@ -82,13 +83,12 @@ a { text-decoration: none; color: inherit; display: block; }
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     border-radius: inherit;
-    /* Радиальный градиент, следующий за координатами мыши */
     background: radial-gradient(
             600px circle at var(--mouse-x) var(--mouse-y),
             rgba(255, 255, 255, 0.08),
             transparent 40%
     );
-    z-index: 3; /* Над фоном, под текстом */
+    z-index: 3;
     opacity: 0;
     transition: opacity 0.5s ease;
     pointer-events: none;
@@ -99,17 +99,19 @@ a { text-decoration: none; color: inherit; display: block; }
 }
 
 
-/* --- ОБЩИЙ ХОВЕР ДЛЯ ВСЕХ КАРТОЧЕК --- */
+/* --- ОБЩИЙ ХОВЕР --- */
 a.card:hover {
-    border-color: var(--accent); /* Рамка становится оранжевой */
-    border-top-color: #ff7b00;   /* Верх рамки ярче */
+    /* При наведении рамка становится равномерно оранжевой */
+    border-color: var(--accent);
+
     transform: translateY(-4px);
-    /* Огненное свечение */
+
+    /* Усиливаем свечение при наведении */
     box-shadow:
             0 15px 35px rgba(255, 69, 0, 0.3),
-            inset 0 0 30px rgba(255, 69, 0, 0.1);
+            inset 0 1px 0 rgba(255, 255, 255, 0.2), /* Блик остается */
+            inset 0 0 30px rgba(255, 69, 0, 0.1);  /* Внутренний жар */
     z-index: 2;
-    /* Стекло чуть краснеет при нагреве */
     background: rgba(40, 15, 15, 0.6);
 }
 
@@ -135,7 +137,6 @@ a.card:hover .arrow-icon {
 /* --- 1. ШАПКА --- */
 .header-card {
     min-height: 200px;
-    /* Шапка чуть темнее остальных */
     background: rgba(15, 10, 10, 0.6);
 }
 
@@ -144,21 +145,18 @@ a.card:hover .arrow-icon {
 .red-text { color: var(--accent); }
 .desc { max-width: 650px; color: var(--text-muted); line-height: 1.4; font-size: 1.1rem; }
 
-/* --- 2. МЕНЮ (ИСПРАВЛЕНО) --- */
+/* --- 2. МЕНЮ --- */
 .grid-menu {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 15px;
 }
-/* Теперь кнопки используют общий стиль .card */
 .social-btn {
     min-height: 80px;
     font-weight: 700;
     font-size: 0.95rem;
-    padding: 15px; /* Чуть меньше паддинг, чем у больших карт */
+    padding: 15px;
 }
-
-/* Важно: иконка и текст должны быть выше блика (z-index: 4) */
 .social-btn span { display: flex; align-items: center; gap: 10px; justify-content: center; position: relative; z-index: 4; }
 .btn-icon-img { width: 24px; height: 24px; object-fit: contain; display: block; }
 
@@ -193,16 +191,14 @@ a.card:hover .arrow-icon {
 .about-slogan { font-size: 1.15rem; line-height: 1.5; color: var(--text-muted); font-weight: 500; }
 
 /* --- ВИДЕО ПЛЕЕР --- */
-/* У видео плеера тоже свой стиль стекла */
 .about-video {
     flex: 1;
     border-radius: 16px;
     overflow: hidden;
     background: rgba(0,0,0,0.4);
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+
+    /* Тоже исправляем рамки на единую тонкую */
+    border: 1px solid var(--border-color);
 
     min-height: 220px;
     padding: 10px;
@@ -210,6 +206,11 @@ a.card:hover .arrow-icon {
     position: relative;
     transition: all 0.3s;
     backdrop-filter: blur(10px);
+
+    /* Тени как у карточек */
+    box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
 .about-video:hover {
     border-color: var(--accent);
@@ -277,7 +278,7 @@ a.card:hover .arrow-icon {
 
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
 
-/* Пустой слот (без блика) */
+/* Пустой слот */
 .empty-slot {
     background: rgba(255, 255, 255, 0.02);
     border: 2px dashed rgba(255, 255, 255, 0.15);
@@ -290,7 +291,7 @@ a.card:hover .arrow-icon {
 
 .footer-card {
     min-height: 80px;
-    background: rgba(10, 5, 5, 0.9); /* Футер почти непрозрачный */
+    background: rgba(10, 5, 5, 0.9);
     padding: 25px 35px; flex-direction: row; justify-content: space-between; align-items: center;
 }
 .footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; position: relative; z-index: 4; }
