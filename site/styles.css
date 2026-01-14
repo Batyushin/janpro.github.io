@@ -101,11 +101,11 @@ a.card:hover {
     background: rgba(40, 15, 15, 0.6);
 }
 
-/* --- СТРЕЛКА (Базовая для всех карточек, кроме info-card, там переопределим) --- */
+/* --- СТРЕЛКА (Базовая) --- */
 .arrow-icon {
     position: absolute;
     bottom: 20px;
-    right: 20px;
+    right: 20px; /* Отступ от края */
     font-size: 1.2rem;
     color: #fff;
     opacity: 0.3;
@@ -149,7 +149,7 @@ a.card:hover .arrow-icon {
     transition: filter 0.3s ease;
 }
 
-/* ОГНЕННЫЙ НЕОН */
+/* ОГНЕННЫЙ НЕОН (ЛОГО) */
 .logo-link:hover .main-logo-img {
     filter:
             drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))
@@ -241,17 +241,15 @@ a.card:hover .arrow-icon {
     transition: transform 0.3s;
 }
 
+/* Ховер эффекты для Action Card */
 .action-card:hover .action-icon-wrap {
     border-color: var(--accent);
-    /* Заливка красным */
-    background: var(--accent);
+    background: var(--accent); /* Сплошная заливка */
     box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
-    /* Убрали rotate(10deg), оставили только небольшое увеличение */
     transform: scale(1.05);
 }
 .action-card:hover .action-img {
-    /* Добавили наклон и чуть большее увеличение */
-    transform: scale(1.15) rotate(12deg);
+    transform: scale(1.15) rotate(12deg); /* Наклон иконки */
 }
 
 .action-card h3 {
@@ -334,12 +332,12 @@ a.card:hover .arrow-icon {
 }
 .info-card:hover h3 { color: #fff; }
 
-/* Стрелка в инфо-карточках (ИСПРАВЛЕНИЕ: Сдвигаем левее) */
+/* Стрелка в инфо-карточках (сдвинута левее) */
 .info-card .arrow-icon {
     display: block;
     position: absolute;
     bottom: 10px;
-    right: 20px; /* Было 10px, сделали 20px */
+    right: 20px; /* Отступ 20px */
     font-size: 1rem;
     opacity: 0.4;
     transition: all 0.3s;
@@ -351,7 +349,7 @@ a.card:hover .arrow-icon {
 }
 
 
-/* --- 6. ДОП УСЛУГИ --- */
+/* --- 6. ДОП УСЛУГИ (Нижний ряд) --- */
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
 
 /* Спец-стиль для нижнего ряда (Горизонтальный) */
@@ -366,7 +364,7 @@ a.card:hover .arrow-icon {
     max-width: none;
     font-size: 1.15rem;
 }
-/* Стрелка для горизонтального режима тоже с отступом 20px */
+/* Стрелка для горизонтального режима */
 .info-card.horizontal-mode .arrow-icon {
     right: 20px;
     bottom: 20px;
@@ -380,21 +378,70 @@ a.card:hover .arrow-icon {
 .empty-slot:hover { transform: none; box-shadow: none; border-color: rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.02); }
 .empty-slot::before { display: none; }
 
+
+/* --- 7. ФУТЕР --- */
 .footer-card {
     min-height: 80px; background: rgba(10, 5, 5, 0.9);
     padding: 25px 35px; flex-direction: row; justify-content: space-between; align-items: center;
 }
 .footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; position: relative; z-index: 4; }
+
+/* Копирайт с мини-лого */
+.copyright-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+.footer-mini-logo {
+    width: 24px; height: 24px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.3));
+}
+
 .copyright { font-weight: 700; color: #fff; font-size: 1rem; }
 .footer-sub { color: #888; font-size: 0.85rem; }
 .footer-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; position: relative; z-index: 4; }
 .footer-links-row { display: flex; gap: 25px; }
 .footer-links-row a { color: var(--text-muted); font-size: 0.9rem; transition: 0.2s; }
 .footer-links-row a:hover { color: var(--accent); }
-.designer-link { font-size: 0.75rem; color: #555; transition: 0.3s; font-weight: 600; letter-spacing: 0.5px; }
-.designer-link:hover { color: #fff; }
-.designer-link .red-text { color: var(--accent); font-weight: 800; opacity: 0.5; transition: 0.3s; }
-.designer-link:hover .red-text { opacity: 1; }
+
+/* DESIGNED BY RED */
+.designer-link {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 0;
+}
+.designer-link:hover {
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.designer-link .red-text {
+    color: var(--accent) !important;
+    font-weight: 900;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+
+    text-transform: none;
+
+    text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.designer-link:hover .red-text {
+    text-shadow:
+            0 0 15px rgba(255, 0, 0, 0.8),
+            0 0 30px rgba(255, 0, 0, 0.4);
+    transform: scale(1.05);
+}
 
 /* --- АДАПТИВНОСТЬ (MOBILE) --- */
 @media (max-width: 900px) {
@@ -415,24 +462,26 @@ a.card:hover .arrow-icon {
     .info-card .arrow-icon {
         font-size: 0.9rem;
         bottom: 8px;
-        right: 15px; /* На мобильном чуть меньше отступ */
+        right: 15px;
     }
 
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
     .footer-card { flex-direction: column; gap: 25px; text-align: center; }
     .footer-left { align-items: center; }
     .footer-right { align-items: center; }
+    .copyright-wrap { justify-content: center; }
+
     .about-top { flex-direction: column; }
     .about-intro { text-align: center; }
     .about-video { min-height: 250px; }
 
-    /* Горизонтальный режим на мобильном для нижних блоков */
+    /* Горизонтальный режим на мобильном */
     .info-card.horizontal-mode {
         padding: 20px;
         min-height: 100px;
     }
 
-    /* Адаптив для Action Cards */
+    /* Action Cards */
     .action-card {
         min-height: auto;
         padding: 20px;
@@ -508,30 +557,5 @@ a.card:hover .arrow-icon {
         opacity: 0.8;
         margin-top: 5px;
         line-height: 1.3;
-    }
-}
-
-/* --- Обновления для Футера (Мини-лого) --- */
-
-/* Контейнер для иконки и текста копирайта (в одну строку) */
-.copyright-wrap {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Отступ между иконкой и годом */
-    margin-bottom: 5px; /* Отступ до нижнего текста (Ян Савченко...) */
-}
-
-/* Сама иконка */
-.footer-mini-logo {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.3)); /* Легкое красное свечение */
-}
-
-/* На мобильном центруем этот блок */
-@media (max-width: 900px) {
-    .copyright-wrap {
-        justify-content: center;
     }
 }
