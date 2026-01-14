@@ -215,15 +215,40 @@ a.card:hover .arrow-icon {
 .about-video:hover .video-cover img { opacity: 0.8; }
 
 .custom-play-btn {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    position: absolute;
+    /* Убираем старую центровку */
+    top: auto;
+    left: auto;
+    transform: none;
+
+    /* Новое положение: правый нижний угол */
+    bottom: 20px;
+    right: 20px;
+
     font-size: 35px; color: #fff; width: 70px; height: 70px;
     background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
     border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 50%;
     display: flex; align-items: center; justify-content: center; padding-left: 5px;
     transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
+
 .about-video:hover .custom-play-btn {
-    background: rgba(255, 0, 0, 0.2); border-color: var(--accent); box-shadow: 0 0 25px rgba(255, 0, 0, 0.6); transform: translate(-50%, -50%) scale(1.1);
+    background: rgba(255, 0, 0, 0.2);
+    border-color: var(--accent);
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+
+    /* ВАЖНО: translate(-50%, -50%) нужно оставить, чтобы кнопка была по центру */
+    /* Добавили rotate(10deg) для наклона */
+    transform: translate(-50%, -50%) scale(1.1) rotate(10deg);
+}
+
+.about-video:hover .custom-play-btn {
+    background: rgba(255, 0, 0, 0.2);
+    border-color: var(--accent);
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+
+    /* Только увеличение и наклон (без translate) */
+    transform: scale(1.1) rotate(10deg);
 }
 
 .about-description {

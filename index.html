@@ -88,9 +88,9 @@
                 </p>
             </div>
 
-            <div class="about-video" onclick="loadVideo(this)" data-video="ikEOSRbk9Ho" data-start="374">
+            <div class="about-video" onclick="loadVideo(this)" data-vk-oid="-76846822" data-vk-id="456239435">
                 <div class="video-cover">
-                    <img src="https://img.youtube.com/vi/ikEOSRbk9Ho/maxresdefault.jpg" alt="Video Preview">
+                    <img src="site/img/video-cover.jpg" alt="Video Preview">
                     <div class="custom-play-btn">▶</div>
                 </div>
             </div>
@@ -316,17 +316,24 @@
 </div>
 
 <script>
-    // 1. Загрузка видео
+    // 1. Загрузка видео (VK Video)
     function loadVideo(element) {
-        const videoId = element.getAttribute('data-video');
-        const start = element.getAttribute('data-start');
+        const oid = element.getAttribute('data-vk-oid');
+        const id = element.getAttribute('data-vk-id');
+
         const iframe = document.createElement('iframe');
-        iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?start=${start}&autoplay=1&rel=0&modestbranding=1`);
+
+        // Добавляем параметр &volume=100 (иногда помогает)
+        iframe.setAttribute('src', `https://vk.com/video_ext.php?oid=${oid}&id=${id}&hd=2&autoplay=1&volume=100`);
+
         iframe.setAttribute('width', '100%');
         iframe.setAttribute('height', '100%');
         iframe.setAttribute('frameborder', '0');
-        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+
+        // ВАЖНО: Добавляем звездочки (*), чтобы дать полные права плееру
+        iframe.setAttribute('allow', 'autoplay *; fullscreen *; encrypted-media *; picture-in-picture *; gyroscope; accelerometer; clipboard-write;');
         iframe.setAttribute('allowfullscreen', '');
+
         element.innerHTML = '';
         element.appendChild(iframe);
     }
