@@ -17,51 +17,34 @@
 
     <div class="card header-card">
         <div class="header-content">
-
             <div class="header-col-logo">
                 <a href="index.html" class="logo-link">
                     <img src="site/img/logo.png" alt="JanPro Logo" class="main-logo-img">
                 </a>
             </div>
-
             <div class="header-col-text">
                 <h1 class="logo-text">JanPro<span class="red-text">.ru</span></h1>
                 <p class="desc">Профессиональная сборка и электромонтаж щитов<br>домашней и промышленной автоматизации.</p>
             </div>
-
         </div>
     </div>
 
     <nav class="grid-menu">
         <a href="https://www.youtube.com/@jan.pro59" target="_blank" class="card social-btn">
-            <span>
-                    <img src="site/img/youtube.png" class="btn-icon-img" alt="YT">
-                    Youtube
-            </span>
+            <span><img src="site/img/youtube.png" class="btn-icon-img" alt="YT">Youtube</span>
         </a>
         <a href="https://instagram.com/Jan.pro59" target="_blank" class="card social-btn">
-             <span>
-                    <img src="site/img/instagram.png" class="btn-icon-img" alt="Insta">
-                    Instagram
-            </span>
+            <span><img src="site/img/instagram.png" class="btn-icon-img" alt="Insta">Instagram</span>
         </a>
         <a href="https://vk.com/Jan.pro59" target="_blank" class="card social-btn">
-                <span>
-                    <img src="site/img/vk.png" class="btn-icon-img" alt="VK">
-                    ВКонтакте
-                </span>
+            <span><img src="site/img/vk.png" class="btn-icon-img" alt="VK">ВКонтакте</span>
         </a>
-
         <a href="#" class="card social-btn">
-            <span>
-                    <img src="site/img/contact.png" class="btn-icon-img" alt="Contact">
-                    Связаться
-            </span>
+            <span><img src="site/img/contact.png" class="btn-icon-img" alt="Contact">Связаться</span>
         </a>
     </nav>
 
     <div class="card about-section">
-
         <div class="about-top">
             <div class="about-intro">
                 <div class="about-title-row">
@@ -82,7 +65,6 @@
                     </div>
                     <h2>Кто мы?</h2>
                 </div>
-
                 <p class="about-slogan">
                     Мы поможем вам стать великим «нехочухой», добавив в вашу жизнь комфорт, лень и щепотку безопасности.
                 </p>
@@ -97,14 +79,9 @@
         </div>
 
         <div class="about-description">
-            <p>
-                Мы — инженерная команда <b>JanPro<span class="red-text">.ru</span></b>. Специализируемся на проектировании и сборке современных электрощитов для квартир, загородных домов и коммерческих помещений.
-            </p>
-            <p>
-                Наша главная цель — создать систему, о которой вы забудете сразу после установки. Мы производим щиты, которые управляют светом, климатом и безопасностью вашего дома, пока вы занимаетесь любимыми делами. Работаем только с проверенными комплектующими и даем гарантию на каждое соединение.
-            </p>
+            <p>Мы — инженерная команда <b>JanPro<span class="red-text">.ru</span></b>. Специализируемся на проектировании и сборке современных электрощитов для квартир, загородных домов и коммерческих помещений.</p>
+            <p>Наша главная цель — создать систему, о которой вы забудете сразу после установки. Мы производим щиты, которые управляют светом, климатом и безопасностью вашего дома, пока вы занимаетесь любимыми делами. Работаем только с проверенными комплектующими и даем гарантию на каждое соединение.</p>
         </div>
-
     </div>
 
     <section class="grid-2">
@@ -127,7 +104,6 @@
                     <circle cx="15.5" cy="17" r="1.5" fill="#080808" opacity="0.4"/>
                 </svg>
             </div>
-
             <div class="card-content">
                 <h3>Онлайн-калькулятор</h3>
                 <p>Рассчитайте стоимость будущего щита<br>за 2 минуты</p>
@@ -148,7 +124,6 @@
                     <path d="M12 13C7.58 13 4 14.79 4 17V19C4 19.55 4.45 20 5 20H19C19.55 20 20 19.55 20 19V17C20 14.79 16.42 13 12 13Z" fill="url(#appleSilverGradUser)"/>
                 </svg>
             </div>
-
             <div class="card-content">
                 <h3>Партнеры и Скидки</h3>
                 <p>Реферальные программы и промокоды<br>для наших заказчиков</p>
@@ -234,7 +209,6 @@
     </section>
 
     <section class="grid-3 bottom-row">
-
         <a href="#" class="card info-card horizontal-mode">
             <div class="info-icon-wrap">
                 <svg class="info-img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -291,7 +265,6 @@
             <h3>Собственное производство</h3>
             <div class="arrow-icon">➔</div>
         </a>
-
     </section>
 
     <footer class="card footer-card">
@@ -320,17 +293,12 @@
     function loadVideo(element) {
         const oid = element.getAttribute('data-vk-oid');
         const id = element.getAttribute('data-vk-id');
-
         const iframe = document.createElement('iframe');
 
-        // Добавляем параметр &volume=100 (иногда помогает)
         iframe.setAttribute('src', `https://vk.com/video_ext.php?oid=${oid}&id=${id}&hd=2&autoplay=1&volume=100`);
-
         iframe.setAttribute('width', '100%');
         iframe.setAttribute('height', '100%');
         iframe.setAttribute('frameborder', '0');
-
-        // ВАЖНО: Добавляем звездочки (*), чтобы дать полные права плееру
         iframe.setAttribute('allow', 'autoplay *; fullscreen *; encrypted-media *; picture-in-picture *; gyroscope; accelerometer; clipboard-write;');
         iframe.setAttribute('allowfullscreen', '');
 

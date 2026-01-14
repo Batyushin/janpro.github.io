@@ -1,16 +1,9 @@
-/* --- ПЕРЕМЕННЫЕ --- */
+/* --- VARIABLES --- */
 :root {
     --bg-base: #080808;
-
-    /* СТЕКЛО */
     --card-bg: rgba(15, 15, 15, 0.5);
-
-    /* Единый цвет рамки */
     --border-color: rgba(255, 255, 255, 0.12);
-
-    /* АКЦЕНТ: ЧИСТЫЙ КРАСНЫЙ */
     --accent: #FF0000;
-
     --text-main: #ffffff;
     --text-muted: #c0c0c0;
     --radius: 24px;
@@ -30,13 +23,13 @@ body {
 
 a { text-decoration: none; color: inherit; display: block; }
 
-/* --- ФОН --- */
+/* --- BACKGROUND --- */
 .bg-depth {
     position: fixed; inset: 0; z-index: -2;
     background: radial-gradient(circle at 50% 0%, #801500 0%, #330808 45%, #080808 100%);
 }
 
-/* --- КОНТЕЙНЕР --- */
+/* --- CONTAINER --- */
 .container {
     width: 100%;
     max-width: 1000px;
@@ -45,9 +38,7 @@ a { text-decoration: none; color: inherit; display: block; }
     gap: 20px;
 }
 
-/* ========================================= */
-/* --- ЕДИНЫЙ СТИЛЬ ДЛЯ ВСЕХ КАРТОЧЕК --- */
-/* ========================================= */
+/* --- CARD BASE STYLE --- */
 .card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -57,12 +48,10 @@ a { text-decoration: none; color: inherit; display: block; }
     transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s, border-color 0.3s;
     backdrop-filter: blur(40px) saturate(120%);
     -webkit-backdrop-filter: blur(40px) saturate(120%);
-
     box-shadow:
             0 20px 40px rgba(0, 0, 0, 0.5),
             inset 0 1px 0 rgba(255, 255, 255, 0.15),
             inset 0 -1px 0 rgba(0, 0, 0, 0.3);
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -71,7 +60,7 @@ a { text-decoration: none; color: inherit; display: block; }
     overflow: hidden;
 }
 
-/* --- SPOTLIGHT EFFECT --- */
+/* Spotlight Effect */
 .card::before {
     content: "";
     position: absolute;
@@ -89,23 +78,23 @@ a { text-decoration: none; color: inherit; display: block; }
 }
 .card:hover::before { opacity: 1; }
 
-/* --- ОБЩИЙ ХОВЕР --- */
+/* Global Hover */
 a.card:hover {
     border-color: var(--accent);
     transform: translateY(-4px);
     box-shadow:
-            0 15px 35px rgba(255, 0, 0, 0.25), /* Красное свечение */
+            0 15px 35px rgba(255, 0, 0, 0.25),
             inset 0 1px 0 rgba(255, 255, 255, 0.2),
             inset 0 0 30px rgba(255, 0, 0, 0.1);
     z-index: 2;
     background: rgba(40, 15, 15, 0.6);
 }
 
-/* --- СТРЕЛКА (Базовая) --- */
+/* Global Arrow */
 .arrow-icon {
     position: absolute;
     bottom: 20px;
-    right: 20px; /* Отступ 20px, чтобы не липло к краю */
+    right: 20px;
     font-size: 1.2rem;
     color: #fff;
     opacity: 0.3;
@@ -119,13 +108,12 @@ a.card:hover .arrow-icon {
     text-shadow: 0 0 15px rgba(255, 0, 0, 1);
 }
 
-/* --- 1. ШАПКА (ДЕСКТОП) --- */
+/* --- HEADER --- */
 .header-card {
     min-height: 200px;
     background: rgba(15, 10, 10, 0.6);
     padding: 25px;
 }
-
 .header-content {
     position: relative; z-index: 4;
     display: flex; flex-direction: row; align-items: center;
@@ -133,13 +121,10 @@ a.card:hover .arrow-icon {
     padding-left: 0;
     gap: 40px; width: 100%;
 }
-
 .header-col-logo {
-    /* 32% для идеального смещения влево */
     flex: 0 0 32%;
     display: flex; justify-content: flex-end; align-items: center;
 }
-
 .logo-link { display: block; transition: transform 0.3s; }
 .logo-link:hover { transform: scale(1.05); }
 
@@ -148,8 +133,6 @@ a.card:hover .arrow-icon {
     filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.25));
     transition: filter 0.3s ease;
 }
-
-/* ОГНЕННЫЙ НЕОН (ЛОГО) */
 .logo-link:hover .main-logo-img {
     filter:
             drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))
@@ -157,33 +140,28 @@ a.card:hover .arrow-icon {
             drop-shadow(0 0 30px rgba(255, 0, 0, 0.4));
 }
 
-.header-col-text {
-    text-align: center;
-    flex: 1;
-}
+.header-col-text { text-align: center; flex: 1; }
 .logo-text { font-size: 3rem; font-weight: 900; margin-bottom: 15px; letter-spacing: -1px; text-shadow: 0 0 30px rgba(255, 0, 0, 0.3); line-height: 1; }
 .red-text { color: var(--accent); }
 .desc { max-width: 650px; color: var(--text-muted); line-height: 1.4; font-size: 1.1rem; margin: 0 auto; }
 
 
-/* --- 2. МЕНЮ --- */
+/* --- MENU --- */
 .grid-menu { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
 .social-btn { min-height: 80px; font-weight: 700; font-size: 0.95rem; padding: 15px; }
 .social-btn span { display: flex; align-items: center; gap: 10px; justify-content: center; position: relative; z-index: 4; }
 .btn-icon-img { width: 24px; height: 24px; object-fit: contain; display: block; }
 
-/* --- 3. БЛОК "КТО МЫ" --- */
+
+/* --- ABOUT SECTION --- */
 .about-section { align-items: flex-start; text-align: left; gap: 25px; padding: 30px; }
 .about-top { display: flex; flex-direction: row; width: 100%; gap: 25px; min-height: 220px; position: relative; z-index: 4; }
 .about-intro { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; text-align: center; padding-top: 15px; }
 
-/* Стиль для заголовка с иконкой-бейджем */
+/* Title with Icon */
 .about-title-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 15px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 15px; margin-bottom: 15px;
 }
 .title-icon-wrap {
     width: 44px; height: 44px;
@@ -193,13 +171,10 @@ a.card:hover .arrow-icon {
 .title-img {
     width: 100%; height: 100%;
     object-fit: contain;
-    transform: rotate(-5deg);
-    transition: transform 0.3s;
+    transform: rotate(-5deg); transition: transform 0.3s;
 }
-.about-section:hover .title-img {
-    transform: rotate(0deg) scale(1.1);
-}
-.about-intro h2 { font-size: 2rem; margin: 0; color: #fff; } /* Margin убрали, так как в обертке */
+.about-section:hover .title-img { transform: rotate(0deg) scale(1.1); }
+.about-intro h2 { font-size: 2rem; margin: 0; color: #fff; }
 
 .about-slogan { font-size: 1.15rem; line-height: 1.5; color: var(--text-muted); font-weight: 500; }
 
@@ -216,38 +191,17 @@ a.card:hover .arrow-icon {
 
 .custom-play-btn {
     position: absolute;
-    /* Убираем старую центровку */
-    top: auto;
-    left: auto;
-    transform: none;
-
-    /* Новое положение: правый нижний угол */
-    bottom: 20px;
-    right: 20px;
-
+    bottom: 20px; right: 20px;
     font-size: 35px; color: #fff; width: 70px; height: 70px;
     background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
     border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 50%;
     display: flex; align-items: center; justify-content: center; padding-left: 5px;
     transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
-
 .about-video:hover .custom-play-btn {
     background: rgba(255, 0, 0, 0.2);
     border-color: var(--accent);
     box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
-
-    /* ВАЖНО: translate(-50%, -50%) нужно оставить, чтобы кнопка была по центру */
-    /* Добавили rotate(10deg) для наклона */
-    transform: translate(-50%, -50%) scale(1.1) rotate(10deg);
-}
-
-.about-video:hover .custom-play-btn {
-    background: rgba(255, 0, 0, 0.2);
-    border-color: var(--accent);
-    box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
-
-    /* Только увеличение и наклон (без translate) */
     transform: scale(1.1) rotate(10deg);
 }
 
@@ -258,350 +212,156 @@ a.card:hover .arrow-icon {
 .about-description p { margin-bottom: 15px; }
 .about-description b { color: #fff; }
 
-/* --- 4. КАРТОЧКИ ДЕЙСТВИЙ (Калькулятор и Партнеры) --- */
-.card-content { position: relative; z-index: 4; }
 
+/* --- ACTION CARDS --- */
+.card-content { position: relative; z-index: 4; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
 .action-card {
     min-height: 160px;
     gap: 25px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 30px;
-    text-align: left;
+    flex-direction: row; align-items: center; justify-content: flex-start;
+    padding: 30px; text-align: left;
 }
 
 .action-icon-wrap {
-    width: 70px; height: 70px;
-    flex-shrink: 0;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 50%;
+    width: 70px; height: 70px; flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.05); border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     transition: all 0.3s ease;
 }
+.action-img { width: 36px; height: 36px; object-fit: contain; transition: transform 0.3s; }
 
-.action-img {
-    width: 36px; height: 36px;
-    object-fit: contain;
-    transition: transform 0.3s;
-}
-
-/* Ховер эффекты для Action Card */
 .action-card:hover .action-icon-wrap {
     border-color: var(--accent);
-    background: var(--accent); /* Сплошная заливка */
+    background: var(--accent);
     box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
     transform: scale(1.05);
 }
-.action-card:hover .action-img {
-    transform: scale(1.15) rotate(12deg); /* Наклон иконки */
-}
+.action-card:hover .action-img { transform: scale(1.15) rotate(12deg); }
 
-.action-card h3 {
-    font-size: 1.5rem;
-    font-weight: 800;
-    line-height: 1.1;
-    margin: 0 0 8px 0;
-    letter-spacing: 0px;
-}
-.action-card p {
-    color: var(--text-muted);
-    font-size: 1rem;
-    margin: 0;
-    line-height: 1.4;
-}
+.action-card h3 { font-size: 1.5rem; font-weight: 800; line-height: 1.1; margin: 0 0 8px 0; letter-spacing: 0px; }
+.action-card p { color: var(--text-muted); font-size: 1rem; margin: 0; line-height: 1.4; }
 .action-card .arrow-icon { bottom: 20px; right: 20px; }
 
-/* --- 5. ИНФОРМАЦИОННЫЕ КНОПКИ (Сетка 4) --- */
-.grid-4 {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-}
+
+/* --- INFO CARDS --- */
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
 
 .info-card {
     min-height: 160px;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-    gap: 15px;
+    justify-content: center; align-items: center; text-align: center;
+    padding: 20px; gap: 15px;
     position: relative;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
+.info-card h3 { font-size: 1.1rem; font-weight: 700; margin: 0; line-height: 1.2; color: #e0e0e0; position: relative; z-index: 5; max-width: 90%; }
 
-.info-card h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin: 0;
-    line-height: 1.2;
-    color: #e0e0e0;
-    position: relative;
-    z-index: 5;
-    max-width: 90%;
-}
-
-/* Иконка в круге */
 .info-icon-wrap {
     width: 50px; height: 50px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.03); border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     transition: all 0.3s ease;
 }
+.info-img { width: 24px; height: 24px; object-fit: contain; opacity: 0.8; transition: all 0.3s; }
 
-.info-img {
-    width: 24px; height: 24px;
-    object-fit: contain;
-    opacity: 0.8;
-    transition: all 0.3s;
-}
-
-/* Ховер */
 .info-card:hover {
     transform: translateY(-5px);
     border-color: var(--accent);
     box-shadow: 0 10px 30px rgba(255, 0, 0, 0.15), inset 0 -10px 20px rgba(255, 0, 0, 0.05);
 }
 .info-card:hover .info-icon-wrap {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent); border-color: var(--accent);
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
     transform: scale(1.1) rotate(10deg);
 }
-.info-card:hover .info-img {
-    opacity: 1;
-    filter: brightness(100);
-}
+.info-card:hover .info-img { opacity: 1; filter: brightness(100); }
 .info-card:hover h3 { color: #fff; }
 
-/* Стрелка в инфо-карточках (сдвинута левее) */
-.info-card .arrow-icon {
-    display: block;
-    position: absolute;
-    bottom: 10px;
-    right: 20px; /* Отступ 20px */
-    font-size: 1rem;
-    opacity: 0.4;
-    transition: all 0.3s;
-}
-.info-card:hover .arrow-icon {
-    opacity: 1;
-    color: var(--accent);
-    transform: translateX(3px);
-}
+.info-card .arrow-icon { display: block; position: absolute; bottom: 10px; right: 20px; font-size: 1rem; opacity: 0.4; transition: all 0.3s; }
+.info-card:hover .arrow-icon { opacity: 1; color: var(--accent); transform: translateX(3px); }
 
 
-/* --- 6. ДОП УСЛУГИ (Нижний ряд) --- */
+/* --- BOTTOM ROW SERVICES --- */
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
 
-/* Спец-стиль для нижнего ряда (Горизонтальный) */
 .info-card.horizontal-mode {
-    flex-direction: row;
-    justify-content: flex-start;
-    text-align: left;
-    padding: 25px;
-    min-height: 120px;
+    flex-direction: row; justify-content: flex-start; text-align: left;
+    padding: 25px; min-height: 120px;
 }
-.info-card.horizontal-mode h3 {
-    max-width: none;
-    font-size: 1.15rem;
-}
-/* Стрелка для горизонтального режима */
-.info-card.horizontal-mode .arrow-icon {
-    right: 20px;
-    bottom: 20px;
-}
+.info-card.horizontal-mode h3 { max-width: none; font-size: 1.15rem; }
+.info-card.horizontal-mode .arrow-icon { right: 20px; bottom: 20px; }
 
 
-.empty-slot {
-    background: rgba(255, 255, 255, 0.02); border: 2px dashed rgba(255, 255, 255, 0.15);
-    color: #888; font-weight: 600; cursor: default; backdrop-filter: blur(10px); box-shadow: none;
-}
-.empty-slot:hover { transform: none; box-shadow: none; border-color: rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.02); }
-.empty-slot::before { display: none; }
-
-
-/* --- 7. ФУТЕР --- */
+/* --- FOOTER --- */
 .footer-card {
     min-height: 80px; background: rgba(10, 5, 5, 0.9);
     padding: 25px 35px; flex-direction: row; justify-content: space-between; align-items: center;
 }
 .footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; position: relative; z-index: 4; }
 
-/* Копирайт с мини-лого */
-.copyright-wrap {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 5px;
-}
-.footer-mini-logo {
-    width: 24px; height: 24px;
-    object-fit: contain;
-    filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.3));
-}
-
+.copyright-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+.footer-mini-logo { width: 24px; height: 24px; object-fit: contain; filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.3)); }
 .copyright { font-weight: 700; color: #fff; font-size: 1rem; }
 .footer-sub { color: #888; font-size: 0.85rem; }
+
 .footer-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; position: relative; z-index: 4; }
 .footer-links-row { display: flex; gap: 25px; }
 .footer-links-row a { color: var(--text-muted); font-size: 0.9rem; transition: 0.2s; }
 .footer-links-row a:hover { color: var(--accent); }
 
-/* DESIGNED BY RED */
 .designer-link {
-    font-size: 0.75rem;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: 700;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 0;
+    font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
+    transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; padding: 5px 0;
 }
-.designer-link:hover {
-    color: #fff;
-    transform: translateY(-2px);
-}
+.designer-link:hover { color: #fff; transform: translateY(-2px); }
 .designer-link .red-text {
-    color: var(--accent) !important;
-    font-weight: 900;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    /* ОТКЛЮЧАЕМ КАПС, ЧТОБЫ БЫЛО ReD */
-    text-transform: none;
+    color: var(--accent) !important; font-weight: 900; font-size: 0.85rem; letter-spacing: 1px;
+    text-transform: none; /* Keeps ReD as written */
     text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
     transition: all 0.3s ease;
 }
 .designer-link:hover .red-text {
-    text-shadow:
-            0 0 15px rgba(255, 0, 0, 0.8),
-            0 0 30px rgba(255, 0, 0, 0.4);
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.4);
     transform: scale(1.05);
 }
 
-/* --- АДАПТИВНОСТЬ (MOBILE) --- */
+
+/* --- MOBILE ADAPTIVE --- */
 @media (max-width: 900px) {
     .grid-menu { grid-template-columns: 1fr 1fr; }
-
-    /* INFO CARDS: Плитка 2x2 */
-    .grid-4 {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-    }
-
-    .info-card {
-        min-height: 140px;
-        padding: 15px;
-    }
-    .info-card h3 { font-size: 0.95rem; }
-
-    .info-card .arrow-icon {
-        font-size: 0.9rem;
-        bottom: 8px;
-        right: 15px;
-    }
-
+    .grid-4 { grid-template-columns: 1fr 1fr; gap: 10px; }
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
+
+    .info-card { min-height: 140px; padding: 15px; }
+    .info-card h3 { font-size: 0.95rem; }
+    .info-card .arrow-icon { font-size: 0.9rem; bottom: 8px; right: 15px; }
+
     .footer-card { flex-direction: column; gap: 25px; text-align: center; }
-    .footer-left { align-items: center; }
-    .footer-right { align-items: center; }
-    .copyright-wrap { justify-content: center; }
+    .footer-left, .footer-right, .copyright-wrap { align-items: center; justify-content: center; }
 
     .about-top { flex-direction: column; }
     .about-intro { text-align: center; }
     .about-video { min-height: 250px; }
 
-    /* Горизонтальный режим на мобильном */
-    .info-card.horizontal-mode {
-        padding: 20px;
-        min-height: 100px;
-    }
+    .info-card.horizontal-mode { padding: 20px; min-height: 100px; }
 
-    /* Action Cards */
-    .action-card {
-        min-height: auto;
-        padding: 20px;
-        flex-direction: row;
-        align-items: center;
-        text-align: left;
-    }
-
-    .action-icon-wrap {
-        width: 50px; height: 50px;
-        margin-bottom: 0;
-    }
-
+    .action-card { min-height: auto; padding: 20px; flex-direction: row; align-items: center; text-align: left; }
+    .action-icon-wrap { width: 50px; height: 50px; margin-bottom: 0; }
     .action-img { width: 24px; height: 24px; }
-
     .action-card h3 { font-size: 1.2rem; }
     .action-card p { font-size: 0.9rem; }
 
-    /* ШАПКА МОБИЛЬНАЯ */
-    .header-card {
-        min-height: auto;
-        padding: 30px 15px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .header-content {
-        flex-direction: column;
-        gap: 0;
-        padding-left: 0;
-        justify-content: flex-start;
-        align-items: center;
-        height: auto;
-    }
-
-    /* ЛОГОТИП */
-    .header-col-logo {
-        flex: 0 0 auto;
-        width: 100%;
-        justify-content: center;
-        margin-bottom: 0;
-    }
-
-    .main-logo-img {
-        max-width: 270px;
-        display: block;
-    }
-
-    /* ТЕКСТ ВНИЗУ */
-    .header-col-text {
-        width: 100%;
-        text-align: right; /* ВЫРАВНИВАНИЕ ВПРАВО */
-        margin-top: -25px;
-        position: relative;
-        flex: auto;
-    }
-
-    .logo-text {
-        font-size: 1.3rem;
-        margin: 0;
-        font-weight: 800;
-        line-height: 1;
-    }
-
-    /* Описание: ДВЕ СТРОКИ, ПРАВЫЙ КРАЙ, 0.9rem */
+    .header-card { min-height: auto; padding: 30px 15px; display: flex; flex-direction: column; }
+    .header-content { flex-direction: column; gap: 0; padding-left: 0; justify-content: flex-start; align-items: center; height: auto; }
+    .header-col-logo { flex: 0 0 auto; width: 100%; justify-content: center; margin-bottom: 0; }
+    .main-logo-img { max-width: 270px; display: block; }
+    .header-col-text { width: 100%; text-align: right; margin-top: -25px; position: relative; flex: auto; }
+    .logo-text { font-size: 1.3rem; margin: 0; font-weight: 800; line-height: 1; }
     .desc br { display: inline; }
-
-    .desc {
-        display: block;
-        font-size: 0.9rem;
-        white-space: normal;
-        text-align: right;
-        opacity: 0.8;
-        margin-top: 5px;
-        line-height: 1.3;
-    }
+    .desc { display: block; font-size: 0.9rem; white-space: normal; text-align: right; opacity: 0.8; margin-top: 5px; line-height: 1.3; }
 }
