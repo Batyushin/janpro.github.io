@@ -101,7 +101,7 @@ a.card:hover {
     background: rgba(40, 15, 15, 0.6);
 }
 
-/* --- СТРЕЛКА --- */
+/* --- СТРЕЛКА (Базовая для всех карточек, кроме info-card, там переопределим) --- */
 .arrow-icon {
     position: absolute;
     bottom: 20px;
@@ -238,23 +238,18 @@ a.card:hover .arrow-icon {
 .action-img {
     width: 36px; height: 36px;
     object-fit: contain;
-    /* Убираем фильтр тени, так как у SVG свои линии */
     transition: transform 0.3s;
 }
 
-/* === ИСПРАВЛЕНИЕ ЗДЕСЬ === */
 .action-card:hover .action-icon-wrap {
     border-color: var(--accent);
-    /* Теперь заливка сплошная красная, как в нижних блоках */
+    /* Заливка красным */
     background: var(--accent);
-    /* Тень поярче */
     box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
-    transform: scale(1.05) rotate(10deg);
+    transform: scale(1.05);
 }
-/* ========================= */
-
 .action-card:hover .action-img {
-    transform: scale(1.1); /* Убрал поворот иконки отдельно, вращаем весь круг выше */
+    transform: scale(1.1);
 }
 
 .action-card h3 {
@@ -286,7 +281,7 @@ a.card:hover .arrow-icon {
     text-align: center;
     padding: 20px;
     gap: 15px;
-    position: relative; /* Для стрелки */
+    position: relative;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -337,12 +332,12 @@ a.card:hover .arrow-icon {
 }
 .info-card:hover h3 { color: #fff; }
 
-/* Стрелка в инфо-карточках */
+/* Стрелка в инфо-карточках (ИСПРАВЛЕНИЕ: Сдвигаем левее) */
 .info-card .arrow-icon {
     display: block;
     position: absolute;
     bottom: 10px;
-    right: 10px;
+    right: 20px; /* Было 10px, сделали 20px */
     font-size: 1rem;
     opacity: 0.4;
     transition: all 0.3s;
@@ -356,6 +351,25 @@ a.card:hover .arrow-icon {
 
 /* --- 6. ДОП УСЛУГИ --- */
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+
+/* Спец-стиль для нижнего ряда (Горизонтальный) */
+.info-card.horizontal-mode {
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 25px;
+    min-height: 120px;
+}
+.info-card.horizontal-mode h3 {
+    max-width: none;
+    font-size: 1.15rem;
+}
+/* Стрелка для горизонтального режима тоже с отступом 20px */
+.info-card.horizontal-mode .arrow-icon {
+    right: 20px;
+    bottom: 20px;
+}
+
 
 .empty-slot {
     background: rgba(255, 255, 255, 0.02); border: 2px dashed rgba(255, 255, 255, 0.15);
@@ -399,7 +413,7 @@ a.card:hover .arrow-icon {
     .info-card .arrow-icon {
         font-size: 0.9rem;
         bottom: 8px;
-        right: 8px;
+        right: 15px; /* На мобильном чуть меньше отступ */
     }
 
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
@@ -410,7 +424,13 @@ a.card:hover .arrow-icon {
     .about-intro { text-align: center; }
     .about-video { min-height: 250px; }
 
-    /* Адаптив для Action Cards (остаются горизонтальными) */
+    /* Горизонтальный режим на мобильном для нижних блоков */
+    .info-card.horizontal-mode {
+        padding: 20px;
+        min-height: 100px;
+    }
+
+    /* Адаптив для Action Cards */
     .action-card {
         min-height: auto;
         padding: 20px;
@@ -455,7 +475,7 @@ a.card:hover .arrow-icon {
     }
 
     .main-logo-img {
-        max-width: 270px; /* Размер 270px */
+        max-width: 270px;
         display: block;
     }
 
@@ -463,10 +483,7 @@ a.card:hover .arrow-icon {
     .header-col-text {
         width: 100%;
         text-align: right; /* ВЫРАВНИВАНИЕ ВПРАВО */
-
-        /* ОТРИЦАТЕЛЬНЫЙ ОТСТУП, ЧТОБЫ УБРАТЬ ВОЗДУХ */
         margin-top: -25px;
-
         position: relative;
         flex: auto;
     }
@@ -483,34 +500,11 @@ a.card:hover .arrow-icon {
 
     .desc {
         display: block;
-        font-size: 0.9rem; /* Размер шрифта 0.9rem */
+        font-size: 0.9rem;
         white-space: normal;
         text-align: right;
         opacity: 0.8;
         margin-top: 5px;
         line-height: 1.3;
-    }
-}
-
-/* --- Спец-стиль для нижнего ряда (Горизонтальный) --- */
-.info-card.horizontal-mode {
-    flex-direction: row; /* В ряд */
-    justify-content: flex-start; /* Влево */
-    text-align: left; /* Текст влево */
-    padding: 25px; /* Чуть больше отступы */
-    min-height: 120px; /* Высота поменьше */
-}
-
-/* Убираем ограничение ширины заголовка в этом режиме */
-.info-card.horizontal-mode h3 {
-    max-width: none;
-    font-size: 1.15rem; /* Чуть крупнее шрифт */
-}
-
-/* На мобильном тоже оставляем горизонтально, это удобно */
-@media (max-width: 900px) {
-    .info-card.horizontal-mode {
-        padding: 20px;
-        min-height: 100px;
     }
 }
