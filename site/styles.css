@@ -57,13 +57,16 @@ a { text-decoration: none; color: inherit; display: block; }
     padding: 20px;
     position: relative;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    /* ЦЕНТРИРОВАНИЕ ВСЕГО ПО УМОЛЧАНИЮ */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
+
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    overflow: hidden; /* Чтобы картинки не вылезали при зуме */
+    overflow: hidden;
 }
 
 a.card:hover {
@@ -127,7 +130,7 @@ a.card:hover .arrow-icon {
 .action-card h3 { font-size: 1.3rem; font-weight: 700; line-height: 1.2; margin: 0 0 15px 0; }
 .action-card p { color: var(--text-muted); font-size: 0.95rem; margin: 0 15px; }
 
-/* --- 5. ЧЕТЫРЕ КОЛОНКИ (СТИЛИ СЕТКИ) --- */
+/* --- 5. ЧЕТЫРЕ КОЛОНКИ (ПРИМЕРЫ) --- */
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 .info-card { min-height: 130px; font-weight: 600; }
 .info-card h3 { font-size: 1rem; margin: 0; position: relative; z-index: 5; }
@@ -174,62 +177,4 @@ a.card:hover .arrow-icon {
     .footer-card { flex-direction: column; gap: 20px; text-align: center; }
     .footer-left { align-items: center; }
     .footer-right { align-items: center; }
-}
-
-
-/* ======================================================= */
-/* --- КАРТИНКИ ДЛЯ БЛОКА "ПРИМЕРЫ" (.grid-4) --- */
-/* ======================================================= */
-
-/* Общие стили для карточек с картинками */
-.info-row .card {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: #222;
-
-    text-shadow: 0 2px 8px rgba(0,0,0,0.9);
-
-    /* --- ПОЗИЦИЯ ТЕКСТА: ЛЕВЫЙ ВЕРХНИЙ УГОЛ --- */
-    justify-content: flex-start; /* Прижать ВВЕРХ */
-    align-items: flex-start;     /* Прижать ВЛЕВО */
-    text-align: left;            /* Выравнивание текста по левому краю */
-
-    /* Отступы от краев */
-    padding-top: 25px;
-    padding-left: 25px; /* Отступ слева */
-    padding-right: 15px; /* Небольшой отступ справа на всякий случай */
-}
-
-/* Эффект зума при наведении */
-.info-row .card:hover {
-    background-size: 110%;
-}
-
-/* 1. Примеры проектов */
-.info-row .card:nth-child(1) {
-    background-image:
-            linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 60%),
-            url('content/project.jpg');
-}
-
-/* 2. Примеры щитов */
-.info-row .card:nth-child(2) {
-    background-image:
-            linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 60%),
-            url('content/shield.png');
-}
-
-/* 3. Готовые решения */
-.info-row .card:nth-child(3) {
-    background-image:
-            linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 60%),
-            url('content/project.jpg');
-}
-
-/* 4. Цены на услуги */
-.info-row .card:nth-child(4) {
-    background-image:
-            linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 60%),
-            url('content/project.jpg');
 }
