@@ -29,7 +29,7 @@
         /* Кнопки мессенджеров */
         .action-card-contact {
             padding: 15px 18px !important;
-            min-height: 105px !important; /* Немного увеличили высоту для крупного текста */
+            min-height: 105px !important;
             display: flex !important;
             flex-direction: row !important;
             align-items: center !important;
@@ -57,7 +57,7 @@
         .action-card-contact:hover .action-icon-wrap-contacts {
             border-color: #FF0000;
             background: rgba(255, 0, 0, 0.2);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
         }
         .action-card-contact:hover .contact-card-icon {
             transform: rotate(360deg) scale(1.1);
@@ -65,17 +65,17 @@
 
         /* Текстовые стили в кнопках */
         .action-card-contact h3 {
-            font-size: 1.3rem !important; /* Увеличено для баланса */
+            font-size: 1.3rem !important;
             margin: 0 0 4px 0 !important;
             line-height: 1;
             color: #fff;
             font-weight: 900;
         }
         .action-card-contact p {
-            font-size: 1.05rem !important; /* Увеличен еще на один размер */
+            font-size: 1.05rem !important;
             line-height: 1.3 !important;
             margin: 0 !important;
-            opacity: 1; /* Максимальная видимость */
+            opacity: 1;
             color: #fff;
         }
 
@@ -86,12 +86,14 @@
             flex-direction: column;
             text-align: left;
             align-items: flex-start;
+            justify-content: flex-start !important; /* Поднимает содержимое вверх */
+            height: 100%;
         }
         .data-card:hover { transform: none !important; }
 
         .block-title {
             color: #fff; margin: 0 0 18px 0;
-            display: flex; align-items: center; gap: 10px;
+            display: flex; align-items: center; gap: 12px;
             font-size: 1.1rem; font-weight: 700;
         }
 
@@ -183,8 +185,6 @@
                 <h3 class="block-title"><span>🏢</span> Оплата на ООО для юр. лиц</h3>
                 <p style="color: #ccc; font-size: 0.95rem; line-height: 1.5; margin: 0;">
                     Безналичная оплата с НДС 22% и полным пакетом закрывающих документов.
-                    <br><br>
-                    Присылайте реквизиты на почту для выставления счета.
                 </p>
             </div>
 
