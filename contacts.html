@@ -11,7 +11,7 @@
     <script src="site/metrics.js"></script>
 
     <style>
-        /* Сетка для нижних блоков */
+        /* Сетка нижних блоков */
         .info-grid-bottom {
             display: grid;
             grid-template-columns: 1fr;
@@ -23,7 +23,7 @@
             .info-grid-bottom { grid-template-columns: 2fr 1.2fr; }
         }
 
-        /* Список реквизитов */
+        /* Реквизиты */
         .data-list { list-style: none; padding: 0; margin: 0; font-size: 0.9rem; color: #ccc; line-height: 1.7; }
         .data-list li {
             margin-bottom: 8px;
@@ -32,38 +32,50 @@
             border-bottom: 1px dashed rgba(255,255,255,0.05);
         }
 
-        /* Контейнер QR-кода */
-        .qr-area {
+        /* QR-код */
+        .qr-area { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; }
+        .qr-img {
+            max-width: 180px; width: 100%; border-radius: 12px; background: #fff;
+            padding: 10px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .qr-hint { color: #888; font-size: 0.8rem; margin: 0; line-height: 1.4; }
+
+        /* --- ИКОНКИ В КРУГУ (ВО ВЕСЬ РАЗМЕР) --- */
+        .action-icon-wrap {
+            width: 70px; /* Увеличили размер круга */
+            height: 70px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.1);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100%;
-            text-align: center;
-        }
-
-        .qr-img {
-            max-width: 180px; /* Сделал крупнее сразу */
-            width: 100%;
-            border-radius: 12px;
-            background: #fff;
-            padding: 10px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.03);
             margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: opacity 0.3s ease;
+            overflow: hidden; /* Чтобы иконка не вылезала за границы круга */
         }
 
-        .qr-hint {
-            color: #888;
-            font-size: 0.8rem;
-            margin: 0;
-            line-height: 1.4;
+        .contact-card-icon {
+            width: 100%; /* Иконка на весь круг */
+            height: 100%;
+            object-fit: cover; /* Или contain, если иконка не квадратная */
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Убираем любые увеличения для всех карточек на этой странице */
-        .card:hover {
-            transform: none !important;
+        /* Эффект при наведении */
+        .card:hover .action-icon-wrap {
+            border-color: #e53935; /* Красная полоска */
+            border-width: 3px; /* Сделали чуть жирнее */
+            box-shadow: 0 0 20px rgba(229, 57, 53, 0.4);
+            background: rgba(229, 57, 53, 0.1);
         }
+
+        .card:hover .contact-card-icon {
+            transform: rotate(360deg) scale(1.1); /* Проворот + легкое увеличение */
+        }
+
+        /* Стабильность реквизитов */
+        .info-grid-bottom .card:hover { transform: none !important; }
     </style>
 </head>
 <body>
@@ -77,9 +89,7 @@
     <section class="grid-2" style="margin-top: 20px;">
         <a href="https://t.me/JanPro59" target="_blank" class="card action-card">
             <div class="action-icon-wrap">
-                <svg class="action-img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM16.64 8.8L14.99 16.56C14.87 17.11 14.54 17.24 14.08 16.98L11.57 15.13L10.36 16.3C10.23 16.43 10.11 16.54 9.86 16.54L10.04 13.98L14.7 9.77C14.9 9.59 14.66 9.49 14.39 9.67L8.63 13.3L6.15 12.52C5.61 12.35 5.6 11.98 6.26 11.72L15.93 7.98C16.38 7.82 16.77 8.09 16.64 8.8Z" fill="white"/>
-                </svg>
+                <img src="site/img/tg.svg" class="contact-card-icon" alt="Telegram">
             </div>
             <div class="card-content">
                 <h3>Telegram</h3>
@@ -90,9 +100,7 @@
 
         <a href="https://wa.me/79111168367" target="_blank" class="card action-card">
             <div class="action-icon-wrap">
-                <svg class="action-img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.04 2C6.57 2 2.13 6.44 2.13 11.91C2.13 13.66 2.59 15.36 3.47 16.86L2 22L7.25 20.62C8.69 21.41 10.35 21.83 12.04 21.83C17.5 21.83 21.95 17.39 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z" fill="white" opacity="0.9"/>
-                </svg>
+                <img src="site/img/whatsapp.png" class="contact-card-icon" alt="WhatsApp">
             </div>
             <div class="card-content">
                 <h3>WhatsApp</h3>
