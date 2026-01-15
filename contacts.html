@@ -15,33 +15,84 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
+            width: 100%;
         }
 
-        /* Сетка: 3 колонки для мессенджеров */
-        .contacts-grid-3 {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-
-        .contacts-grid-2 {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
+        .grid-row-3 { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        .grid-row-2 { display: grid; grid-template-columns: 1fr; gap: 15px; }
 
         @media (min-width: 768px) {
-            .contacts-grid-3 { grid-template-columns: repeat(3, 1fr); }
-            .contacts-grid-2 { grid-template-columns: 1fr 1fr; }
+            .grid-row-3 { grid-template-columns: repeat(3, 1fr); }
+            .grid-row-2 { grid-template-columns: 1fr 1fr; }
         }
 
+        /* Кнопки мессенджеров с увеличенным шрифтом */
+        .action-card-contact {
+            padding: 15px 18px !important;
+            min-height: 90px !important;
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            text-align: left !important;
+        }
+
+        .action-icon-wrap-contacts {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.05);
+            margin-right: 15px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .contact-card-icon {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .action-card-contact:hover .action-icon-wrap-contacts {
+            border-color: #FF0000;
+            background: rgba(255, 0, 0, 0.2);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        .action-card-contact:hover .contact-card-icon {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        /* Увеличенные шрифты в кнопках */
+        .action-card-contact h3 {
+            font-size: 1.2rem !important; /* Увеличили заголовок */
+            margin: 0 0 3px 0 !important;
+            line-height: 1;
+            color: #fff;
+            font-weight: 800;
+        }
+        .action-card-contact p {
+            font-size: 0.85rem !important; /* Увеличили подпись */
+            line-height: 1.3 !important;
+            margin: 0 !important;
+            opacity: 0.8;
+            color: #ccc;
+        }
+
+        /* Карточки данных */
         .data-card {
             padding: 25px !important;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
             text-align: left;
             align-items: flex-start;
+        }
+        .data-card:hover { transform: none !important; }
+
+        .block-title {
+            color: #fff; margin: 0 0 18px 0;
+            display: flex; align-items: center; gap: 10px;
+            font-size: 1.1rem; font-weight: 700;
         }
 
         .data-list { list-style: none; padding: 0; margin: 0; font-size: 0.85rem; color: #ccc; width: 100%; }
@@ -52,50 +103,15 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
             padding-bottom: 5px;
         }
-        .data-list li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .data-list li:last-child { border-bottom: none; }
         .data-label { color: #666; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px; }
         .data-value { color: #fff; font-weight: 500; font-size: 0.9rem; }
 
-        .action-icon-wrap-contacts {
-            width: 70px; height: 70px; border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.05);
-            margin-bottom: 15px; overflow: hidden;
-        }
-        .contact-card-icon {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .action-card:hover .action-icon-wrap-contacts {
-            border-color: #FF0000;
-            background: rgba(255, 0, 0, 0.2);
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
-        }
-        .action-card:hover .contact-card-icon { transform: rotate(360deg) scale(1.1); }
-
         .qr-area { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; width: 100%; }
         .qr-img {
-            max-width: 160px; width: 100%; border-radius: 12px; background: #fff;
-            padding: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-bottom: 12px;
+            max-width: 140px; width: 100%; border-radius: 10px; background: #fff;
+            padding: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-bottom: 10px;
         }
-
-        .block-title {
-            color: #fff; margin: 0 0 20px 0;
-            display: flex; align-items: center; gap: 12px;
-            font-size: 1.1rem; font-weight: 700;
-        }
-
-        .nds-text {
-            color: #ddd; font-size: 1rem; line-height: 1.5; margin: 0; font-weight: 400;
-        }
-
-        /* Отключаем наклон карточек с текстом */
-        .data-card:hover { transform: none !important; }
-
-        /* Убираем лишние отступы справа, где были стрелки */
-        .action-card { padding-right: 25px !important; }
     </style>
 </head>
 <body>
@@ -108,8 +124,8 @@
 
     <div class="contacts-wrapper">
 
-        <section class="contacts-grid-3">
-            <a href="https://t.me/JanPro59" target="_blank" class="card action-card">
+        <section class="grid-row-3">
+            <a href="https://t.me/JanPro59" target="_blank" class="card action-card-contact">
                 <div class="action-icon-wrap-contacts">
                     <img src="site/img/tg.svg" class="contact-card-icon" alt="Telegram">
                 </div>
@@ -119,35 +135,35 @@
                 </div>
             </a>
 
-            <a href="https://wa.me/79026395501" target="_blank" class="card action-card">
+            <a href="https://wa.me/79026395501" target="_blank" class="card action-card-contact">
                 <div class="action-icon-wrap-contacts">
                     <img src="site/img/whatsapp.png" class="contact-card-icon" alt="WhatsApp">
                 </div>
                 <div class="card-content">
                     <h3>WhatsApp</h3>
-                    <p>Обсудить ваш проект<br>в мессенджере</p>
+                    <p>Обсудить проект<br>в мессенджере</p>
                 </div>
             </a>
 
-            <a href="#" class="card action-card">
+            <a href="#" class="card action-card-contact">
                 <div class="action-icon-wrap-contacts">
                     <img src="site/img/max.png" class="contact-card-icon" alt="Max">
                 </div>
                 <div class="card-content">
                     <h3>MAX</h3>
-                    <p>Связь по данному каналу<br>временно не доступна</p>
+                    <p>Данный канал связи<br>сейчас недоступен</p>
                 </div>
             </a>
         </section>
 
-        <div class="contacts-grid-2">
+        <div class="grid-row-2">
             <div class="card data-card">
                 <h3 class="block-title"><span>👤</span> Информация об ИП</h3>
                 <ul class="data-list">
                     <li><span class="data-label">ФИО</span><span class="data-value">Савченко Ян Константинович</span></li>
                     <li><span class="data-label">ИНН / ОГРНИП</span><span class="data-value">591111683676 / 322595800013544</span></li>
                     <li><span class="data-label">Почта</span><span class="data-value">jan.pro59@yandex.ru</span></li>
-                    <li><span class="data-label">Адрес</span><span class="data-value" style="font-size: 0.8rem;">618425, Пермский край, г. Березники, ул. Юбилейная, 129-207</span></li>
+                    <li><span class="data-label">Адрес</span><span class="data-value" style="font-size: 0.8rem;">618425, Пермский край, г. Березники, Юбилейная, 129-207</span></li>
                 </ul>
             </div>
 
@@ -162,21 +178,21 @@
             </div>
         </div>
 
-        <div class="contacts-grid-2">
+        <div class="grid-row-2">
             <div class="card data-card">
                 <h3 class="block-title"><span>🏢</span> Оплата на ООО для юр. лиц</h3>
-                <p class="nds-text">
+                <p style="color: #ccc; font-size: 0.95rem; line-height: 1.5; margin: 0;">
                     Безналичная оплата с НДС 22% и полным пакетом закрывающих документов.
                     <br><br>
-                    Присылайте реквизиты на почту или в мессенджеры для выставления счета.
+                    Присылайте реквизиты на почту для выставления счета.
                 </p>
             </div>
 
             <div class="card data-card">
                 <div class="qr-area">
                     <img src="site/img/spb.png" alt="Оплата по QR" class="qr-img">
-                    <h3 style="color: #fff; margin: 0 0 5px 0; font-size: 1rem;">Оплата через СБП</h3>
-                    <p style="color: #888; font-size: 0.8rem; margin: 0;">Моментальный платеж без комиссии</p>
+                    <h3 style="color: #fff; margin: 0 0 4px 0; font-size: 1rem;">Оплата через СБП</h3>
+                    <p style="color: #888; font-size: 0.8rem; margin: 0;">Платеж без комиссии</p>
                 </div>
             </div>
         </div>
