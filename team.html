@@ -19,7 +19,6 @@
             width: 100%;
         }
 
-        /* Адаптивность сетки */
         @media (min-width: 600px) {
             .team-grid { grid-template-columns: repeat(2, 1fr); }
         }
@@ -30,10 +29,10 @@
 
         /* Карточка сотрудника */
         .team-card {
-            padding: 30px 20px !important;
+            padding: 35px 20px !important;
             height: 100%;
-            justify-content: flex-start !important; /* Контент сверху */
-            text-align: center; /* Центрируем весь текст в карточке */
+            justify-content: flex-start !important;
+            text-align: center;
         }
 
         /* Фотография */
@@ -43,16 +42,14 @@
             border-radius: 50%;
             overflow: hidden;
             border: 2px solid rgba(255, 255, 255, 0.1);
-            margin: 0 auto 20px auto; /* Центрируем фото */
+            margin: 0 auto 20px auto;
             background: rgba(255,255,255,0.05);
             transition: all 0.4s ease;
             position: relative;
         }
 
         .member-photo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: 100%; height: 100%; object-fit: cover;
             transition: transform 0.5s ease;
         }
 
@@ -65,28 +62,38 @@
             transform: scale(1.1);
         }
 
-        /* Текстовые стили */
         .member-name {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 900;
             color: #fff;
-            margin: 0 0 8px 0;
+            margin: 0 0 12px 0;
             line-height: 1.1;
         }
 
-        /* --- НОВЫЙ СТИЛЬ ДОЛЖНОСТИ (Без плашки) --- */
+        /* --- НОВЫЙ СТИЛЬ ДОЛЖНОСТИ (Стеклянная пилюля) --- */
         .member-role {
-            color: #FF0000;         /* Красный цвет */
-            font-size: 0.85rem;
-            text-transform: uppercase; /* Капс */
-            letter-spacing: 1.5px;  /* Разрядка */
-            font-weight: 700;
-            margin-bottom: 15px;
-            display: block;         /* На отдельной строке */
-            background: none;       /* УБРАЛИ ФОН */
-            padding: 0;             /* УБРАЛИ ОТСТУПЫ */
-            border-radius: 0;
-            opacity: 0.9;
+            display: inline-block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6); /* Спокойный цвет */
+
+            /* Стеклянный стиль */
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50px; /* Закругленные края */
+            padding: 8px 16px;
+
+            margin-bottom: 18px;
+            transition: all 0.3s ease;
+        }
+
+        /* При наведении рамка краснеет */
+        .team-card:hover .member-role {
+            border-color: #FF0000;
+            color: #fff;
+            background: rgba(255, 0, 0, 0.1);
         }
 
         .member-desc {
@@ -95,11 +102,10 @@
             line-height: 1.6;
             margin: 0;
             opacity: 0.8;
-            max-width: 90%; /* Чуть сужаем текст для красоты */
+            max-width: 95%;
             margin: 0 auto;
         }
 
-        /* Заглушка для фото (если нет реального фото) */
         .placeholder-icon {
             width: 60px; height: 60px; opacity: 0.3;
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -124,7 +130,7 @@
             <h3 class="member-name">Ян Савченко</h3>
             <span class="member-role">Основатель / Гл. Инженер</span>
             <p class="member-desc">
-                Идейный вдохновитель и сердце компании. Проектирует самые сложные системы и лично контролирует качество сборки каждого щита.
+                Идейный вдохновитель. Проектирует сложные системы и лично контролирует качество сборки каждого щита.
             </p>
         </div>
 
@@ -136,7 +142,19 @@
             <h3 class="member-name">Алексей</h3>
             <span class="member-role">Инженер-проектировщик</span>
             <p class="member-desc">
-                Превращает ваши пожелания в строгие чертежи и схемы. Отвечает за логику работы автоматики и подбор комплектующих.
+                Превращает пожелания в строгие чертежи. Отвечает за логику работы автоматики и подбор комплектующих.
+            </p>
+        </div>
+
+        <div class="card team-card">
+            <div class="member-photo-wrap">
+                <img src="site/img/team/sveta.jpeg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="member-photo" alt="Света (Оля)">
+                <img src="site/img/contact.png" class="placeholder-icon" style="display:none;" alt="Placeholder">
+            </div>
+            <h3 class="member-name">Света (Оля)</h3>
+            <span class="member-role">Лицо компании / Client Success</span>
+            <p class="member-desc">
+                Голос и душа JanPro. Именно она проводит опросы, уточняет детали и делает общение с нами легким и приятным.
             </p>
         </div>
 
@@ -148,7 +166,7 @@
             <h3 class="member-name">Дмитрий</h3>
             <span class="member-role">Мастер сборки</span>
             <p class="member-desc">
-                Человек с золотыми руками. Идеальная укладка проводов и маркировка — его заслуга. Перфекционист до мозга костей.
+                Человек с золотыми руками. Идеальная укладка проводов и маркировка — его заслуга. Перфекционист.
             </p>
         </div>
 
@@ -160,7 +178,7 @@
             <h3 class="member-name">Иван</h3>
             <span class="member-role">Программист WB / HA</span>
             <p class="member-desc">
-                Пишет сценарии, которые оживляют дом. Настраивает WirenBoard, Home Assistant и интеграции с Алисой.
+                Пишет сценарии, оживляющие дом. Настраивает WirenBoard, Home Assistant и интеграции с Алисой.
             </p>
         </div>
 
@@ -172,7 +190,7 @@
             <h3 class="member-name">ReD</h3>
             <span class="member-role">Веб-дизайнер</span>
             <p class="member-desc">
-                Отвечает за визуальный стиль компании, сайт и удобство взаимодействия клиентов с нашими онлайн-сервисами.
+                Отвечает за визуальный стиль компании, сайт и удобство взаимодействия клиентов с нашими сервисами.
             </p>
         </div>
 
@@ -196,18 +214,7 @@
             <h3 class="member-name">Сергей</h3>
             <span class="member-role">Электромонтажник</span>
             <p class="member-desc">
-                Специалист по установке и подключению щитов на объекте. Аккуратность и соблюдение ПУЭ — его главные принципы.
-            </p>
-        </div>
-
-        <div class="card team-card">
-            <div class="member-photo-wrap" style="border-style: dashed; border-color: rgba(255,255,255,0.2);">
-                <img src="site/img/contact.png" class="member-photo" style="opacity: 0.3; transform: scale(0.6);" alt="Вакансия">
-            </div>
-            <h3 class="member-name" style="opacity: 0.7;">Вакансия</h3>
-            <span class="member-role" style="color: #888;">Мы ищем таланты</span>
-            <p class="member-desc">
-                Хотите работать с нами? Мы всегда рады крутым инженерам и сборщикам. Напишите нам!
+                Специалист по установке щитов на объекте. Аккуратность и соблюдение ПУЭ — его главные принципы.
             </p>
         </div>
 
