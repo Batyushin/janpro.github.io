@@ -17,7 +17,7 @@
             gap: 20px;
         }
 
-        /* Обновленная сетка: 3 колонки для мессенджеров */
+        /* Сетка: 3 колонки для мессенджеров */
         .contacts-grid-3 {
             display: grid;
             grid-template-columns: 1fr;
@@ -91,7 +91,11 @@
             color: #ddd; font-size: 1rem; line-height: 1.5; margin: 0; font-weight: 400;
         }
 
+        /* Отключаем наклон карточек с текстом */
         .data-card:hover { transform: none !important; }
+
+        /* Убираем лишние отступы справа, где были стрелки */
+        .action-card { padding-right: 25px !important; }
     </style>
 </head>
 <body>
@@ -111,9 +115,8 @@
                 </div>
                 <div class="card-content">
                     <h3>Telegram</h3>
-                    <p>Написать специалисту<br>Быстрая связь</p>
+                    <p>Написать специалисту<br>для быстрой связи</p>
                 </div>
-                <div class="arrow-icon">➔</div>
             </a>
 
             <a href="https://wa.me/79026395501" target="_blank" class="card action-card">
@@ -122,20 +125,18 @@
                 </div>
                 <div class="card-content">
                     <h3>WhatsApp</h3>
-                    <p>Связаться в мессенджере<br>Обсудить проект</p>
+                    <p>Обсудить ваш проект<br>в мессенджере</p>
                 </div>
-                <div class="arrow-icon">➔</div>
             </a>
 
-            <a href="https://wa.me/79824699434" target="_blank" class="card action-card">
+            <a href="#" class="card action-card">
                 <div class="action-icon-wrap-contacts">
-                    <img src="site/img/whatsapp.png" class="contact-card-icon" alt="Max">
+                    <img src="site/img/max.png" class="contact-card-icon" alt="Max">
                 </div>
                 <div class="card-content">
-                    <h3>Max</h3>
-                    <p>Данный вид связи<br>временно не доступен</p>
+                    <h3>MAX</h3>
+                    <p>Связь по данному каналу<br>временно не доступна</p>
                 </div>
-                <div class="arrow-icon">➔</div>
             </a>
         </section>
 
@@ -145,7 +146,7 @@
                 <ul class="data-list">
                     <li><span class="data-label">ФИО</span><span class="data-value">Савченко Ян Константинович</span></li>
                     <li><span class="data-label">ИНН / ОГРНИП</span><span class="data-value">591111683676 / 322595800013544</span></li>
-                    <li><span class="data-label">Телефон / Почта</span><span class="data-value">8 (902) 639-55-01 / jan.pro59@yandex.ru</span></li>
+                    <li><span class="data-label">Почта</span><span class="data-value">jan.pro59@yandex.ru</span></li>
                     <li><span class="data-label">Адрес</span><span class="data-value" style="font-size: 0.8rem;">618425, Пермский край, г. Березники, ул. Юбилейная, 129-207</span></li>
                 </ul>
             </div>
