@@ -11,35 +11,39 @@
     <script src="site/metrics.js"></script>
 
     <style>
-        /* Использование переменной gap из главной страницы */
         .contacts-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 20px; /* Тот же отступ, что в .container на главной */
+            gap: 20px;
         }
 
-        /* Сетки 1:1 как на главной */
+        /* Обновленная сетка: 3 колонки для мессенджеров */
+        .contacts-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
         .contacts-grid-2 {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px; /* Тот же gap, что в .grid-2 на главной */
+            gap: 15px;
         }
 
         @media (min-width: 768px) {
+            .contacts-grid-3 { grid-template-columns: repeat(3, 1fr); }
             .contacts-grid-2 { grid-template-columns: 1fr 1fr; }
         }
 
-        /* Единый стиль карточек данных (копия стилей .card с главной) */
         .data-card {
-            padding: 25px !important; /* Тот же padding, что у карточек на главной */
+            padding: 25px !important;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            text-align: left; /* Контакты читаем слева */
+            text-align: left;
             align-items: flex-start;
         }
 
-        /* Список реквизитов */
         .data-list { list-style: none; padding: 0; margin: 0; font-size: 0.85rem; color: #ccc; width: 100%; }
         .data-list li {
             margin-bottom: 10px;
@@ -52,7 +56,6 @@
         .data-label { color: #666; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px; }
         .data-value { color: #fff; font-weight: 500; font-size: 0.9rem; }
 
-        /* Стили иконок мессенджеров (в стиле action-icon-wrap с главной) */
         .action-icon-wrap-contacts {
             width: 70px; height: 70px; border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -72,7 +75,6 @@
         }
         .action-card:hover .contact-card-icon { transform: rotate(360deg) scale(1.1); }
 
-        /* QR-код */
         .qr-area { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; width: 100%; }
         .qr-img {
             max-width: 160px; width: 100%; border-radius: 12px; background: #fff;
@@ -89,7 +91,6 @@
             color: #ddd; font-size: 1rem; line-height: 1.5; margin: 0; font-weight: 400;
         }
 
-        /* Отключаем наклон карточек с текстом */
         .data-card:hover { transform: none !important; }
     </style>
 </head>
@@ -103,25 +104,36 @@
 
     <div class="contacts-wrapper">
 
-        <section class="contacts-grid-2">
+        <section class="contacts-grid-3">
             <a href="https://t.me/JanPro59" target="_blank" class="card action-card">
                 <div class="action-icon-wrap-contacts">
                     <img src="site/img/tg.svg" class="contact-card-icon" alt="Telegram">
                 </div>
                 <div class="card-content">
                     <h3>Telegram</h3>
-                    <p>Написать в чат специалисту<br>Быстрая консультация</p>
+                    <p>Написать специалисту<br>Быстрая связь</p>
+                </div>
+                <div class="arrow-icon">➔</div>
+            </a>
+
+            <a href="https://wa.me/79026395501" target="_blank" class="card action-card">
+                <div class="action-icon-wrap-contacts">
+                    <img src="site/img/whatsapp.png" class="contact-card-icon" alt="WhatsApp">
+                </div>
+                <div class="card-content">
+                    <h3>WhatsApp</h3>
+                    <p>Связаться в мессенджере<br>Обсудить проект</p>
                 </div>
                 <div class="arrow-icon">➔</div>
             </a>
 
             <a href="https://wa.me/79824699434" target="_blank" class="card action-card">
                 <div class="action-icon-wrap-contacts">
-                    <img src="site/img/whatsapp.png" class="contact-card-icon" alt="WhatsApp">
+                    <img src="site/img/whatsapp.png" class="contact-card-icon" alt="Max">
                 </div>
                 <div class="card-content">
-                    <h3>WhatsApp</h3>
-                    <p>Свяжитесь с нами в WhatsApp<br>Отправить техзадание</p>
+                    <h3>Max</h3>
+                    <p>Данный вид связи<br>временно не доступен</p>
                 </div>
                 <div class="arrow-icon">➔</div>
             </a>
@@ -168,7 +180,9 @@
             </div>
         </div>
 
-    </div> <div id="footer-container"></div>
+    </div>
+
+    <div id="footer-container"></div>
 
 </div>
 
