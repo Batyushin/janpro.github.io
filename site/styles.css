@@ -86,11 +86,13 @@ a { text-decoration: none; color: inherit; display: block; }
 a.card:hover {
     border-color: var(--accent); /* Красная рамка */
     transform: translateY(-4px);
-    /* Красное свечение снизу */
+
+    /* Свечение только снизу (ambient light) */
     box-shadow:
             0 15px 35px rgba(255, 0, 0, 0.25),
             inset 0 1px 0 rgba(255, 255, 255, 0.2),
             inset 0 0 30px rgba(255, 0, 0, 0.1);
+
     z-index: 2;
     background: rgba(40, 15, 15, 0.6);
 }
@@ -247,7 +249,7 @@ a.card:hover .arrow-icon {
 }
 .action-img { width: 36px; height: 36px; object-fit: contain; transition: transform 0.3s; }
 
-/* Ховер карточки - ТЕПЕРЬ КАК У ПЛЕЕРА */
+/* Ховер карточки - КАК У ПЛЕЕРА */
 .action-card:hover .action-icon-wrap {
     border-color: var(--accent); /* Красный контур */
     background: rgba(255, 0, 0, 0.2); /* Полупрозрачный красный фон */
@@ -285,7 +287,7 @@ a.card:hover .arrow-icon {
 
 .info-card:hover { transform: translateY(-5px); }
 
-/* Ховер инфо-карточки - ТОЖЕ КАК У ПЛЕЕРА */
+/* Ховер инфо-карточки - КАК У ПЛЕЕРА */
 .info-card:hover .info-icon-wrap {
     background: rgba(255, 0, 0, 0.2); /* Полупрозрачный красный */
     border-color: var(--accent); /* Красный контур */
@@ -327,11 +329,21 @@ a.card:hover .arrow-icon {
 .footer-links-row a { color: var(--text-muted); font-size: 0.9rem; transition: 0.2s; }
 .footer-links-row a:hover { color: var(--accent); }
 
+/* --- Ссылка разработчика (Двухэтажная) --- */
 .designer-link {
-    font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
-    transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; padding: 5px 0;
+    display: flex;
+    flex-direction: column; /* Элементы друг под другом */
+    align-items: center;    /* Центрируем их */
+    justify-content: center;
+    gap: 2px;
+
+    font-size: 0.75rem; color: #888;
+    text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
+    line-height: 1.1;
+    transition: all 0.3s ease;
 }
 .designer-link:hover { color: #fff; transform: translateY(-2px); }
+
 .designer-link .red-text {
     color: var(--accent) !important; font-weight: 900; font-size: 0.85rem; letter-spacing: 1px;
     text-transform: none;
@@ -342,6 +354,17 @@ a.card:hover .arrow-icon {
     text-shadow: 0 0 15px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.4);
     transform: scale(1.05);
 }
+
+/* Нижняя строка "from Lugansk" */
+.city-text {
+    text-transform: none; /* Маленькие буквы */
+    font-weight: 400;     /* Тонкий шрифт */
+    font-size: 0.6rem;    /* Компактный размер */
+    color: #555;          /* Темнее основного текста */
+    letter-spacing: 0.5px;
+    transition: color 0.3s;
+}
+.designer-link:hover .city-text { color: #888; }
 
 
 /* --- MOBILE ADAPTIVE --- */
