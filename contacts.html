@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JanPro.ru | Контакты</title>
+    <title>Контакты | JanPro.ru</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="site/styles.css">
@@ -11,25 +11,59 @@
     <script src="site/metrics.js"></script>
 
     <style>
-        .info-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 20px; margin-bottom: 20px; }
-        @media (min-width: 768px) {
-            .info-grid-top { grid-template-columns: 1fr 1fr 1fr; }
-            .info-grid-bottom { grid-template-columns: 2fr 1fr; }
+        /* Сетка для нижних блоков */
+        .info-grid-bottom {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
-        .card-title { color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
+        @media (min-width: 768px) {
+            .info-grid-bottom { grid-template-columns: 2fr 1.2fr; }
+        }
+
+        /* Список реквизитов */
         .data-list { list-style: none; padding: 0; margin: 0; font-size: 0.9rem; color: #ccc; line-height: 1.7; }
-        .data-list li { margin-bottom: 8px; display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px dashed rgba(255,255,255,0.05); }
-        .data-list li:last-child { border-bottom: none; }
-        .data-label { color: #777; margin-right: 10px; white-space: nowrap; }
-        .data-val { color: #fff; text-align: right; font-weight: 500; }
-        .text-link { color: #fff; text-decoration: none; border-bottom: 1px dashed #555; transition: 0.2s; }
-        .text-link:hover { color: #e53935; border-bottom-color: #e53935; }
-        .messenger-link { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-decoration: none; color: #fff; min-height: 120px; }
-        .messenger-icon { width: 48px; height: 48px; margin-bottom: 12px; object-fit: contain; }
-        .messenger-name { font-weight: 700; font-size: 1.1rem; }
-        .messenger-sub { font-size: 0.8rem; color: #777; margin-top: 4px; }
-        .qr-area { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
-        .qr-img { max-width: 140px; width: 100%; border-radius: 8px; border: 2px solid rgba(255,255,255,0.1); background: #fff; padding: 5px; margin-bottom: 10px; }
+        .data-list li {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed rgba(255,255,255,0.05);
+        }
+
+        /* Контейнер QR-кода */
+        .qr-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+        }
+
+        .qr-img {
+            max-width: 180px; /* Сделал крупнее сразу */
+            width: 100%;
+            border-radius: 12px;
+            background: #fff;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: opacity 0.3s ease;
+        }
+
+        .qr-hint {
+            color: #888;
+            font-size: 0.8rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Убираем любые увеличения для всех карточек на этой странице */
+        .card:hover {
+            transform: none !important;
+        }
     </style>
 </head>
 <body>
@@ -38,50 +72,51 @@
 <div class="container">
 
     <div id="header-container"></div>
-
     <div id="menu-container"></div>
 
-    <div class="info-grid info-grid-top">
-        <div class="card">
-            <a href="https://t.me/JanPro59" target="_blank" class="messenger-link">
-                <img src="site/img/telegram.png" alt="TG" class="messenger-icon">
-                <span class="messenger-name">Telegram</span>
-                <span class="messenger-sub">@JanPro59</span>
-            </a>
-        </div>
-        <div class="card">
-            <a href="https://wa.me/79990000000" target="_blank" class="messenger-link">
-                <img src="site/img/whatsapp.png" alt="WA" class="messenger-icon">
-                <span class="messenger-name">WhatsApp</span>
-                <span class="messenger-sub">Написать</span>
-            </a>
-        </div>
-        <div class="card" style="padding: 20px;">
-            <div class="card-title">Прямая связь</div>
-            <ul class="data-list">
-                <li><span class="data-label">Тел:</span><span class="data-val"><a href="tel:+79990000000" class="text-link">+7 (999) 000-00-00</a></span></li>
-                <li><span class="data-label">Email:</span><span class="data-val"><a href="mailto:info@janpro.ru" class="text-link">info@janpro.ru</a></span></li>
-                <li><span class="data-label">Режим:</span><span class="data-val">Пн-Пт, 10:00 - 19:00</span></li>
-            </ul>
-        </div>
-    </div>
+    <section class="grid-2" style="margin-top: 20px;">
+        <a href="https://t.me/JanPro59" target="_blank" class="card action-card">
+            <div class="action-icon-wrap">
+                <svg class="action-img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM16.64 8.8L14.99 16.56C14.87 17.11 14.54 17.24 14.08 16.98L11.57 15.13L10.36 16.3C10.23 16.43 10.11 16.54 9.86 16.54L10.04 13.98L14.7 9.77C14.9 9.59 14.66 9.49 14.39 9.67L8.63 13.3L6.15 12.52C5.61 12.35 5.6 11.98 6.26 11.72L15.93 7.98C16.38 7.82 16.77 8.09 16.64 8.8Z" fill="white"/>
+                </svg>
+            </div>
+            <div class="card-content">
+                <h3>Telegram</h3>
+                <p>Написать в чат специалисту<br>Быстрая консультация</p>
+            </div>
+            <div class="arrow-icon">➔</div>
+        </a>
 
-    <div class="info-grid info-grid-bottom" style="margin-top: 0;">
-        <div class="card" style="padding: 20px;">
-            <div class="card-title">Реквизиты ИП</div>
+        <a href="https://wa.me/79111168367" target="_blank" class="card action-card">
+            <div class="action-icon-wrap">
+                <svg class="action-img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.04 2C6.57 2 2.13 6.44 2.13 11.91C2.13 13.66 2.59 15.36 3.47 16.86L2 22L7.25 20.62C8.69 21.41 10.35 21.83 12.04 21.83C17.5 21.83 21.95 17.39 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z" fill="white" opacity="0.9"/>
+                </svg>
+            </div>
+            <div class="card-content">
+                <h3>WhatsApp</h3>
+                <p>Свяжитесь с нами в WhatsApp<br>Отправить техзадание</p>
+            </div>
+            <div class="arrow-icon">➔</div>
+        </a>
+    </section>
+
+    <div class="info-grid-bottom">
+        <div class="card" style="padding: 25px; display: flex; flex-direction: column; justify-content: center;">
+            <h3 style="color: #fff; margin-bottom: 20px;">Реквизиты ИП</h3>
             <ul class="data-list">
-                <li><span class="data-label">Наименование</span> <span class="data-val">ИП Савченко Я.К.</span></li>
-                <li><span class="data-label">ИНН</span> <span class="data-val">591111683676</span></li>
-                <li><span class="data-label">ОГРН</span> <span class="data-val">322595800013544</span></li>
-                <li><span class="data-label">Регистрация</span> <span class="data-val">01.02.2022</span></li>
-                <li><span class="data-label">Р/счет</span> <span class="data-val">—</span></li>
-                <li><span class="data-label">БИК банка</span> <span class="data-val">—</span></li>
+                <li><span style="color: #777;">ИП</span> <span style="color: #fff;">Савченко Ян Константинович</span></li>
+                <li><span style="color: #777;">ИНН</span> <span style="color: #fff;">591111683676</span></li>
+                <li><span style="color: #777;">ОГРНИП</span> <span style="color: #fff;">322595800013544</span></li>
+                <li><span style="color: #777;">Банк</span> <span style="color: #fff;">ТИНЬКОФФ БАНК</span></li>
             </ul>
         </div>
-        <div class="card" style="padding: 20px;">
+
+        <div class="card" style="padding: 25px;">
             <div class="qr-area">
-                <img src="site/img/qr-placeholder.png" alt="QR Code" class="qr-img">
-                <div style="text-align: center; color: #888; font-size: 0.8rem;">Оплата без комиссии</div>
+                <img src="site/img/spb.png" alt="Оплата по QR" class="qr-img">
+                <p class="qr-hint">Оплата заказа по QR<br>через СБП</p>
             </div>
         </div>
     </div>
@@ -92,7 +127,6 @@
 
 <script src="site/loader.js"></script>
 <script>
-    // Сообщаем лоадеру, что это страница 'contacts'
     initPage('contacts');
 </script>
 
