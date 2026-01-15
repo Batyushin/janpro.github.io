@@ -160,8 +160,18 @@ a.card:hover .arrow-icon {
 .btn-icon-img { width: 24px; height: 24px; object-fit: contain; display: block; }
 
 
-/* --- 3. БЛОК "КТО МЫ" --- */
-.about-section { align-items: flex-start; text-align: left; gap: 25px; padding: 30px; }
+/* --- 3. БЛОК "КТО МЫ" и Ссылка на команду --- */
+.about-section {
+    align-items: flex-start;
+    text-align: left;
+    gap: 20px;
+
+    /* Вернул отступ снизу (70px), чтобы был воздух под ссылкой */
+    padding: 25px 25px 70px 25px;
+
+    position: relative;
+}
+
 .about-top { display: flex; flex-direction: row; width: 100%; gap: 25px; min-height: 220px; position: relative; z-index: 4; }
 .about-intro { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; text-align: center; padding-top: 15px; }
 
@@ -225,7 +235,49 @@ a.card:hover .arrow-icon {
     color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; position: relative; z-index: 4;
 }
 .about-description p { margin-bottom: 15px; }
+/* Убираем отступ у последнего абзаца, чтобы он не толкал ссылку вниз слишком сильно */
+.about-description p:last-child { margin-bottom: 0; }
 .about-description b { color: #fff; }
+
+/* Ссылка на команду (Внизу справа) */
+.about-team-link {
+    position: absolute;
+    bottom: 25px; /* Вернули отступ 25px для воздуха снизу */
+    right: 25px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.about-team-text {
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+.about-team-link .arrow-icon {
+    position: static;
+    opacity: 0.5;
+    font-size: 1.2rem;
+    color: #fff;
+    transition: all 0.3s;
+    text-shadow: none;
+}
+
+/* Ховер эффекты ссылки */
+.about-team-link:hover .about-team-text { color: var(--accent); }
+.about-team-link:hover .arrow-icon {
+    color: var(--accent);
+    opacity: 1;
+    transform: translateX(5px);
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+}
 
 
 /* --- ACTION CARDS --- */
@@ -289,8 +341,8 @@ a.card:hover .arrow-icon {
 
 /* Ховер инфо-карточки - КАК У ПЛЕЕРА */
 .info-card:hover .info-icon-wrap {
-    background: rgba(255, 0, 0, 0.2); /* Полупрозрачный красный */
-    border-color: var(--accent); /* Красный контур */
+    background: rgba(255, 0, 0, 0.2);
+    border-color: var(--accent);
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
     transform: scale(1.1) rotate(10deg);
 }
