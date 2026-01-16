@@ -22,7 +22,6 @@
         @media (min-width: 600px) {
             .team-grid { grid-template-columns: repeat(2, 1fr); }
         }
-
         @media (min-width: 900px) {
             .team-grid { grid-template-columns: repeat(3, 1fr); }
         }
@@ -33,9 +32,10 @@
             height: 100%;
             justify-content: flex-start !important;
             text-align: center;
+            position: relative !important;
         }
 
-        /* Фотография */
+        /* Фотография (Базовый стиль для всех) */
         .member-photo-wrap {
             width: 140px;
             height: 140px;
@@ -53,15 +53,6 @@
             transition: transform 0.5s ease;
         }
 
-        /* Эффект при наведении на карточку */
-        .team-card:hover .member-photo-wrap {
-            border-color: #FF0000;
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.4), inset 0 0 10px rgba(255,0,0,0.2);
-        }
-        .team-card:hover .member-photo {
-            transform: scale(1.1);
-        }
-
         .member-name {
             font-size: 1.4rem;
             font-weight: 900;
@@ -70,30 +61,20 @@
             line-height: 1.1;
         }
 
-        /* --- НОВЫЙ СТИЛЬ ДОЛЖНОСТИ (Стеклянная пилюля) --- */
+        /* Стиль должности (Стеклянная пилюля) */
         .member-role {
             display: inline-block;
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.6); /* Спокойный цвет */
-
-            /* Стеклянный стиль */
+            color: rgba(255, 255, 255, 0.6);
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 50px; /* Закругленные края */
+            border-radius: 50px;
             padding: 8px 16px;
-
             margin-bottom: 18px;
             transition: all 0.3s ease;
-        }
-
-        /* При наведении рамка краснеет */
-        .team-card:hover .member-role {
-            border-color: #FF0000;
-            color: #fff;
-            background: rgba(255, 0, 0, 0.1);
         }
 
         .member-desc {
@@ -104,7 +85,57 @@
             opacity: 0.8;
             max-width: 95%;
             margin: 0 auto;
+            margin-bottom: 20px;
         }
+
+        /* ========================================= */
+        /* --- ИНТЕРАКТИВ ТОЛЬКО ДЛЯ highlight-card --- */
+        /* ========================================= */
+
+        /* 1. Стрелка в покое (серая, еле заметная) */
+        .team-card.highlight-card .arrow-icon {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 1.2rem;
+            color: #fff;
+            opacity: 0.2; /* Почти не видно */
+            transition: all 0.3s ease;
+        }
+
+        /* 2. Ховер эффекты (Только когда наводим) */
+        .team-card.highlight-card:hover {
+            transform: translateY(-5px);
+            background: rgba(40, 15, 15, 0.6); /* Фон чуть краснеет */
+            cursor: pointer;
+        }
+
+        /* Фото краснеет только при наведении */
+        .team-card.highlight-card:hover .member-photo-wrap {
+            border-color: #FF0000;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.4), inset 0 0 10px rgba(255,0,0,0.2);
+        }
+
+        /* Должность краснеет только при наведении */
+        .team-card.highlight-card:hover .member-role {
+            border-color: #FF0000;
+            color: #fff;
+            background: rgba(255, 0, 0, 0.1);
+        }
+
+        .team-card.highlight-card:hover .member-photo {
+            transform: scale(1.1);
+        }
+
+        /* Стрелка краснеет и выезжает */
+        .team-card.highlight-card:hover .arrow-icon {
+            color: var(--accent);
+            opacity: 1;
+            transform: translateX(5px);
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+        }
+
+        /* Остальные карточки вообще не реагируют (нет hover эффектов) */
 
         .placeholder-icon {
             width: 60px; height: 60px; opacity: 0.3;
@@ -170,7 +201,7 @@
             </p>
         </div>
 
-        <div class="card team-card">
+        <a href="https://batyushin.ru" target="_blank" class="card team-card highlight-card">
             <div class="member-photo-wrap">
                 <img src="site/img/team/red.jpeg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="member-photo" alt="Дмитрий (ReD)">
                 <img src="site/img/contact.png" class="placeholder-icon" style="display:none;" alt="Placeholder">
@@ -180,20 +211,8 @@
             <p class="member-desc">
                 Вдыхаю жизнь в холодное железо. Обучаю дом не просто выполнять команды, а чувствовать вас. Делаю так, чтобы дом вас понимал без слов, а Алиса стала больше, чем просто голосовым помощником.
             </p>
-        </div>
-
-
-        <div class="card team-card">
-            <div class="member-photo-wrap">
-                <img src="site/img/team/red.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="member-photo" alt="ReD">
-                <img src="site/img/contact.png" class="placeholder-icon" style="display:none;" alt="Placeholder">
-            </div>
-            <h3 class="member-name">ReD</h3>
-            <span class="member-role">Веб-дизайнер</span>
-            <p class="member-desc">
-                Отвечает за визуальный стиль компании, сайт и удобство взаимодействия клиентов с нашими сервисами.
-            </p>
-        </div>
+            <div class="arrow-icon">➔</div>
+        </a>
 
         <div class="card team-card">
             <div class="member-photo-wrap">
