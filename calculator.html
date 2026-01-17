@@ -11,7 +11,7 @@
     <script src="site/metrics.js"></script>
 
     <style>
-        /* --- 1. ГЛАВНАЯ ОБЕРТКА (С ПРОЖЕКТОРОМ) --- */
+        /* --- 1. ГЛАВНАЯ ОБЕРТКА --- */
         .calc-card-wrapper {
             background: rgba(15, 10, 10, 0.6);
             border: 1px solid var(--border-color);
@@ -31,16 +31,22 @@
             border-color: var(--border-color) !important;
         }
 
+        /* ЗАГОЛОВОК */
         .calc-header {
             text-align: center;
-            /* Растягиваем заголовок на всю ширину с учетом padding родителя */
             margin: -30px -30px 0 -30px;
             padding: 30px 30px 25px 30px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             position: relative; z-index: 2;
+            display: flex; flex-direction: column; align-items: center;
         }
+
+        .calc-title-row {
+            display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 8px;
+        }
+        .calc-title-icon { width: 40px; height: 40px; }
         .calc-title { margin: 0; font-size: 2rem; font-weight: 900; color: #fff; }
-        .calc-subtitle { margin: 10px 0 0 0; color: #aaa; font-size: 1rem; }
+        .calc-subtitle { margin: 0; color: #aaa; font-size: 1rem; }
 
         /* --- 2. БЛОКИ ВОПРОСОВ --- */
         .calc-section {
@@ -118,23 +124,33 @@
         .option-text { color: #fff; font-weight: 700; font-size: 0.95rem; line-height: 1.2; }
         .option-sub { font-size: 0.8rem; color: #888; margin-top: 4px; }
 
-        /* --- 4. ИТОГ --- */
+        /* --- 4. ИТОГОВАЯ ПЛАШКА (Стиль как у Main Card) --- */
         .total-sticky {
             position: sticky; bottom: 20px;
-            background: rgba(30, 5, 5, 0.95);
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 0, 0, 0.3); border-top: 1px solid rgba(255, 0, 0, 0.6);
+
+            /* Тот же стиль, что и у .calc-card-wrapper, но чуть плотнее фон */
+            background: rgba(15, 10, 10, 0.85);
+            border: 1px solid var(--border-color);
+
+            backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+
             border-radius: 24px; padding: 30px; margin-top: 30px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.9);
+
+            /* Тень направлена вверх, чтобы отделить от фона */
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+
             z-index: 100;
             display: flex; flex-direction: column; align-items: center; text-align: center;
             transition: opacity 0.3s;
         }
 
-        .total-label { color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; margin-bottom: 5px; }
+        .total-sticky.disabled { opacity: 0.6; filter: grayscale(0.8); }
+
+        .total-label { color: rgba(255, 255, 255, 0.5); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; margin-bottom: 5px; }
         .total-price {
             font-size: 3.5rem; font-weight: 900; color: #fff; margin: 0 0 25px 0;
-            text-shadow: 0 0 40px rgba(255, 0, 0, 0.8); line-height: 1; letter-spacing: -1px;
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.1); /* Белое свечение вместо красного */
+            line-height: 1; letter-spacing: -1px;
         }
 
         .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 500px; }
@@ -147,6 +163,8 @@
             border: 1px solid rgba(255, 255, 255, 0.15);
             transition: all 0.3s ease;
         }
+        .calc-social-btn.disabled { pointer-events: none; opacity: 0.3; }
+
         .calc-social-btn svg { width: 24px; height: 24px; fill: #fff; transition: transform 0.3s; }
 
         .calc-social-btn:hover {
@@ -170,8 +188,26 @@
     <div class="card calc-card-wrapper">
 
         <div class="calc-header">
-            <h2 class="calc-title">Калькулятор стоимости</h2>
-            <p class="calc-subtitle">Заполните все обязательные поля для расчета</p>
+            <div class="calc-title-row">
+                <svg class="calc-title-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="appleSilverGradCalc" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#FFFFFF" />
+                            <stop offset="100%" style="stop-color:#C0C8D8" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="4" y="2" width="16" height="20" rx="4" fill="url(#appleSilverGradCalc)"/>
+                    <rect x="7" y="6" width="10" height="3" rx="1.5" fill="#080808" opacity="0.3"/>
+                    <circle cx="8.5" cy="13.5" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="12" cy="13.5" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="15.5" cy="13.5" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="8.5" cy="17" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="12" cy="17" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="15.5" cy="17" r="1.5" fill="#080808" opacity="0.4"/>
+                </svg>
+                <h2 class="calc-title">Онлайн-калькулятор</h2>
+            </div>
+            <p class="calc-subtitle">Выберите параметры, и цена рассчитается автоматически</p>
         </div>
 
         <form id="calcForm" onchange="calculate()">
@@ -351,22 +387,24 @@
         </div>
 
         <p style="font-size: 0.75rem; color: var(--text-muted); margin: 15px 0 0 0;">
-            *Выберите все обязательные параметры для расчета (Цена является ориентировочной)
+            *Цена является ориентировочной. Включает проектирование, сборку и комплектующие.
         </p>
     </div>
 
-
-<div id="services-container" style="display: flex; flex-direction: column; gap: 20px; margin-top: 40px;"></div>
-<div id="footer-container"></div>
+    <div id="services-container" style="display: flex; flex-direction: column; gap: 20px; margin-top: 40px;"></div>
+    <div id="footer-container"></div>
 
 </div>
 
 <script src="site/loader.js"></script>
 <script>
-    // Объявляем функцию глобально, чтобы она была доступна из onchange
     window.calculate = function() {
         const form = document.getElementById('calcForm');
         const totalEl = document.getElementById('totalPrice');
+        const totalBlock = document.getElementById('totalBlock');
+        const buttons = document.querySelectorAll('.calc-social-btn');
+
+        if (!form) return;
 
         // ЦЕНЫ
         const PRICES = {
@@ -384,25 +422,38 @@
             }
         };
 
-        if (!form) return;
-
         const formData = new FormData(form);
-        let total = PRICES.base;
 
-        // Радио (безопасно)
+        // Получаем значения
         const v = formData.get('voltage');
         const t = formData.get('type');
         const s = formData.get('smart');
 
-        if(v && PRICES.voltage[v]) total += PRICES.voltage[v];
-        if(t && PRICES.type[t]) total += PRICES.type[t];
-        if(s && PRICES.smart[s]) total += PRICES.smart[s];
+        // Проверка: выбраны ли обязательные?
+        if (!v || !t || !s) {
+            totalEl.textContent = '--- ₽';
+            totalBlock.classList.add('disabled');
+            buttons.forEach(btn => btn.classList.add('disabled'));
+            return;
+        }
 
-        // Чекбоксы
+        // Включаем интерфейс
+        totalBlock.classList.remove('disabled');
+        buttons.forEach(btn => btn.classList.remove('disabled'));
+
+        let total = PRICES.base;
+
+        // Считаем радио
+        total += PRICES.voltage[v] || 0;
+        total += PRICES.type[t] || 0;
+        total += PRICES.smart[s] || 0;
+
+        // Считаем чекбоксы
         formData.getAll('protection').forEach(val => {
-            if(PRICES.protection[val]) total += PRICES.protection[val];
+            total += PRICES.protection[val] || 0;
         });
 
+        // Выводим
         if(totalEl) {
             totalEl.textContent = new Intl.NumberFormat('ru-RU').format(total) + ' ₽';
         }
@@ -413,7 +464,6 @@
         const getTxt = (name) => {
             const el = form.querySelector(`input[name="${name}"]:checked`);
             if(!el) return '-';
-            // Безопасно ищем текст
             return el.closest('.option-label').querySelector('.option-text').innerText;
         };
 
@@ -444,7 +494,7 @@
             if (typeof initSpotlight === 'function') setTimeout(initSpotlight, 500);
         } catch(e) {}
 
-        // Инициализация при загрузке
+        // Запуск при старте
         calculate();
     });
 </script>
