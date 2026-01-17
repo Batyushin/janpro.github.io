@@ -119,3 +119,37 @@ function initSpotlight() {
         });
     });
 }
+
+/* site/loader.js */
+
+async function loadComponent(elementId, filePath) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+
+    try {
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const html = await response.text();
+        element.innerHTML = html;
+    } catch (error) {
+        console.error(`Ошибка загрузки компонента ${filePath}:`, error);
+    }
+}
+
+// Загрузчики
+async function loadHeader() { await loadComponent('header-container', 'site/header.html'); }
+async function loadMenu(activePage) { await loadComponent('menu-container', 'site/menu.html'); }
+async function loadFooter() { await loadComponent('footer-container', 'site/footer.html'); }
+
+// ОБНОВЛЕННЫЙ ПУТЬ К services.html
+async function loadServices() { await loadComponent('services-container', 'components/services.html'); }
+
+// Главная инициализация
+async function initPage(activePage) {
+    await Promise.all([
+        loadHeader(),
+        loadMenu(activePage),
+        loadServices(),
+        loadFooter()
+    ]);
+}
