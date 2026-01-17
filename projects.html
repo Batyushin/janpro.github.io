@@ -28,17 +28,17 @@
 
         /* Карточка проекта */
         .project-card {
-            padding: 0 !important; /* Убираем стандартные отступы карточки */
+            padding: 0 !important;
             overflow: hidden;
             cursor: pointer;
-            height: 300px; /* Фиксированная высота карточки */
+            height: 300px;
             display: flex !important;
             flex-direction: column;
             justify-content: flex-end;
             align-items: flex-start !important;
             text-align: left !important;
             position: relative;
-            group: project-card; /* Для ховера */
+            text-decoration: none !important; /* Убираем подчеркивание ссылки */
         }
 
         /* Картинка проекта */
@@ -61,7 +61,7 @@
             box-shadow: 0 0 25px rgba(255, 0, 0, 0.3);
         }
 
-        /* Градиент снизу, чтобы текст читался */
+        /* Градиент снизу */
         .project-overlay {
             position: absolute;
             bottom: 0; left: 0; width: 100%;
@@ -75,17 +75,8 @@
             transform: translateY(0);
         }
 
-        .project-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 4px;
-        }
-
-        .project-desc {
-            font-size: 0.85rem;
-            color: #ccc;
-        }
+        .project-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .project-desc { font-size: 0.85rem; color: #ccc; }
 
         /* Иконка лупы при наведении */
         .zoom-icon {
@@ -103,71 +94,6 @@
             opacity: 1;
             transform: translate(-50%, -50%) scale(1);
         }
-
-
-        /* --- ЛАЙТБОКС (Модальное окно) --- */
-        .lightbox {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .lightbox.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .lightbox-img {
-            max-width: 90%;
-            max-height: 80vh;
-            border-radius: 8px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s;
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: 20px; right: 20px;
-            font-size: 2.5rem;
-            color: #fff;
-            cursor: pointer;
-            transition: color 0.3s;
-            z-index: 1001;
-        }
-        .lightbox-close:hover { color: #FF0000; }
-
-        .lightbox-caption {
-            margin-top: 15px;
-            color: #ccc;
-            font-size: 1rem;
-            text-align: center;
-        }
-
-        .lightbox-link {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 16px;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 20px;
-            color: #fff;
-            font-size: 0.8rem;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        .lightbox-link:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: #fff;
-        }
-
     </style>
 </head>
 <body>
@@ -180,59 +106,59 @@
 
     <div class="projects-grid">
 
-        <div class="card project-card" onclick="openLightbox('site/img/projects/p1.jpg', 'ЖК «Символ»', 'Щит автоматизации на базе WirenBoard')">
+        <a href="site/img/projects/p1.jpg" target="_blank" class="card project-card">
             <img src="site/img/projects/p1.jpg" class="project-img" alt="Проект 1">
             <div class="zoom-icon">🔍</div>
             <div class="project-overlay">
                 <div class="project-title">ЖК «Символ»</div>
                 <div class="project-desc">WirenBoard • 140 модулей</div>
             </div>
-        </div>
+        </a>
 
-        <div class="card project-card" onclick="openLightbox('site/img/projects/p2.jpg', 'Частный дом, Пермь', 'Трехфазный ввод, мастер-выключатель, реле напряжения')">
+        <a href="site/img/projects/p2.jpg" target="_blank" class="card project-card">
             <img src="site/img/projects/p2.jpg" class="project-img" alt="Проект 2">
             <div class="zoom-icon">🔍</div>
             <div class="project-overlay">
                 <div class="project-title">Частный дом</div>
                 <div class="project-desc">Классика • ABB + Hager</div>
             </div>
-        </div>
+        </a>
 
-        <div class="card project-card" onclick="openLightbox('site/img/projects/p3.jpg', 'Офис IT-компании', 'Серверная стойка и управление освещением DALI')">
+        <a href="site/img/projects/p3.jpg" target="_blank" class="card project-card">
             <img src="site/img/projects/p3.jpg" class="project-img" alt="Проект 3">
             <div class="zoom-icon">🔍</div>
             <div class="project-overlay">
                 <div class="project-title">Офис IT-компании</div>
                 <div class="project-desc">DALI • Серверная</div>
             </div>
-        </div>
+        </a>
 
-        <div class="card project-card" onclick="openLightbox('site/img/projects/p4.jpg', 'Квартира-студия', 'Компактный щит в нишу')">
+        <a href="site/img/projects/p4.jpg" target="_blank" class="card project-card">
             <img src="site/img/projects/p4.jpg" class="project-img" alt="Проект 4">
             <div class="zoom-icon">🔍</div>
             <div class="project-overlay">
                 <div class="project-title">Квартира-студия</div>
                 <div class="project-desc">Компакт • 24 модуля</div>
             </div>
-        </div>
+        </a>
 
-        <div class="card project-card" onclick="openLightbox('site/img/projects/p5.jpg', 'Умный дом, Коттедж', 'Полная автоматизация: свет, климат, шторы')">
+        <a href="site/img/projects/p5.jpg" target="_blank" class="card project-card">
             <img src="site/img/projects/p5.jpg" class="project-img" alt="Проект 5">
             <div class="zoom-icon">🔍</div>
             <div class="project-overlay">
                 <div class="project-title">Коттедж Smart</div>
                 <div class="project-desc">Full Automation</div>
             </div>
-        </div>
+        </a>
 
-        <div class="card project-card" onclick="openLightbox('site/img/projects/p6.jpg', 'Проектная схема', 'Пример проектной документации для сборки')">
+        <a href="site/img/projects/p6.jpg" target="_blank" class="card project-card">
             <img src="site/img/projects/p6.jpg" class="project-img" alt="Проект 6">
             <div class="zoom-icon">🔍</div>
             <div class="project-overlay">
                 <div class="project-title">Проектирование</div>
                 <div class="project-desc">Чертеж щита</div>
             </div>
-        </div>
+        </a>
 
     </div>
 
@@ -240,45 +166,9 @@
 
 </div>
 
-<div id="lightbox" class="lightbox" onclick="closeLightbox()">
-    <div class="lightbox-close">&times;</div>
-    <img id="lightbox-img" class="lightbox-img" src="" alt="Full view" onclick="event.stopPropagation()"> <div id="lightbox-caption" class="lightbox-caption"></div>
-    <a id="lightbox-full-link" href="#" target="_blank" class="lightbox-link" onclick="event.stopPropagation()">
-        Открыть оригинал (Зум)
-    </a>
-</div>
-
 <script src="site/loader.js"></script>
 <script>
-    initPage('projects'); // Подсвечиваем меню (нужно добавить пункт в меню, если его нет)
-
-    // Логика Лайтбокса
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const lightboxCaption = document.getElementById('lightbox-caption');
-    const lightboxLink = document.getElementById('lightbox-full-link');
-
-    function openLightbox(imageSrc, title, desc) {
-        lightboxImg.src = imageSrc;
-        lightboxCaption.innerHTML = `<strong>${title}</strong><br>${desc}`;
-        lightboxLink.href = imageSrc; // Ссылка на оригинал
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Блокируем скролл страницы
-    }
-
-    function closeLightbox() {
-        lightbox.classList.remove('active');
-        document.body.style.overflow = ''; // Разблокируем скролл
-        // Очищаем src через небольшую задержку, чтобы не моргало при закрытии
-        setTimeout(() => { lightboxImg.src = ''; }, 300);
-    }
-
-    // Закрытие по клавише Esc
-    document.addEventListener('keydown', function(event) {
-        if (event.key === "Escape") {
-            closeLightbox();
-        }
-    });
+    initPage('projects');
 </script>
 
 </body>
