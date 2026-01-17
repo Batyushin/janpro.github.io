@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Готовые решения | JanPro.ru</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site/styles.css">
+    <link rel="icon" type="image/x-icon" href="site/favicon.ico" />
+    <script src="site/metrics.js"></script>
+
+    <style>
+        /* --- Сетка (Используем те же стили, что и в Проектах) --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            width: 100%;
+        }
+
+        @media (min-width: 600px) {
+            .projects-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 900px) {
+            .projects-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* Карточка */
+        .project-card {
+            padding: 0 !important;
+            overflow: hidden;
+            cursor: pointer;
+            height: 300px;
+            display: flex !important;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-start !important;
+            text-align: left !important;
+            position: relative;
+            text-decoration: none !important;
+        }
+
+        /* Картинка */
+        .project-img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease, opacity 0.3s;
+            opacity: 0.8;
+        }
+
+        /* Ховер эффект */
+        .project-card:hover .project-img {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+        .project-card:hover {
+            border-color: #FF0000;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.3);
+        }
+
+        /* Градиент снизу */
+        .project-overlay {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            padding: 20px;
+            transform: translateY(10px);
+            transition: transform 0.3s;
+            pointer-events: none;
+        }
+        .project-card:hover .project-overlay {
+            transform: translateY(0);
+        }
+
+        .project-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .project-desc { font-size: 0.85rem; color: #ccc; }
+
+        /* Иконка лупы */
+        .zoom-icon {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            font-size: 2rem;
+            color: #fff;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+            z-index: 5;
+        }
+        .project-card:hover .zoom-icon {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-depth"></div>
+<div class="container">
+
+    <div id="header-container"></div>
+    <div id="menu-container"></div>
+
+    <div class="projects-grid">
+
+        <a href="site/img/ready/1.jpg" target="_blank" class="card project-card">
+            <img src="site/img/ready/1.jpg" class="project-img" alt="Решение 1">
+            <div class="zoom-icon">🔍</div>
+            <div class="project-overlay">
+                <div class="project-title">Готовое решение №1</div>
+                <div class="project-desc">Серия Standard • 24 модуля</div>
+            </div>
+        </a>
+
+        <a href="site/img/ready/2.jpg" target="_blank" class="card project-card">
+            <img src="site/img/ready/2.jpg" class="project-img" alt="Решение 2">
+            <div class="zoom-icon">🔍</div>
+            <div class="project-overlay">
+                <div class="project-title">Готовое решение №2</div>
+                <div class="project-desc">Серия Comfort • 36 модулей</div>
+            </div>
+        </a>
+
+        <a href="site/img/ready/3.jpg" target="_blank" class="card project-card">
+            <img src="site/img/ready/3.jpg" class="project-img" alt="Решение 3">
+            <div class="zoom-icon">🔍</div>
+            <div class="project-overlay">
+                <div class="project-title">Готовое решение №3</div>
+                <div class="project-desc">Для студии • Встраиваемый</div>
+            </div>
+        </a>
+
+        <a href="site/img/ready/4.jpg" target="_blank" class="card project-card">
+            <img src="site/img/ready/4.jpg" class="project-img" alt="Решение 4">
+            <div class="zoom-icon">🔍</div>
+            <div class="project-overlay">
+                <div class="project-title">Готовое решение №4</div>
+                <div class="project-desc">Щит учета • 3 фазы</div>
+            </div>
+        </a>
+
+        <a href="site/img/ready/5.jpg" target="_blank" class="card project-card">
+            <img src="site/img/ready/5.jpg" class="project-img" alt="Решение 5">
+            <div class="zoom-icon">🔍</div>
+            <div class="project-overlay">
+                <div class="project-title">Готовое решение №5</div>
+                <div class="project-desc">Базовая автоматика</div>
+            </div>
+        </a>
+
+        <a href="site/img/ready/6.jpg" target="_blank" class="card project-card">
+            <img src="site/img/ready/6.jpg" class="project-img" alt="Решение 6">
+            <div class="zoom-icon">🔍</div>
+            <div class="project-overlay">
+                <div class="project-title">Готовое решение №6</div>
+                <div class="project-desc">Максимальная защита</div>
+            </div>
+        </a>
+
+        <a href="site/img/ready/7.jpg" target="_blank" class="card project-card">
+            <img src="site/img/ready/7.jpg" class="project-img" alt="Решение 7">
+            <div class="zoom-icon">🔍</div>
+            <div class="project-overlay">
+                <div class="project-title">Готовое решение №7</div>
+                <div class="project-desc">Компакт • Hager Volta</div>
+            </div>
+        </a>
+
+        <a href="site/img/ready/8.jpg" target="_blank" class="card project-card">
+            <img src="site/img/ready/8.jpg" class="project-img" alt="Решение 8">
+            <div class="zoom-icon">🔍</div>
+            <div class="project-overlay">
+                <div class="project-title">Готовое решение №8</div>
+                <div class="project-desc">Щит для дачи</div>
+            </div>
+        </a>
+
+        <a href="site/img/ready/9.jpg" target="_blank" class="card project-card">
+            <img src="site/img/ready/9.jpg" class="project-img" alt="Решение 9">
+            <div class="zoom-icon">🔍</div>
+            <div class="project-overlay">
+                <div class="project-title">Готовое решение №9</div>
+                <div class="project-desc">Индивидуальная сборка</div>
+            </div>
+        </a>
+
+    </div>
+
+    <div id="footer-container"></div>
+
+</div>
+
+<script src="site/loader.js"></script>
+<script>
+    // Инициализация с ключом 'ready-made' (нужно будет добавить этот пункт в меню, если его нет)
+    initPage('ready-made');
+</script>
+
+</body>
+</html>
+
