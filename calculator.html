@@ -305,7 +305,7 @@
                         </div>
                     </label>
                     <label class="option-label">
-                        <input type="radio" name="smart" value="full" class="option-input">
+                        <input type="radio" name="smart" value="wirenboard" class="option-input">
                         <div class="option-card">
                             <div class="option-marker"></div>
                             <div class="option-content"><span class="option-text">WirenBoard</span><span class="option-sub">Автоматизация</span></div>
@@ -404,6 +404,7 @@
 
 <script src="site/loader.js"></script>
 <script>
+    // Глобальная функция для вызова из onchange
     window.calculate = function() {
         const form = document.getElementById('calcForm');
         const totalEl = document.getElementById('totalPrice');
@@ -412,18 +413,28 @@
 
         if (!form) return;
 
-        // ЦЕНЫ
+        // ЦЕНЫ И СТРУКТУРА (Порядок как на экране)
         const PRICES = {
             base: 15000,
+
+            // 1. Ввод
             voltage: { '1phase': 0, '3phase': 12000 },
+
+            // 2. Тип объекта
             type: {
                 'studio': 25000, 'apart': 45000, 'large': 75000,
                 'house': 110000, 'commercial': 80000
             },
+
+            // 3. Умный дом
             smart: {
-                'none': 0, 'full': 180000, 'loxone': 350000
+                'none': 0,
+                'wirenboard': 180000,
+                'loxone': 350000
             },
-            protection: { // Доп. опции
+
+            // 4. Дополнительные опции
+            protection: {
                 'master': 6000, 'cross': 4000, 'led': 25000, 'floor': 12000
             }
         };
