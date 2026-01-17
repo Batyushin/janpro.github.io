@@ -156,11 +156,11 @@
             padding: 12px; border-radius: 16px;
             color: #fff; font-weight: 700; text-decoration: none; font-size: 0.95rem;
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15); /* Изначально белый бордер */
+            border: 1px solid rgba(255, 255, 255, 0.15);
             transition: all 0.3s ease;
         }
 
-        /* КОНТЕЙНЕР ИКОНКИ */
+        /* КОНТЕЙНЕР ИКОНКИ (Без обводки в покое) */
         .social-circle {
             width: 32px; height: 32px;
             background: transparent;
@@ -181,15 +181,11 @@
         /* --- ХОВЕР ЭФФЕКТЫ (КРАСНЫЙ СТИЛЬ) --- */
         .calc-social-btn:hover {
             transform: translateY(-3px);
-            /* Фон кнопки красноватый */
             background: rgba(40, 10, 10, 0.6);
-            /* Бордер кнопки красный */
             border-color: var(--accent);
-            /* Свечение кнопки */
             box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
         }
 
-        /* При наведении: Кружок с иконкой тоже краснеет */
         .calc-social-btn:hover .social-circle {
             background: var(--accent);
             box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
@@ -510,7 +506,8 @@
         const wa = document.getElementById('waLink');
         const tg = document.getElementById('tgLink');
 
-        if(wa) wa.href = `https://wa.me/79026395501?text=${encoded}`;
+        // Исправленный номер
+        if(wa) wa.href = `https://wa.me/79824699434?text=${encoded}`;
         if(tg) tg.href = `https://t.me/JanPro59?text=${encoded}`;
     }
 
