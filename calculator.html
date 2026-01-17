@@ -33,12 +33,12 @@
             border-color: var(--border-color) !important;
         }
 
-        /* ЗАГОЛОВОК (Без полоски) */
+        /* --- 2. ЗАГОЛОВОК --- */
         .calc-header {
             text-align: center;
             margin: -30px -30px 0 -30px;
             padding: 30px 30px 25px 30px;
-            border-bottom: none; /* УБРАЛ ПОЛОСКУ */
+            border-bottom: none;
             position: relative; z-index: 2;
             display: flex; flex-direction: column; align-items: center;
         }
@@ -50,7 +50,7 @@
         .calc-title { margin: 0; font-size: 2rem; font-weight: 900; color: #fff; }
         .calc-subtitle { margin: 0; color: #aaa; font-size: 1rem; }
 
-        /* --- 2. БЛОКИ ВОПРОСОВ --- */
+        /* --- 3. БЛОКИ ВОПРОСОВ --- */
         .calc-section {
             padding: 25px 0;
             display: flex; flex-direction: column; gap: 15px;
@@ -79,7 +79,7 @@
             .options-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
-        /* --- 3. КНОПКИ --- */
+        /* --- 4. КНОПКИ --- */
         .option-label { cursor: pointer; position: relative; display: block; width: 100%; }
         .option-input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
 
@@ -126,55 +126,65 @@
         .option-text { color: #fff; font-weight: 700; font-size: 0.95rem; line-height: 1.2; }
         .option-sub { font-size: 0.8rem; color: #888; margin-top: 4px; }
 
-        /* --- 4. ИТОГОВАЯ ПЛАШКА --- */
+        /* --- 5. ИТОГОВАЯ ПЛАШКА (КОМПАКТНАЯ) --- */
         .total-sticky {
             position: sticky; bottom: 20px;
 
-            /* Цвет такой же, как у .calc-card-wrapper (0.6) */
             background: rgba(15, 10, 10, 0.6);
-
-            border: 1px solid var(--border-color); /* Серая рамка */
-
+            border: 1px solid var(--border-color);
             backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
 
-            border-radius: 24px; padding: 30px; margin-top: 30px;
+            border-radius: 24px;
+            /* Уменьшил паддинги (было 30px) */
+            padding: 20px 25px;
+            margin-top: 20px;
 
-            /* Тень */
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-
             z-index: 100;
             display: flex; flex-direction: column; align-items: center; text-align: center;
             transition: opacity 0.3s;
         }
 
-        /* Чтобы блок суммы не прыгал, как и основной */
         .total-sticky:hover {
             transform: none !important;
             border-color: var(--border-color) !important;
         }
-
         .total-sticky.disabled { opacity: 0.6; filter: grayscale(0.8); }
 
-        .total-label { color: rgba(255, 255, 255, 0.5); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; margin-bottom: 5px; }
+        .total-label {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
         .total-price {
-            font-size: 3.5rem; font-weight: 900; color: #fff; margin: 0 0 25px 0;
+            /* Уменьшил шрифт (было 3.5rem) */
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #fff;
+            /* Уменьшил отступ (было 25px) */
+            margin: 0 0 15px 0;
             text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
             line-height: 1; letter-spacing: -1px;
         }
 
-        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 500px; }
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 500px; }
 
         .calc-social-btn {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 16px; border-radius: 16px;
-            color: #fff; font-weight: 700; text-decoration: none; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            /* Уменьшил паддинг кнопок (было 16px) */
+            padding: 12px;
+            border-radius: 16px;
+            color: #fff; font-weight: 700; text-decoration: none; font-size: 0.95rem;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.15);
             transition: all 0.3s ease;
         }
         .calc-social-btn.disabled { pointer-events: none; opacity: 0.3; }
-
-        .calc-social-btn svg { width: 24px; height: 24px; fill: #fff; transition: transform 0.3s; }
+        .calc-social-btn svg { width: 20px; height: 20px; fill: #fff; transition: transform 0.3s; }
 
         .calc-social-btn:hover {
             transform: translateY(-3px);
@@ -183,6 +193,21 @@
             box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
         }
         .calc-social-btn:hover svg { transform: scale(1.1); }
+
+        /* --- МОБИЛЬНАЯ АДАПТАЦИЯ ДЛЯ ПЛАШКИ --- */
+        @media (max-width: 600px) {
+            .total-sticky {
+                bottom: 10px; /* Прижимаем ближе к низу */
+                padding: 15px; /* Еще меньше отступы */
+                border-radius: 20px;
+            }
+            .total-price {
+                font-size: 2.2rem; /* Шрифт меньше */
+                margin-bottom: 12px;
+            }
+            .total-label { font-size: 0.65rem; }
+            .calc-social-btn { padding: 10px; font-size: 0.85rem; }
+        }
 
     </style>
 </head>
