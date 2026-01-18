@@ -33,80 +33,111 @@
 
     .header-col-text { text-align: center; flex: 1; }
 
-    .logo-text { font-size: 3rem; font-weight: 900; margin-bottom: 5px; letter-spacing: -1px; text-shadow: 0 0 30px rgba(255, 0, 0, 0.3); line-height: 1; }
+    /* Контейнер: Заголовок + Партнер в ряд */
+    .title-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 10px;
+    }
 
-    /* --- БЛОК "FROM СТРОЙПЛОЩАДКА" --- */
+    .logo-text {
+        font-size: 2.5rem;
+        font-weight: 900;
+        letter-spacing: -1px;
+        text-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+        line-height: 1;
+        margin: 0;
+    }
+
+    /* --- БЛОК ПАРТНЕРА --- */
     .from-block {
         display: flex;
         align-items: center;
-        justify-content: center; /* По центру на ПК */
         gap: 8px;
-        margin-bottom: 15px;
         text-decoration: none;
-        transition: opacity 0.3s;
+        transition: opacity 0.3s, transform 0.3s;
     }
-    .from-block:hover { opacity: 0.8; }
+    .from-block:hover { opacity: 1; transform: translateY(-1px); }
 
-    .from-text {
-        font-size: 0.85rem;
-        color: #888;
-        font-weight: 400;
+    .from-text-col {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
+        line-height: 1.1;
+    }
+
+    /* ОБНОВЛЕННЫЕ СТИЛИ ДЛЯ ТЕКСТА (Желтый + Черный) */
+    .from-line-1 {
+        font-size: 0.6rem;
+        color: #FFD700; /* Яркий желтый */
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        /* Черная обводка/тень для контраста */
+        text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+    }
+    .from-line-2 {
+        font-size: 0.5rem;
+        color: #111; /* Черный текст */
+        background-color: #FFD700; /* Желтый фон */
+        padding: 0 3px; /* Небольшие отступы фона */
+        border-radius: 2px;
+        font-weight: 900;
+        text-transform: uppercase;
         letter-spacing: 0.5px;
-        margin-top: 4px; /* Чуть опустил текст, чтобы визуально центрировать с лого */
+        margin-top: 1px;
     }
 
-    /* Стили для логотипа (бывшая иконка) */
     .sp-logo-img {
-        height: 40px; /* Увеличил размер */
+        height: 38px;
         width: auto;
         object-fit: contain;
         display: block;
+        transition: filter 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Эффект огня при наведении */
+    .from-block:hover .sp-logo-img {
+        filter: drop-shadow(0 0 8px #FFD700) drop-shadow(0 -3px 12px #FF4500);
+        transform: scale(1.05);
     }
 
     .red-text { color: var(--accent); }
 
     .desc { max-width: 650px; color: var(--text-muted); line-height: 1.4; font-size: 1.1rem; margin: 0 auto; }
 
-    /* --- АДАПТИВНОСТЬ ШАПКИ --- */
+    /* --- АДАПТИВНОСТЬ --- */
     @media (max-width: 900px) {
         .header-card { min-height: auto; padding: 30px 15px; display: flex; flex-direction: column; }
         .header-content { flex-direction: column; gap: 0; padding-left: 0; justify-content: flex-start; align-items: center; height: auto; }
         .header-col-logo { flex: 0 0 auto; width: 100%; justify-content: center; margin-bottom: 0; }
         .main-logo-img { max-width: 270px; display: block; }
 
-        /* Изменения для одной строки */
         .header-col-text {
             width: 100%;
             margin-top: -25px;
             position: relative;
             flex: auto;
+        }
 
-            /* Flexbox для выстраивания в ряд */
-            display: flex;
+        .title-row {
+            justify-content: flex-end;
+            gap: 12px;
             flex-wrap: wrap;
-            justify-content: flex-end; /* Все прижато вправо */
-            align-items: center; /* Центрируем по вертикали */
-            gap: 10px;
+            margin-bottom: 5px;
         }
 
-        .logo-text { font-size: 1.3rem; margin: 0; font-weight: 800; line-height: 1; }
+        .logo-text { font-size: 1.4rem; }
 
-        /* Убираем нижний отступ у блока from */
-        .from-block { margin-bottom: 0; }
-
-        .from-text {
-            font-size: 0.75rem;
-            margin-top: 2px;
-        }
-
-        /* Логотип на мобильном чуть меньше, но крупнее иконки */
-        .sp-logo-img {
-            height: 24px;
-        }
+        .sp-logo-img { height: 28px; }
+        .from-line-1 { font-size: 0.5rem; }
+        .from-line-2 { font-size: 0.45rem; padding: 0 2px; }
 
         .desc br { display: inline; }
-
-        /* Описание переносим на новую строку */
         .desc {
             width: 100%;
             display: block;
@@ -128,12 +159,18 @@
             </a>
         </div>
         <div class="header-col-text">
-            <h1 class="logo-text">JanPro<span class="red-text">.ru</span></h1>
 
-            <a href="#" target="_blank" class="from-block">
-                <span class="from-text">from</span>
-                <img src="site/img/sp.png" alt="Стройплощадка" class="sp-logo-img">
-            </a>
+            <div class="title-row">
+                <h1 class="logo-text">JanPro<span class="red-text">.ru</span></h1>
+
+                <a href="https://stroyploshchadka.ru" target="_blank" class="from-block">
+                    <div class="from-text-col">
+                        <span class="from-line-1">Совместно</span>
+                        <span class="from-line-2">со</span>
+                    </div>
+                    <img src="site/img/sp.png" alt="Стройплощадка" class="sp-logo-img">
+                </a>
+            </div>
 
             <p class="desc">Профессиональная сборка  электрощитов<br>для квартир и частных домов.</p>
         </div>
