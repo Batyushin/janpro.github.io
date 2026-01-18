@@ -15,85 +15,158 @@
         .projects-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 25px;
             width: 100%;
         }
 
-        @media (min-width: 600px) {
+        /* Адаптив: 1 колонка моб, 2 планшет, 3 десктоп */
+        @media (min-width: 700px) {
             .projects-grid { grid-template-columns: repeat(2, 1fr); }
         }
-        @media (min-width: 900px) {
+        @media (min-width: 1100px) {
             .projects-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
-        /* Карточка проекта */
+        /* --- Карточка проекта --- */
         .project-card {
             padding: 0 !important;
-            overflow: hidden;
-            cursor: pointer;
-            height: 300px;
-            display: flex !important;
+            display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            align-items: flex-start !important;
+            overflow: hidden;
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+
+            /* Принудительное выравнивание по левому краю */
             text-align: left !important;
-            position: relative;
-            text-decoration: none !important; /* Убираем подчеркивание ссылки */
+            align-items: flex-start !important;
         }
 
-        /* Картинка проекта */
-        .project-img {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease, opacity 0.3s;
-            opacity: 0.8;
-        }
-
-        /* Ховер эффект: картинка приближается и становится ярче */
-        .project-card:hover .project-img {
-            transform: scale(1.1);
-            opacity: 1;
-        }
         .project-card:hover {
-            border-color: #FF0000;
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.3);
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.15);
         }
 
-        /* Градиент снизу */
-        .project-overlay {
-            position: absolute;
-            bottom: 0; left: 0; width: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            padding: 20px;
-            transform: translateY(10px);
-            transition: transform 0.3s;
-            pointer-events: none;
-        }
-        .project-card:hover .project-overlay {
-            transform: translateY(0);
+        /* --- Верхняя часть: Фото --- */
+        .project-img-wrap {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            cursor: zoom-in;
         }
 
-        .project-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
-        .project-desc { font-size: 0.85rem; color: #ccc; }
+        .project-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
 
-        /* Иконка лупы при наведении */
+        .project-card:hover .project-img {
+            transform: scale(1.05);
+        }
+
+        /* Иконка лупы */
         .zoom-icon {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0.5);
-            font-size: 2rem;
-            color: #fff;
+            width: 50px; height: 50px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
             opacity: 0;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-shadow: 0 0 10px rgba(0,0,0,0.8);
-            z-index: 5;
+            transition: all 0.3s ease;
+            color: #fff;
+            font-size: 1.2rem;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.2);
         }
-        .project-card:hover .zoom-icon {
+
+        .project-img-wrap:hover .zoom-icon {
             opacity: 1;
             transform: translate(-50%, -50%) scale(1);
         }
+
+        /* --- Нижняя часть: Описание --- */
+        .project-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+            width: 100%; /* Растягиваем контент на всю ширину */
+            background: rgba(0,0,0,0.2);
+        }
+
+        .project-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 10px 0;
+        }
+
+        .project-specs {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 15px 0;
+            font-size: 0.9rem;
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        .project-specs li {
+            position: relative;
+            padding-left: 15px;
+        }
+        .project-specs li::before {
+            content: '•';
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+
+        .project-price-block {
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .price-label { font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 1px;}
+        .price-value { font-size: 1.3rem; font-weight: 900; color: #fff; text-shadow: 0 0 15px rgba(255,0,0,0.4); }
+
+
+        /* --- ЛАЙТБОКС (Модальное окно для фото) --- */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: zoom-out;
+        }
+        .lightbox.active { display: flex; animation: fadeIn 0.3s; }
+
+        .lightbox-img {
+            max-width: 95%;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
     </style>
 </head>
 <body>
@@ -104,100 +177,167 @@
     <div id="header-container"></div>
     <div id="menu-container"></div>
 
+    <div style="margin-bottom: 30px; text-align: left;"> <h1 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 10px;">Наши проекты</h1>
+        <p style="color: #aaa;">Примеры выполненных работ с описанием и стоимостью</p>
+    </div>
+
     <div class="projects-grid">
 
-        <a href="site/img/projects/p1.jpg" target="_blank" class="card project-card">
-            <img src="site/img/projects/p1.jpg" class="project-img" alt="Проект 1">
-            <div class="zoom-icon">🔍</div>
-            <div class="project-overlay">
-                <div class="project-title">ЖК «Символ»</div>
-                <div class="project-desc">WirenBoard • 140 модулей</div>
+        <div class="card project-card">
+            <div class="project-img-wrap" onclick="openLightbox('site/img/projects/p1.jpg')">
+                <img src="site/img/projects/p1.jpg" class="project-img" alt="ЖК Символ">
+                <div class="zoom-icon">🔍</div>
             </div>
-        </a>
+            <div class="project-content">
+                <div>
+                    <h3 class="project-title">Квартира в ЖК «Символ»</h3>
+                    <ul class="project-specs">
+                        <li>Площадь: 110 м²</li>
+                        <li>Система: WirenBoard (Умный дом)</li>
+                        <li>140 модулей, защита от протечек</li>
+                    </ul>
+                </div>
+                <div class="project-price-block">
+                    <span class="price-label">Стоимость щита</span>
+                    <span class="price-value">480 000 ₽</span>
+                </div>
+            </div>
+        </div>
 
-        <a href="site/img/projects/p2.jpg" target="_blank" class="card project-card">
-            <img src="site/img/projects/p2.jpg" class="project-img" alt="Проект 2">
-            <div class="zoom-icon">🔍</div>
-            <div class="project-overlay">
-                <div class="project-title">Частный дом</div>
-                <div class="project-desc">Классика • ABB + Hager</div>
+        <div class="card project-card">
+            <div class="project-img-wrap" onclick="openLightbox('site/img/projects/p2.jpg')">
+                <img src="site/img/projects/p2.jpg" class="project-img" alt="Частный дом">
+                <div class="zoom-icon">🔍</div>
             </div>
-        </a>
+            <div class="project-content">
+                <div>
+                    <h3 class="project-title">Загородный дом</h3>
+                    <ul class="project-specs">
+                        <li>Площадь: 250 м²</li>
+                        <li>Система: Классика (ABB + Hager)</li>
+                        <li>Ввод 3 фазы, генератор, стабилизаторы</li>
+                    </ul>
+                </div>
+                <div class="project-price-block">
+                    <span class="price-label">Стоимость щита</span>
+                    <span class="price-value">210 000 ₽</span>
+                </div>
+            </div>
+        </div>
 
-        <a href="site/img/projects/p3.jpg" target="_blank" class="card project-card">
-            <img src="site/img/projects/p3.jpg" class="project-img" alt="Проект 3">
-            <div class="zoom-icon">🔍</div>
-            <div class="project-overlay">
-                <div class="project-title">Офис IT-компании</div>
-                <div class="project-desc">DALI • Серверная</div>
+        <div class="card project-card">
+            <div class="project-img-wrap" onclick="openLightbox('site/img/projects/p3.jpg')">
+                <img src="site/img/projects/p3.jpg" class="project-img" alt="Офис IT">
+                <div class="zoom-icon">🔍</div>
             </div>
-        </a>
+            <div class="project-content">
+                <div>
+                    <h3 class="project-title">Офис IT-компании</h3>
+                    <ul class="project-specs">
+                        <li>Площадь: 400 м²</li>
+                        <li>Управление светом DALI</li>
+                        <li>Сборка серверной стойки</li>
+                    </ul>
+                </div>
+                <div class="project-price-block">
+                    <span class="price-label">Стоимость работ</span>
+                    <span class="price-value">350 000 ₽</span>
+                </div>
+            </div>
+        </div>
 
-        <a href="site/img/projects/p4.jpg" target="_blank" class="card project-card">
-            <img src="site/img/projects/p4.jpg" class="project-img" alt="Проект 4">
-            <div class="zoom-icon">🔍</div>
-            <div class="project-overlay">
-                <div class="project-title">Квартира-студия</div>
-                <div class="project-desc">Компакт • 24 модуля</div>
+        <div class="card project-card">
+            <div class="project-img-wrap" onclick="openLightbox('site/img/projects/p4.jpg')">
+                <img src="site/img/projects/p4.jpg" class="project-img" alt="Студия">
+                <div class="zoom-icon">🔍</div>
             </div>
-        </a>
+            <div class="project-content">
+                <div>
+                    <h3 class="project-title">Квартира-студия</h3>
+                    <ul class="project-specs">
+                        <li>Площадь: 35 м²</li>
+                        <li>Система: Компакт (Бюджет)</li>
+                        <li>Мастер-кнопка, реле напряжения</li>
+                    </ul>
+                </div>
+                <div class="project-price-block">
+                    <span class="price-label">Стоимость щита</span>
+                    <span class="price-value">45 000 ₽</span>
+                </div>
+            </div>
+        </div>
 
-        <a href="site/img/projects/p5.jpg" target="_blank" class="card project-card">
-            <img src="site/img/projects/p5.jpg" class="project-img" alt="Проект 5">
-            <div class="zoom-icon">🔍</div>
-            <div class="project-overlay">
-                <div class="project-title">Коттедж Smart</div>
-                <div class="project-desc">Full Automation</div>
+        <div class="card project-card">
+            <div class="project-img-wrap" onclick="openLightbox('site/img/projects/p5.jpg')">
+                <img src="site/img/projects/p5.jpg" class="project-img" alt="Коттедж Loxone">
+                <div class="zoom-icon">🔍</div>
             </div>
-        </a>
+            <div class="project-content">
+                <div>
+                    <h3 class="project-title">Элитный коттедж</h3>
+                    <ul class="project-specs">
+                        <li>Площадь: 450 м²</li>
+                        <li>Система: Loxone (Австрия)</li>
+                        <li>Полная автоматизация, климат, шторы</li>
+                    </ul>
+                </div>
+                <div class="project-price-block">
+                    <span class="price-label">Стоимость щита</span>
+                    <span class="price-value">950 000 ₽</span>
+                </div>
+            </div>
+        </div>
 
-        <a href="site/img/projects/p6.jpg" target="_blank" class="card project-card">
-            <img src="site/img/projects/p6.jpg" class="project-img" alt="Проект 6">
-            <div class="zoom-icon">🔍</div>
-            <div class="project-overlay">
-                <div class="project-title">Проектирование</div>
-                <div class="project-desc">Чертеж щита</div>
+        <div class="card project-card">
+            <div class="project-img-wrap" onclick="openLightbox('site/img/projects/p6.jpg')">
+                <img src="site/img/projects/p6.jpg" class="project-img" alt="Проектирование">
+                <div class="zoom-icon">🔍</div>
             </div>
-        </a>
-
-        <a href="site/img/projects/p7.jpg" target="_blank" class="card project-card">
-            <img src="site/img/projects/p7.jpg" class="project-img" alt="Проект 7">
-            <div class="zoom-icon">🔍</div>
-            <div class="project-overlay">
-                <div class="project-title">Квартира-студия</div>
-                <div class="project-desc">Компакт • 24 модуля</div>
+            <div class="project-content">
+                <div>
+                    <h3 class="project-title">Проект электрики</h3>
+                    <ul class="project-specs">
+                        <li>ЖК «Сердце Столицы»</li>
+                        <li>Полный пакет чертежей</li>
+                        <li>Однолинейная схема, кабельный журнал</li>
+                    </ul>
+                </div>
+                <div class="project-price-block">
+                    <span class="price-label">Цена проекта</span>
+                    <span class="price-value">25 000 ₽</span>
+                </div>
             </div>
-        </a>
-
-        <a href="site/img/projects/p8.jpg" target="_blank" class="card project-card">
-            <img src="site/img/projects/p8.jpg" class="project-img" alt="Проект 8">
-            <div class="zoom-icon">🔍</div>
-            <div class="project-overlay">
-                <div class="project-title">Коттедж Smart</div>
-                <div class="project-desc">Full Automation</div>
-            </div>
-        </a>
-
-        <a href="site/img/projects/p9.jpg" target="_blank" class="card project-card">
-            <img src="site/img/projects/p9.jpg" class="project-img" alt="Проект 9">
-            <div class="zoom-icon">🔍</div>
-            <div class="project-overlay">
-                <div class="project-title">Проектирование</div>
-                <div class="project-desc">Чертеж щита</div>
-            </div>
-        </a>
+        </div>
 
     </div>
 
-    <div id="services-container" style="display: flex; flex-direction: column; gap: 20px;"></div>
-
+    <div id="services-container" style="display: flex; flex-direction: column; gap: 20px; margin-top: 40px;"></div>
     <div id="footer-container"></div>
 
+</div>
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" class="lightbox-img" src="" alt="Full view">
 </div>
 
 <script src="site/loader.js"></script>
 <script>
     initPage('projects');
+
+    // Скрипт лайтбокса
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    function openLightbox(src) {
+        lightboxImg.src = src;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
 </script>
 
 </body>
