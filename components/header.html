@@ -32,9 +32,37 @@
     }
 
     .header-col-text { text-align: center; flex: 1; }
-    .logo-text { font-size: 3rem; font-weight: 900; margin-bottom: 15px; letter-spacing: -1px; text-shadow: 0 0 30px rgba(255, 0, 0, 0.3); line-height: 1; }
 
-    /* Утилитарный класс, используемый в шапке */
+    .logo-text { font-size: 3rem; font-weight: 900; margin-bottom: 5px; letter-spacing: -1px; text-shadow: 0 0 30px rgba(255, 0, 0, 0.3); line-height: 1; }
+
+    /* --- БЛОК "FROM СТРОЙПЛОЩАДКА" --- */
+    .from-block {
+        display: flex;
+        align-items: center;
+        justify-content: center; /* По центру на ПК */
+        gap: 8px;
+        margin-bottom: 15px;
+        text-decoration: none;
+        transition: opacity 0.3s;
+    }
+    .from-block:hover { opacity: 0.8; }
+
+    .from-text {
+        font-size: 0.85rem;
+        color: #888;
+        font-weight: 400;
+        letter-spacing: 0.5px;
+        margin-top: 4px; /* Чуть опустил текст, чтобы визуально центрировать с лого */
+    }
+
+    /* Стили для логотипа (бывшая иконка) */
+    .sp-logo-img {
+        height: 40px; /* Увеличил размер */
+        width: auto;
+        object-fit: contain;
+        display: block;
+    }
+
     .red-text { color: var(--accent); }
 
     .desc { max-width: 650px; color: var(--text-muted); line-height: 1.4; font-size: 1.1rem; margin: 0 auto; }
@@ -45,10 +73,50 @@
         .header-content { flex-direction: column; gap: 0; padding-left: 0; justify-content: flex-start; align-items: center; height: auto; }
         .header-col-logo { flex: 0 0 auto; width: 100%; justify-content: center; margin-bottom: 0; }
         .main-logo-img { max-width: 270px; display: block; }
-        .header-col-text { width: 100%; text-align: right; margin-top: -25px; position: relative; flex: auto; }
+
+        /* Изменения для одной строки */
+        .header-col-text {
+            width: 100%;
+            margin-top: -25px;
+            position: relative;
+            flex: auto;
+
+            /* Flexbox для выстраивания в ряд */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end; /* Все прижато вправо */
+            align-items: center; /* Центрируем по вертикали */
+            gap: 10px;
+        }
+
         .logo-text { font-size: 1.3rem; margin: 0; font-weight: 800; line-height: 1; }
+
+        /* Убираем нижний отступ у блока from */
+        .from-block { margin-bottom: 0; }
+
+        .from-text {
+            font-size: 0.75rem;
+            margin-top: 2px;
+        }
+
+        /* Логотип на мобильном чуть меньше, но крупнее иконки */
+        .sp-logo-img {
+            height: 24px;
+        }
+
         .desc br { display: inline; }
-        .desc { display: block; font-size: 0.9rem; white-space: normal; text-align: right; opacity: 0.8; margin-top: 5px; line-height: 1.3; }
+
+        /* Описание переносим на новую строку */
+        .desc {
+            width: 100%;
+            display: block;
+            font-size: 0.9rem;
+            white-space: normal;
+            text-align: right;
+            opacity: 0.8;
+            margin-top: 5px;
+            line-height: 1.3;
+        }
     }
 </style>
 
@@ -61,6 +129,12 @@
         </div>
         <div class="header-col-text">
             <h1 class="logo-text">JanPro<span class="red-text">.ru</span></h1>
+
+            <a href="https://stroyploshchadka.ru" target="_blank" class="from-block">
+                <span class="from-text">from</span>
+                <img src="site/img/sp.png" alt="Стройплощадка" class="sp-logo-img">
+            </a>
+
             <p class="desc">Профессиональная сборка  электрощитов<br>для квартир и частных домов.</p>
         </div>
     </div>
