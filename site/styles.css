@@ -115,44 +115,6 @@ a.card:hover .arrow-icon {
     text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
 }
 
-/* --- 1. ШАПКА --- */
-.header-card {
-    min-height: 200px;
-    background: rgba(15, 10, 10, 0.6);
-    padding: 25px;
-}
-.header-content {
-    position: relative; z-index: 4;
-    display: flex; flex-direction: row; align-items: center;
-    justify-content: flex-start;
-    padding-left: 0;
-    gap: 40px; width: 100%;
-}
-.header-col-logo {
-    flex: 0 0 32%;
-    display: flex; justify-content: flex-end; align-items: center;
-}
-.logo-link { display: block; transition: transform 0.3s; }
-.logo-link:hover { transform: scale(1.05); }
-
-.main-logo-img {
-    max-width: 270px; height: auto; object-fit: contain;
-    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.25));
-    transition: filter 0.3s ease;
-}
-.logo-link:hover .main-logo-img {
-    filter:
-            drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))
-            drop-shadow(0 0 15px rgba(255, 100, 0, 0.6))
-            drop-shadow(0 0 30px rgba(255, 0, 0, 0.4));
-}
-
-.header-col-text { text-align: center; flex: 1; }
-.logo-text { font-size: 3rem; font-weight: 900; margin-bottom: 15px; letter-spacing: -1px; text-shadow: 0 0 30px rgba(255, 0, 0, 0.3); line-height: 1; }
-.red-text { color: var(--accent); }
-.desc { max-width: 650px; color: var(--text-muted); line-height: 1.4; font-size: 1.1rem; margin: 0 auto; }
-
-
 /* --- 2. МЕНЮ --- */
 .grid-menu { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
 .social-btn { min-height: 80px; font-weight: 700; font-size: 0.95rem; padding: 15px; }
@@ -165,10 +127,7 @@ a.card:hover .arrow-icon {
     align-items: flex-start;
     text-align: left;
     gap: 20px;
-
-    /* Вернул отступ снизу (70px), чтобы был воздух под ссылкой */
     padding: 25px 25px 70px 25px;
-
     position: relative;
 }
 
@@ -223,7 +182,6 @@ a.card:hover .arrow-icon {
 }
 
 .about-video:hover .custom-play-btn {
-    /* СТИЛЬ ПЛЕЕРА: Полупрозрачный красный фон */
     background: rgba(255, 0, 0, 0.2);
     border-color: var(--accent);
     box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
@@ -235,16 +193,14 @@ a.card:hover .arrow-icon {
     color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; position: relative; z-index: 4;
 }
 .about-description p { margin-bottom: 15px; }
-/* Убираем отступ у последнего абзаца, чтобы он не толкал ссылку вниз слишком сильно */
 .about-description p:last-child { margin-bottom: 0; }
 .about-description b { color: #fff; }
 
-/* Ссылка на команду (Внизу справа) */
+/* Ссылка на команду */
 .about-team-link {
     position: absolute;
-    bottom: 25px; /* Вернули отступ 25px для воздуха снизу */
+    bottom: 25px;
     right: 25px;
-
     display: flex;
     align-items: center;
     gap: 10px;
@@ -270,7 +226,6 @@ a.card:hover .arrow-icon {
     text-shadow: none;
 }
 
-/* Ховер эффекты ссылки */
 .about-team-link:hover .about-team-text { color: var(--accent); }
 .about-team-link:hover .arrow-icon {
     color: var(--accent);
@@ -301,10 +256,9 @@ a.card:hover .arrow-icon {
 }
 .action-img { width: 36px; height: 36px; object-fit: contain; transition: transform 0.3s; }
 
-/* Ховер карточки - КАК У ПЛЕЕРА */
 .action-card:hover .action-icon-wrap {
-    border-color: var(--accent); /* Красный контур */
-    background: rgba(255, 0, 0, 0.2); /* Полупрозрачный красный фон */
+    border-color: var(--accent);
+    background: rgba(255, 0, 0, 0.2);
     box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
     transform: scale(1.05);
 }
@@ -339,7 +293,6 @@ a.card:hover .arrow-icon {
 
 .info-card:hover { transform: translateY(-5px); }
 
-/* Ховер инфо-карточки - КАК У ПЛЕЕРА */
 .info-card:hover .info-icon-wrap {
     background: rgba(255, 0, 0, 0.2);
     border-color: var(--accent);
@@ -364,62 +317,7 @@ a.card:hover .arrow-icon {
 .info-card.horizontal-mode .arrow-icon { right: 20px; bottom: 20px; }
 
 
-/* --- FOOTER --- */
-.footer-card {
-    min-height: 80px; background: rgba(10, 5, 5, 0.9);
-    padding: 25px 35px; flex-direction: row; justify-content: space-between; align-items: center;
-}
-.footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; position: relative; z-index: 4; }
-
-.copyright-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
-.footer-mini-logo { width: 24px; height: 24px; object-fit: contain; filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.3)); }
-.copyright { font-weight: 700; color: #fff; font-size: 1rem; }
-.footer-sub { color: #888; font-size: 0.85rem; }
-
-.footer-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; position: relative; z-index: 4; }
-.footer-links-row { display: flex; gap: 25px; }
-.footer-links-row a { color: var(--text-muted); font-size: 0.9rem; transition: 0.2s; }
-.footer-links-row a:hover { color: var(--accent); }
-
-/* --- Ссылка разработчика (Двухэтажная) --- */
-.designer-link {
-    display: flex;
-    flex-direction: column; /* Элементы друг под другом */
-    align-items: center;    /* Центрируем их */
-    justify-content: center;
-    gap: 2px;
-
-    font-size: 0.75rem; color: #888;
-    text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
-    line-height: 1.1;
-    transition: all 0.3s ease;
-}
-.designer-link:hover { color: #fff; transform: translateY(-2px); }
-
-.designer-link .red-text {
-    color: var(--accent) !important; font-weight: 900; font-size: 0.85rem; letter-spacing: 1px;
-    text-transform: none;
-    text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
-    transition: all 0.3s ease;
-}
-.designer-link:hover .red-text {
-    text-shadow: 0 0 15px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.4);
-    transform: scale(1.05);
-}
-
-/* Нижняя строка "from Lugansk" */
-.city-text {
-    text-transform: none; /* Маленькие буквы */
-    font-weight: 400;     /* Тонкий шрифт */
-    font-size: 0.6rem;    /* Компактный размер */
-    color: #555;          /* Темнее основного текста */
-    letter-spacing: 0.5px;
-    transition: color 0.3s;
-}
-.designer-link:hover .city-text { color: #888; }
-
-
-/* --- MOBILE ADAPTIVE --- */
+/* --- MOBILE ADAPTIVE (Остальное, что не относится к шапке и подвалу) --- */
 @media (max-width: 900px) {
     .grid-menu { grid-template-columns: 1fr 1fr; }
     .grid-4 { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -428,9 +326,6 @@ a.card:hover .arrow-icon {
     .info-card { min-height: 140px; padding: 15px; }
     .info-card h3 { font-size: 0.95rem; }
     .info-card .arrow-icon { font-size: 0.9rem; bottom: 8px; right: 15px; }
-
-    .footer-card { flex-direction: column; gap: 25px; text-align: center; }
-    .footer-left, .footer-right, .copyright-wrap { align-items: center; justify-content: center; }
 
     .about-top { flex-direction: column; }
     .about-intro { text-align: center; }
@@ -443,13 +338,4 @@ a.card:hover .arrow-icon {
     .action-img { width: 24px; height: 24px; }
     .action-card h3 { font-size: 1.2rem; }
     .action-card p { font-size: 0.9rem; }
-
-    .header-card { min-height: auto; padding: 30px 15px; display: flex; flex-direction: column; }
-    .header-content { flex-direction: column; gap: 0; padding-left: 0; justify-content: flex-start; align-items: center; height: auto; }
-    .header-col-logo { flex: 0 0 auto; width: 100%; justify-content: center; margin-bottom: 0; }
-    .main-logo-img { max-width: 270px; display: block; }
-    .header-col-text { width: 100%; text-align: right; margin-top: -25px; position: relative; flex: auto; }
-    .logo-text { font-size: 1.3rem; margin: 0; font-weight: 800; line-height: 1; }
-    .desc br { display: inline; }
-    .desc { display: block; font-size: 0.9rem; white-space: normal; text-align: right; opacity: 0.8; margin-top: 5px; line-height: 1.3; }
 }

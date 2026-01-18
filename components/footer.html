@@ -1,3 +1,128 @@
+<style>
+    /* --- СТИЛИ ФУТЕРА --- */
+    .footer-card {
+        min-height: 80px;
+        background: rgba(10, 5, 5, 0.9);
+        padding: 25px 35px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .footer-left {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        position: relative;
+        z-index: 4;
+    }
+
+    .copyright-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 5px;
+    }
+    .footer-mini-logo {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+        filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.3));
+    }
+    .copyright {
+        font-weight: 700;
+        color: #fff;
+        font-size: 1rem;
+    }
+    .footer-sub {
+        color: #888;
+        font-size: 0.85rem;
+    }
+
+    .footer-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+        position: relative;
+        z-index: 4;
+    }
+    .footer-links-row {
+        display: flex;
+        gap: 25px;
+    }
+    .footer-links-row a {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        transition: 0.2s;
+    }
+    .footer-links-row a:hover {
+        color: var(--accent);
+    }
+
+    /* --- Ссылка разработчика (Двухэтажная) --- */
+    .designer-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+
+        font-size: 0.75rem;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 700;
+        line-height: 1.1;
+        transition: all 0.3s ease;
+    }
+    .designer-link:hover {
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    /* Используем var(--accent) из глобальных стилей или задаем локально, если нужно */
+    .designer-link .red-text {
+        color: #FF0000 !important;
+        font-weight: 900;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+        text-transform: none;
+        text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+        transition: all 0.3s ease;
+    }
+    .designer-link:hover .red-text {
+        text-shadow: 0 0 15px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.4);
+        transform: scale(1.05);
+    }
+
+    /* Нижняя строка "from Lugansk" */
+    .city-text {
+        text-transform: none;
+        font-weight: 400;
+        font-size: 0.6rem;
+        color: #555;
+        letter-spacing: 0.5px;
+        transition: color 0.3s;
+    }
+    .designer-link:hover .city-text {
+        color: #888;
+    }
+
+    /* --- АДАПТИВНОСТЬ ФУТЕРА --- */
+    @media (max-width: 900px) {
+        .footer-card {
+            flex-direction: column;
+            gap: 25px;
+            text-align: center;
+        }
+        .footer-left, .footer-right, .copyright-wrap {
+            align-items: center;
+            justify-content: center;
+        }
+    }
+</style>
+
 <footer class="card footer-card">
     <div class="footer-left">
         <div class="copyright-wrap">
