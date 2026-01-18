@@ -56,22 +56,23 @@
     .partner-group {
         display: flex;
         align-items: center;
-        gap: 6px; /* Отступ между & и логотипом */
+        gap: 6px;
     }
 
-    /* СТИЛЬ АМПЕРСАНДА (&) - СТАТИЧНЫЙ */
+    /* СТИЛЬ АМПЕРСАНДА (&) */
     .ampersand-box {
         background-color: #FFEE00;
         color: #111;
 
-        font-family: 'Impact', 'Arial Black', sans-serif;
+        /* Шрифт Arial Rounded MT */
+        font-family: 'Arial Rounded MT Bold', 'Arial Rounded MT', 'Helvetica Rounded', Arial, sans-serif;
         font-size: 1.4rem;
-        font-weight: 900;
+        font-weight: bold;
         line-height: 0.8;
 
         padding: 0 5px;
         border-radius: 2px;
-        transform: skewX(-10deg);
+        transform: skewX(-10deg); /* Наклон прямоугольника */
 
         display: flex;
         align-items: center;
@@ -79,12 +80,13 @@
 
         height: 22px;
         box-shadow: none;
-        cursor: default; /* Курсор по умолчанию (не рука) */
+        cursor: default;
     }
 
     .ampersand-symbol {
         display: block;
-        transform: skewX(0deg) translateY(-1px);
+        /* УБРАЛ СТРОКУ transform: skewX...
+           Теперь символ наследует наклон родителя, что выглядит органично. */
     }
 
     /* ССЫЛКА НА СТРОЙПЛОЩАДКУ */
@@ -104,11 +106,10 @@
 
     /* ХОВЕР ТОЛЬКО НА ЛОГОТИПЕ */
     .sp-link:hover {
-        transform: translateY(-2px) scale(1.05); /* Легкое увеличение */
+        transform: translateY(-2px) scale(1.05);
     }
 
     .sp-link:hover .sp-logo-img {
-        /* Свечение цветом #FFEE00 */
         filter: drop-shadow(0 0 10px #FFEE00);
     }
 
