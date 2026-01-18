@@ -56,40 +56,39 @@
     .from-block {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
         text-decoration: none;
-        transition: opacity 0.3s, transform 0.3s;
+        transition: transform 0.3s;
     }
-    .from-block:hover { opacity: 1; transform: translateY(-1px); }
+    .from-block:hover { transform: translateY(-1px); }
 
-    .from-text-col {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        justify-content: center;
-        line-height: 1.1;
-    }
+    /* СТИЛЬ АМПЕРСАНДА (&) - ЖЕЛТЫЙ БЛОК */
+    .ampersand-box {
+        background-color: #FFEE00;
+        color: #111;
 
-    /* ОБНОВЛЕННЫЕ СТИЛИ ДЛЯ ТЕКСТА (Желтый + Черный) */
-    .from-line-1 {
-        font-size: 0.6rem;
-        color: #FFD700; /* Яркий желтый */
+        font-family: 'Impact', 'Arial Black', sans-serif;
+        font-size: 1.4rem;  /* УМЕНЬШИЛ ШРИФТ */
         font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        /* Черная обводка/тень для контраста */
-        text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
-    }
-    .from-line-2 {
-        font-size: 0.5rem;
-        color: #111; /* Черный текст */
-        background-color: #FFD700; /* Желтый фон */
-        padding: 0 3px; /* Небольшие отступы фона */
+        line-height: 0.8;
+
+        padding: 0 5px;     /* УМЕНЬШИЛ ОТСТУПЫ (уже по ширине) */
         border-radius: 2px;
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-top: 1px;
+        transform: skewX(-10deg);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 22px;       /* УМЕНЬШИЛ ВЫСОТУ */
+        box-shadow: none;
+
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .ampersand-symbol {
+        display: block;
+        transform: skewX(0deg) translateY(-1px);
     }
 
     .sp-logo-img {
@@ -100,10 +99,14 @@
         transition: filter 0.3s ease, transform 0.3s ease;
     }
 
-    /* Эффект огня при наведении */
+    /* ХОВЕР: ЭФФЕКТ ОГНЯ ТОЛЬКО НА ЛОГОТИПЕ */
     .from-block:hover .sp-logo-img {
-        filter: drop-shadow(0 0 8px #FFD700) drop-shadow(0 -3px 12px #FF4500);
+        filter: drop-shadow(0 0 8px #FFEE00) drop-shadow(0 -3px 12px #FF4500);
         transform: scale(1.05);
+    }
+
+    .from-block:hover .ampersand-box {
+        transform: skewX(-10deg) scale(1.05);
     }
 
     .red-text { color: var(--accent); }
@@ -126,16 +129,20 @@
 
         .title-row {
             justify-content: flex-end;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
             margin-bottom: 5px;
         }
 
         .logo-text { font-size: 1.4rem; }
 
+        .ampersand-box {
+            height: 15px;       /* ЕЩЕ МЕНЬШЕ НА МОБ */
+            font-size: 0.9rem;
+            padding: 0 3px;
+        }
+
         .sp-logo-img { height: 28px; }
-        .from-line-1 { font-size: 0.5rem; }
-        .from-line-2 { font-size: 0.45rem; padding: 0 2px; }
 
         .desc br { display: inline; }
         .desc {
@@ -163,11 +170,11 @@
             <div class="title-row">
                 <h1 class="logo-text">JanPro<span class="red-text">.ru</span></h1>
 
-                <a href="https://stroyploshchadka.ru" target="_blank" class="from-block">
-                    <div class="from-text-col">
-                        <span class="from-line-1">Совместно</span>
-                        <span class="from-line-2">со</span>
+                <a href="#" target="_blank" class="from-block">
+                    <div class="ampersand-box">
+                        <span class="ampersand-symbol">&</span>
                     </div>
+
                     <img src="site/img/sp.png" alt="Стройплощадка" class="sp-logo-img">
                 </a>
             </div>
