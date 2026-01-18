@@ -33,7 +33,7 @@
 
     .header-col-text { text-align: center; flex: 1; }
 
-    /* Контейнер: Заголовок + Партнер в ряд */
+    /* Контейнер: Заголовок + Партнерская группа */
     .title-row {
         display: flex;
         flex-direction: row;
@@ -52,27 +52,24 @@
         margin: 0;
     }
 
-    /* --- БЛОК ПАРТНЕРА --- */
-    .from-block {
+    /* Обертка для & и Логотипа */
+    .partner-group {
         display: flex;
         align-items: center;
-        gap: 6px;
-        text-decoration: none;
-        transition: transform 0.3s;
+        gap: 6px; /* Отступ между & и логотипом */
     }
-    .from-block:hover { transform: translateY(-1px); }
 
-    /* СТИЛЬ АМПЕРСАНДА (&) - ЖЕЛТЫЙ БЛОК */
+    /* СТИЛЬ АМПЕРСАНДА (&) - СТАТИЧНЫЙ */
     .ampersand-box {
         background-color: #FFEE00;
         color: #111;
 
         font-family: 'Impact', 'Arial Black', sans-serif;
-        font-size: 1.4rem;  /* УМЕНЬШИЛ ШРИФТ */
+        font-size: 1.4rem;
         font-weight: 900;
         line-height: 0.8;
 
-        padding: 0 5px;     /* УМЕНЬШИЛ ОТСТУПЫ (уже по ширине) */
+        padding: 0 5px;
         border-radius: 2px;
         transform: skewX(-10deg);
 
@@ -80,10 +77,9 @@
         align-items: center;
         justify-content: center;
 
-        height: 22px;       /* УМЕНЬШИЛ ВЫСОТУ */
+        height: 22px;
         box-shadow: none;
-
-        transition: transform 0.3s ease, background-color 0.3s ease;
+        cursor: default; /* Курсор по умолчанию (не рука) */
     }
 
     .ampersand-symbol {
@@ -91,22 +87,29 @@
         transform: skewX(0deg) translateY(-1px);
     }
 
+    /* ССЫЛКА НА СТРОЙПЛОЩАДКУ */
+    .sp-link {
+        display: block;
+        text-decoration: none;
+        transition: transform 0.3s ease;
+    }
+
     .sp-logo-img {
         height: 38px;
         width: auto;
         object-fit: contain;
         display: block;
-        transition: filter 0.3s ease, transform 0.3s ease;
+        transition: filter 0.3s ease;
     }
 
-    /* ХОВЕР: ЭФФЕКТ ОГНЯ ТОЛЬКО НА ЛОГОТИПЕ */
-    .from-block:hover .sp-logo-img {
-        filter: drop-shadow(0 0 8px #FFEE00) drop-shadow(0 -3px 12px #FF4500);
-        transform: scale(1.05);
+    /* ХОВЕР ТОЛЬКО НА ЛОГОТИПЕ */
+    .sp-link:hover {
+        transform: translateY(-2px) scale(1.05); /* Легкое увеличение */
     }
 
-    .from-block:hover .ampersand-box {
-        transform: skewX(-10deg) scale(1.05);
+    .sp-link:hover .sp-logo-img {
+        /* Свечение цветом #FFEE00 */
+        filter: drop-shadow(0 0 10px #FFEE00);
     }
 
     .red-text { color: var(--accent); }
@@ -137,7 +140,7 @@
         .logo-text { font-size: 1.4rem; }
 
         .ampersand-box {
-            height: 15px;       /* ЕЩЕ МЕНЬШЕ НА МОБ */
+            height: 15px;
             font-size: 0.9rem;
             padding: 0 3px;
         }
@@ -170,13 +173,15 @@
             <div class="title-row">
                 <h1 class="logo-text">JanPro<span class="red-text">.ru</span></h1>
 
-                <a href="#" target="_blank" class="from-block">
+                <div class="partner-group">
                     <div class="ampersand-box">
                         <span class="ampersand-symbol">&</span>
                     </div>
 
-                    <img src="site/img/sp.png" alt="Стройплощадка" class="sp-logo-img">
-                </a>
+                    <a href="https://stroyploshchadka.ru" target="_blank" class="sp-link">
+                        <img src="site/img/sp.png" alt="Стройплощадка" class="sp-logo-img">
+                    </a>
+                </div>
             </div>
 
             <p class="desc">Профессиональная сборка  электрощитов<br>для квартир и частных домов.</p>
