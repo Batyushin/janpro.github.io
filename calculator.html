@@ -37,7 +37,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .calc-section:last-child { border-bottom: none; }
-        .calc-section.hidden { display: none; } /* Класс для скрытия блоков */
+        .calc-section.hidden { display: none; }
 
         .section-header { display: flex; align-items: center; gap: 15px; min-width: 200px; }
         .section-number {
@@ -53,15 +53,12 @@
             .calc-section { flex-direction: row; align-items: flex-start; }
             .section-header { padding-top: 10px; min-width: 250px; }
             .options-grid { grid-template-columns: repeat(3, 1fr); }
-            /* Для маленьких опций (да/нет) */
             .options-grid.small-grid { grid-template-columns: repeat(4, 1fr); }
         }
 
-        /* --- КАРТОЧКИ ВЫБОРА --- */
+        /* --- КАРТОЧКИ --- */
         .option-label { cursor: pointer; position: relative; display: block; width: 100%; }
-        /* Класс для скрытия опций классики */
         .option-label.hidden { display: none; }
-
         .option-input { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
 
         .option-card {
@@ -82,7 +79,6 @@
             content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
             width: 10px; height: 10px; background: #fff; border-radius: 50%; transition: transform 0.2s;
         }
-        /* Checkbox style */
         .checkbox-mode .option-marker { border-radius: 4px; }
         .checkbox-mode .option-marker::after { border-radius: 2px; }
 
@@ -93,17 +89,16 @@
         .option-input:checked + .option-card .option-marker { border-color: var(--accent); background: var(--accent); }
         .option-input:checked + .option-card .option-marker::after { transform: translate(-50%, -50%) scale(1); }
 
-        /* Disabled state */
         .option-input:disabled + .option-card { opacity: 0.4; cursor: not-allowed; filter: grayscale(1); }
 
         .option-content { display: flex; flex-direction: column; }
         .option-text { color: #fff; font-weight: 700; font-size: 0.95rem; line-height: 1.2; }
         .option-sub { font-size: 0.8rem; color: #888; margin-top: 4px; }
 
-        /* --- СТИЛИ ДЛЯ SELECT (ВЫПАДАЮЩИЙ СПИСОК) --- */
-        .styled-select-wrapper {
-            position: relative; width: 100%; display: block;
-        }
+        /* --- SELECT --- */
+        .styled-select-wrapper { position: relative; width: 100%; display: block; }
+        .styled-select-wrapper.disabled { opacity: 0.4; pointer-events: none; filter: grayscale(1); } /* Стиль для выключенного селекта */
+
         .styled-select {
             width: 100%;
             background: rgba(255, 255, 255, 0.05);
@@ -117,14 +112,9 @@
         .styled-select:focus { outline: none; border-color: var(--accent); background: rgba(0,0,0,0.3); }
         .styled-select option { background: #1a1a1a; color: #fff; padding: 10px; }
 
-        /* Стрелочка */
         .styled-select-wrapper::after {
-            content: '▼';
-            position: absolute;
-            right: 15px;
-            top: 0; bottom: 0; margin: auto;
-            height: 1em; line-height: 1;
-            color: var(--accent); font-size: 0.8rem; pointer-events: none;
+            content: '▼'; position: absolute; right: 15px; top: 0; bottom: 0; margin: auto;
+            height: 1em; line-height: 1; color: var(--accent); font-size: 0.8rem; pointer-events: none;
         }
 
         /* --- ИТОГ --- */
@@ -231,60 +221,6 @@
                     <label class="option-label">
                         <input type="radio" name="system_type" value="loxone" class="option-input">
                         <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Loxone</span><span class="option-sub">Luxury (Австрия)</span></div></div>
-                    </label>
-                </div>
-            </div>
-
-            <div class="calc-section hidden" id="smartOptionsSection">
-                <div class="section-header"><div class="section-number">3+</div><div class="section-title">Параметры Умного дома</div></div>
-                <div class="options-grid">
-                    <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Группы света (реле)</label>
-                        <select name="sh_light" class="styled-select">
-                            <option value="0">0 групп</option>
-                            <option value="5">до 5 групп</option>
-                            <option value="10">5 - 10 групп</option>
-                            <option value="20">10 - 20 групп</option>
-                            <option value="30">20 - 30 групп</option>
-                            <option value="40">30+ групп</option>
-                        </select>
-                    </div>
-                    <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Отключаемые розетки</label>
-                        <select name="sh_socket" class="styled-select">
-                            <option value="0">Нет</option>
-                            <option value="1">1 группа (Всё сразу)</option>
-                            <option value="3">2-3 группы</option>
-                            <option value="5">до 5 групп</option>
-                            <option value="10">более 5 групп</option>
-                        </select>
-                    </div>
-                    <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Электрокарнизы</label>
-                        <select name="sh_curtain" class="styled-select">
-                            <option value="0">Нет</option>
-                            <option value="1">1 шт</option>
-                            <option value="2">2 шт</option>
-                            <option value="4">3-4 шт</option>
-                            <option value="6">5-6 шт</option>
-                            <option value="8">более 6 шт</option>
-                        </select>
-                    </div>
-                    <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Теплый пол (контуров)</label>
-                        <select name="sh_floor" class="styled-select">
-                            <option value="0">Нет</option>
-                            <option value="1">1 зона</option>
-                            <option value="2">2 зоны</option>
-                            <option value="3">3 зоны</option>
-                            <option value="4">4 зоны</option>
-                            <option value="5">5+ зон</option>
-                        </select>
-                    </div>
-
-                    <label class="option-label checkbox-mode" style="margin-top: auto;">
-                        <input type="checkbox" name="sh_leak" value="yes" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Защита от протечек</span><span class="option-sub">Краны + Датчики</span></div></div>
                     </label>
                 </div>
             </div>
@@ -414,6 +350,11 @@
                         <input type="checkbox" name="h_garage" value="yes" class="option-input">
                         <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Гараж / Баня</span><span class="option-sub">Отд. строения</span></div></div>
                     </label>
+
+                    <label class="option-label classic-only">
+                        <input type="checkbox" name="h_floor_classic" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Теплый пол</span><span class="option-sub">Питание</span></div></div>
+                    </label>
                 </div>
             </div>
 
@@ -422,20 +363,117 @@
                 <div class="options-grid">
                     <div class="styled-select-wrapper">
                         <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Расположение блоков питания</label>
-                        <select name="led_type" class="styled-select">
+                        <select name="led_type" id="ledType" class="styled-select">
                             <option value="none">Нет подсветок</option>
                             <option value="inside">Внутри этого щита</option>
                             <option value="separate">В отдельном щите</option>
                             <option value="local">Локально (у лент)</option>
                         </select>
                     </div>
-                    <div class="styled-select-wrapper">
+                    <div class="styled-select-wrapper" id="ledCountWrapper">
+                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Кол-во контуров (лент)</label>
+                        <select name="led_count" class="styled-select">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10+</option>
+                        </select>
+                    </div>
+                    <div class="styled-select-wrapper" id="ledDimWrapper">
                         <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Диммирование (яркость)</label>
                         <select name="led_dim" class="styled-select">
                             <option value="no">Нет (вкл/выкл)</option>
                             <option value="yes">Да (нужно диммирование)</option>
                         </select>
                     </div>
+                </div>
+            </div>
+
+            <div class="calc-section">
+                <div class="section-header"><div class="section-number">10</div><div class="section-title">Кондиционеры</div></div>
+                <div class="options-grid">
+                    <div class="styled-select-wrapper">
+                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Кол-во сплит-систем</label>
+                        <select name="ac_count" class="styled-select">
+                            <option value="0">Нет</option>
+                            <option value="1">1 шт</option>
+                            <option value="2">2 шт</option>
+                            <option value="3">3 шт</option>
+                            <option value="4">4 шт</option>
+                            <option value="5">5+ шт</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calc-section hidden" id="smartOptionsSection">
+                <div class="section-header"><div class="section-number">11</div><div class="section-title">Параметры Умного дома</div></div>
+                <div class="options-grid">
+                    <div class="styled-select-wrapper">
+                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Группы света (реле)</label>
+                        <select name="sh_light" class="styled-select">
+                            <option value="0">0 групп</option>
+                            <option value="5">до 5 групп</option>
+                            <option value="10">5 - 10 групп</option>
+                            <option value="20">10 - 20 групп</option>
+                            <option value="30">20 - 30 групп</option>
+                            <option value="40">30+ групп</option>
+                        </select>
+                    </div>
+                    <div class="styled-select-wrapper">
+                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Отключаемые розетки</label>
+                        <select name="sh_socket" class="styled-select">
+                            <option value="0">Нет</option>
+                            <option value="1">1 группа (Всё сразу)</option>
+                            <option value="3">2-3 группы</option>
+                            <option value="5">до 5 групп</option>
+                            <option value="10">более 5 групп</option>
+                        </select>
+                    </div>
+                    <div class="styled-select-wrapper">
+                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Электрокарнизы</label>
+                        <select name="sh_curtain" class="styled-select">
+                            <option value="0">Нет</option>
+                            <option value="1">1 шт</option>
+                            <option value="2">2 шт</option>
+                            <option value="4">3-4 шт</option>
+                            <option value="6">5-6 шт</option>
+                            <option value="8">более 6 шт</option>
+                        </select>
+                    </div>
+
+                    <div class="styled-select-wrapper">
+                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Теплый пол (контуров)</label>
+                        <select name="sh_floor" class="styled-select">
+                            <option value="0">Нет</option>
+                            <option value="1">1 зона</option>
+                            <option value="2">2 зоны</option>
+                            <option value="3">3 зоны</option>
+                            <option value="4">4 зоны</option>
+                            <option value="5">5+ зон</option>
+                        </select>
+                    </div>
+
+                    <label class="option-label checkbox-mode">
+                        <input type="checkbox" name="sh_leak" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Защита от протечек</span><span class="option-sub">Краны + Датчики</span></div></div>
+                    </label>
+
+                    <label class="option-label checkbox-mode">
+                        <input type="checkbox" name="sh_master_full" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Мастер-кнопка</span><span class="option-sub">Программно</span></div></div>
+                    </label>
+                    <label class="option-label checkbox-mode">
+                        <input type="checkbox" name="sh_master_local" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Локальный мастер</span><span class="option-sub">На комнату</span></div></div>
+                    </label>
                 </div>
             </div>
 
@@ -498,7 +536,25 @@
             });
         }
 
-        // 3. УПРАВЛЕНИЕ РЕЛЕ ПРИОРИТЕТА (Только 3 фазы)
+        // 3. УПРАВЛЕНИЕ LED (Активность полей)
+        const ledType = document.getElementById('ledType').value;
+        const ledCountWrapper = document.getElementById('ledCountWrapper');
+        const ledDimWrapper = document.getElementById('ledDimWrapper');
+
+        if (ledType === 'none') {
+            // Отключаем и делаем серыми
+            ledCountWrapper.classList.add('disabled');
+            ledDimWrapper.classList.add('disabled');
+            // Сбрасываем значения (визуально и логически для расчета)
+            form.querySelector('select[name="led_count"]').value = "0";
+            form.querySelector('select[name="led_dim"]').value = "no";
+        } else {
+            ledCountWrapper.classList.remove('disabled');
+            ledDimWrapper.classList.remove('disabled');
+        }
+
+
+        // 4. УПРАВЛЕНИЕ РЕЛЕ ПРИОРИТЕТА (Только 3 фазы)
         const voltage = form.querySelector('input[name="voltage"]:checked').value;
         const priorityBlock = document.getElementById('priorityRelayBlock');
         const priorityInput = priorityBlock.querySelector('input');
@@ -563,6 +619,7 @@
             const shCurtain = parseInt(form.querySelector('select[name="sh_curtain"]').value) || 0;
             const shFloor = parseInt(form.querySelector('select[name="sh_floor"]').value) || 0;
             const shLeak = form.querySelector('input[name="sh_leak"]:checked') ? 1 : 0;
+            // Мастер кнопки программные = 0 руб
 
             total += (shLight * pricePerLight);
             total += (shSocket * pricePerSocket);
@@ -603,13 +660,22 @@
         if(form.querySelector('input[name="h_street"]:checked')) total += 3000;
         if(form.querySelector('input[name="h_sauna"]:checked')) total += 6000;
         if(form.querySelector('input[name="h_garage"]:checked')) total += 10000;
+        if(form.querySelector('input[name="h_floor_classic"]:checked') && sysType === 'classic') total += 4000;
 
         // LED
         const led = form.querySelector('select[name="led_type"]').value;
+        // Если led == none, то значения сброшены выше, и тут будет 0
+        const ledCount = parseInt(form.querySelector('select[name="led_count"]').value) || 0;
         const dim = form.querySelector('select[name="led_dim"]').value;
-        if (led === 'inside') total += 15000;
-        if (led === 'separate') total += 25000;
-        if (dim === 'yes') total += 10000;
+
+        if (led === 'inside') total += 15000 + (ledCount * 2500);
+        if (led === 'separate') total += 25000 + (ledCount * 2500);
+        if (led === 'local') total += (ledCount * 1000);
+        if (dim === 'yes' && led !== 'none') total += 10000 + (ledCount * 2000);
+
+        // Кондиционеры
+        const acCount = parseInt(form.querySelector('select[name="ac_count"]').value) || 0;
+        total += acCount * 3000; // Автомат + линия
 
         // Применяем бюджетный множитель к итоговой сумме
         total = Math.round(total * multiplier);
@@ -632,11 +698,9 @@
         };
 
         const getChecks = (containerSel) => {
-            // Берем только видимые чекбоксы, чтобы не добавлять скрытые опции классики в умный дом
+            // Берем только видимые чекбоксы
             const els = document.querySelectorAll(containerSel + ' input:checked');
-            // Фильтруем скрытые родительские лейблы
             const visibleEls = Array.from(els).filter(el => !el.closest('.option-label').classList.contains('hidden'));
-
             if (visibleEls.length === 0) return 'Нет';
             return visibleEls.map(el => el.closest('.option-label').querySelector('.option-text').innerText).join(', ');
         };
@@ -649,13 +713,23 @@
 
         if(sysType !== 'classic') {
             msg += `🧠 Умный дом: Свет: ${getVal('select[name="sh_light"]')}, Розетки: ${getVal('select[name="sh_socket"]')}, Шторы: ${getVal('select[name="sh_curtain"]')}, Теплый пол: ${getVal('select[name="sh_floor"]')}, Протечки: ${form.querySelector('input[name="sh_leak"]:checked') ? 'Да' : 'Нет'}\n`;
+            if (form.querySelector('input[name="sh_master_full"]:checked')) msg += `🔘 Мастер-кнопка: Да\n`;
+            if (form.querySelector('input[name="sh_master_local"]:checked')) msg += `🔘 Локальные мастер-кнопки: Да\n`;
         }
 
         msg += `⚡ Ввод: ${getVal('input[name="voltage"]')} \n`;
         msg += `🏠 Объект: ${getVal('input[name="obj_type"]')} (${getVal('select[name="area"]')})\n`;
         msg += `🚪 Комнат: ${getVal('select[name="rooms_count"]')}, СУ: ${getVal('select[name="wc_count"]')}\n`;
         msg += `⚙️ Опции: ${getChecks('.calc-section:not(.hidden)')}\n`;
-        msg += `💡 LED: ${getVal('select[name="led_type"]')} (Димм: ${getVal('select[name="led_dim"]')})\n`;
+
+        const ledVal = getVal('select[name="led_type"]');
+        if (ledVal !== 'Нет подсветок') {
+            msg += `💡 LED: ${ledVal} (${getVal('select[name="led_count"]')}), Димм: ${getVal('select[name="led_dim"]')}\n`;
+        } else {
+            msg += `💡 LED: Нет\n`;
+        }
+
+        msg += `❄️ Кондиционеры: ${getVal('select[name="ac_count"]')}\n`;
         msg += `\n💵 Предварительный расчет: ${new Intl.NumberFormat('ru-RU').format(price)} ₽`;
 
         const encoded = encodeURIComponent(msg);
