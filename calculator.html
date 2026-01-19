@@ -54,6 +54,8 @@
             .section-header { padding-top: 10px; min-width: 250px; }
             .options-grid { grid-template-columns: repeat(3, 1fr); }
             .options-grid.small-grid { grid-template-columns: repeat(4, 1fr); }
+            /* Спец стиль для 2 колонок */
+            .options-grid.two-cols { grid-template-columns: repeat(2, 1fr); }
         }
 
         /* --- КАРТОЧКИ --- */
@@ -97,7 +99,7 @@
 
         /* --- SELECT --- */
         .styled-select-wrapper { position: relative; width: 100%; display: block; }
-        .styled-select-wrapper.disabled { opacity: 0.4; pointer-events: none; filter: grayscale(1); } /* Стиль для выключенного селекта */
+        .styled-select-wrapper.disabled { opacity: 0.3; pointer-events: none; }
 
         .styled-select {
             width: 100%;
@@ -155,14 +157,20 @@
         <div class="calc-header">
             <div class="calc-title-row">
                 <svg class="calc-title-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="5" y="2" width="14" height="20" rx="2" stroke="#fff" stroke-width="2"/>
-                    <rect x="8" y="5" width="8" height="3" rx="0.5" stroke="#fff" stroke-width="2"/>
-                    <path d="M8 12H10" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M14 12H16" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M8 15H10" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M14 15H16" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M8 18H10" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M14 18H16" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                    <defs>
+                        <linearGradient id="appleSilverGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#FFFFFF" />
+                            <stop offset="100%" style="stop-color:#C0C8D8" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="4" y="2" width="16" height="20" rx="4" fill="url(#appleSilverGrad1)"/>
+                    <rect x="7" y="6" width="10" height="3" rx="1.5" fill="#080808" opacity="0.3"/>
+                    <circle cx="8.5" cy="13.5" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="12" cy="13.5" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="15.5" cy="13.5" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="8.5" cy="17" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="12" cy="17" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="15.5" cy="17" r="1.5" fill="#080808" opacity="0.4"/>
                 </svg>
                 <h2 class="calc-title">Онлайн-калькулятор</h2>
             </div>
@@ -241,64 +249,60 @@
 
             <div class="calc-section">
                 <div class="section-header"><div class="section-number">5</div><div class="section-title">Объект</div></div>
-                <div class="options-grid">
-                    <label class="option-label">
-                        <input type="radio" name="obj_type" value="apartment" class="option-input" checked>
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Квартира</span></div></div>
-                    </label>
-                    <label class="option-label">
-                        <input type="radio" name="obj_type" value="house" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Частный дом</span></div></div>
-                    </label>
-
-                    <div class="styled-select-wrapper">
-                        <select name="area" class="styled-select">
-                            <option value="50">До 50 м²</option>
-                            <option value="100" selected>50 - 100 м²</option>
-                            <option value="160">100 - 160 м²</option>
-                            <option value="250">160 - 250 м²</option>
-                            <option value="500">250 - 500 м²</option>
-                            <option value="1000">500 - 1000 м²</option>
-                            <option value="max">Более 1000 м²</option>
-                        </select>
+                <div style="width: 100%; display: flex; flex-direction: column; gap: 12px;">
+                    <div class="options-grid two-cols">
+                        <label class="option-label">
+                            <input type="radio" name="obj_type" value="apartment" class="option-input" checked>
+                            <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Квартира</span></div></div>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="obj_type" value="house" class="option-input">
+                            <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Частный дом</span></div></div>
+                        </label>
                     </div>
-                </div>
-            </div>
 
-            <div class="calc-section">
-                <div class="section-header"><div class="section-number">6</div><div class="section-title">Помещения</div></div>
-                <div class="options-grid">
-                    <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Кол-во комнат</label>
-                        <select name="rooms_count" class="styled-select">
-                            <option value="1">1 комната</option>
-                            <option value="2">2 комнаты</option>
-                            <option value="3" selected>3 комнаты</option>
-                            <option value="4">4 комнаты</option>
-                            <option value="5">5 комнат</option>
-                            <option value="6">6 комнат</option>
-                            <option value="7">7 комнат</option>
-                            <option value="8">8 комнат</option>
-                            <option value="9">9 комнат</option>
-                            <option value="10">10 комнат</option>
-                            <option value="11">10+ комнат</option>
-                        </select>
-                    </div>
-                    <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Кол-во санузлов</label>
-                        <select name="wc_count" class="styled-select">
-                            <option value="1" selected>1 санузел</option>
-                            <option value="2">2 санузла</option>
-                            <option value="3">3 санузла</option>
-                            <option value="4">4 санузла</option>
-                            <option value="5">5+ санузлов</option>
-                        </select>
+                    <div class="options-grid">
+                        <div class="styled-select-wrapper">
+                            <select name="area" class="styled-select">
+                                <option value="50">До 50 м²</option>
+                                <option value="100" selected>50 - 100 м²</option>
+                                <option value="160">100 - 160 м²</option>
+                                <option value="250">160 - 250 м²</option>
+                                <option value="500">250 - 500 м²</option>
+                                <option value="1000">500 - 1000 м²</option>
+                                <option value="max">Более 1000 м²</option>
+                            </select>
+                        </div>
+                        <div class="styled-select-wrapper">
+                            <select name="rooms_count" class="styled-select">
+                                <option value="1">1 комната</option>
+                                <option value="2">2 комнаты</option>
+                                <option value="3" selected>3 комнаты</option>
+                                <option value="4">4 комнаты</option>
+                                <option value="5">5 комнат</option>
+                                <option value="6">6 комнат</option>
+                                <option value="7">7 комнат</option>
+                                <option value="8">8 комнат</option>
+                                <option value="9">9 комнат</option>
+                                <option value="10">10 комнат</option>
+                                <option value="11">10+ комнат</option>
+                            </select>
+                        </div>
+                        <div class="styled-select-wrapper">
+                            <select name="wc_count" class="styled-select">
+                                <option value="1" selected>1 санузел</option>
+                                <option value="2">2 санузла</option>
+                                <option value="3">3 санузла</option>
+                                <option value="4">4 санузла</option>
+                                <option value="5">5+ санузлов</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="calc-section checkbox-mode">
-                <div class="section-header"><div class="section-number">7</div><div class="section-title">Опции щита</div></div>
+                <div class="section-header"><div class="section-number">6</div><div class="section-title">Опции щита</div></div>
                 <div class="options-grid">
                     <label class="option-label">
                         <input type="checkbox" name="opt_vacation" value="yes" class="option-input">
@@ -328,7 +332,7 @@
             </div>
 
             <div class="calc-section checkbox-mode hidden" id="houseOptionsSection">
-                <div class="section-header"><div class="section-number">8</div><div class="section-title">Опции дома</div></div>
+                <div class="section-header"><div class="section-number">7</div><div class="section-title">Опции дома</div></div>
                 <div class="options-grid">
                     <label class="option-label">
                         <input type="checkbox" name="h_gen" value="yes" class="option-input">
@@ -359,7 +363,7 @@
             </div>
 
             <div class="calc-section">
-                <div class="section-header"><div class="section-number">9</div><div class="section-title">LED Подсветка</div></div>
+                <div class="section-header"><div class="section-number">8</div><div class="section-title">LED Подсветка</div></div>
                 <div class="options-grid">
                     <div class="styled-select-wrapper">
                         <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Расположение блоков питания</label>
@@ -373,7 +377,6 @@
                     <div class="styled-select-wrapper" id="ledCountWrapper">
                         <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Кол-во контуров (лент)</label>
                         <select name="led_count" class="styled-select">
-                            <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -396,11 +399,34 @@
                 </div>
             </div>
 
-            <div class="calc-section">
-                <div class="section-header"><div class="section-number">10</div><div class="section-title">Кондиционеры</div></div>
+            <div class="calc-section" id="climateSection">
+                <div class="section-header"><div class="section-number">9</div><div class="section-title">Климат</div></div>
                 <div class="options-grid">
                     <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Кол-во сплит-систем</label>
+                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Теплый пол (контуров)</label>
+                        <select name="sh_floor" class="styled-select">
+                            <option value="0">Нет</option>
+                            <option value="1">1 зона</option>
+                            <option value="2">2 зоны</option>
+                            <option value="3">3 зоны</option>
+                            <option value="4">4 зоны</option>
+                            <option value="5">5+ зон</option>
+                        </select>
+                    </div>
+                    <div class="styled-select-wrapper">
+                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Радиаторы (шт)</label>
+                        <select name="sh_radiator" class="styled-select">
+                            <option value="0">Нет</option>
+                            <option value="1">1 шт</option>
+                            <option value="2">2 шт</option>
+                            <option value="3">3 шт</option>
+                            <option value="4">4 шт</option>
+                            <option value="5">5 шт</option>
+                            <option value="6">6+ шт</option>
+                        </select>
+                    </div>
+                    <div class="styled-select-wrapper">
+                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Кондиционеры (шт)</label>
                         <select name="ac_count" class="styled-select">
                             <option value="0">Нет</option>
                             <option value="1">1 шт</option>
@@ -414,10 +440,10 @@
             </div>
 
             <div class="calc-section hidden" id="smartOptionsSection">
-                <div class="section-header"><div class="section-number">11</div><div class="section-title">Параметры Умного дома</div></div>
+                <div class="section-header"><div class="section-number">10</div><div class="section-title">Параметры Умного дома</div></div>
                 <div class="options-grid">
                     <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Группы света (реле)</label>
+                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Релейный свет (групп)</label>
                         <select name="sh_light" class="styled-select">
                             <option value="0">0 групп</option>
                             <option value="5">до 5 групп</option>
@@ -427,6 +453,19 @@
                             <option value="40">30+ групп</option>
                         </select>
                     </div>
+
+                    <div class="styled-select-wrapper">
+                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Диммируемый свет</label>
+                        <select name="sh_light_dim" class="styled-select">
+                            <option value="0">Нет</option>
+                            <option value="1">1 группа</option>
+                            <option value="2">2 группы</option>
+                            <option value="3">3 группы</option>
+                            <option value="4">4 группы</option>
+                            <option value="5">5+ групп</option>
+                        </select>
+                    </div>
+
                     <div class="styled-select-wrapper">
                         <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Отключаемые розетки</label>
                         <select name="sh_socket" class="styled-select">
@@ -446,18 +485,6 @@
                             <option value="4">3-4 шт</option>
                             <option value="6">5-6 шт</option>
                             <option value="8">более 6 шт</option>
-                        </select>
-                    </div>
-
-                    <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Теплый пол (контуров)</label>
-                        <select name="sh_floor" class="styled-select">
-                            <option value="0">Нет</option>
-                            <option value="1">1 зона</option>
-                            <option value="2">2 зоны</option>
-                            <option value="3">3 зоны</option>
-                            <option value="4">4 зоны</option>
-                            <option value="5">5+ зон</option>
                         </select>
                     </div>
 
@@ -542,12 +569,9 @@
         const ledDimWrapper = document.getElementById('ledDimWrapper');
 
         if (ledType === 'none') {
-            // Отключаем и делаем серыми
+            // Отключаем
             ledCountWrapper.classList.add('disabled');
             ledDimWrapper.classList.add('disabled');
-            // Сбрасываем значения (визуально и логически для расчета)
-            form.querySelector('select[name="led_count"]').value = "0";
-            form.querySelector('select[name="led_dim"]').value = "no";
         } else {
             ledCountWrapper.classList.remove('disabled');
             ledDimWrapper.classList.remove('disabled');
@@ -580,51 +604,72 @@
         // Система (базовая цена сборки + оборудование)
         let sysPrice = 20000; // Классика
 
-        // Цены за точку умного дома в зависимости от системы
+        // Цены за точку (Базовые для Классики)
         let pricePerLight = 0;
+        let pricePerDimLight = 0;
         let pricePerSocket = 0;
         let pricePerCurtain = 0;
-        let pricePerFloor = 0; // Цена за контур теплого пола
+        let pricePerFloor = 3000;     // Автомат + линия (Классика)
+        let pricePerRadiator = 3000;  // Автомат + линия (Классика)
+        let pricePerAC = 3000;        // Автомат + линия (Классика)
         let priceLeak = 0;
 
+        // Переопределение цен для Умного дома
         if (sysType === 'zigbee') {
             sysPrice = 40000;
             pricePerLight = 2000;
+            pricePerDimLight = 3500;
             pricePerSocket = 2500;
             pricePerCurtain = 4000;
-            pricePerFloor = 3000;
+            pricePerFloor = 3000;     // Реле/Термостат
+            pricePerRadiator = 3000;  // Термоголовка/Реле
+            pricePerAC = 4000;        // ИК шлюз
             priceLeak = 15000;
         } else if (sysType === 'wirenboard') {
             sysPrice = 120000;
             pricePerLight = 6000;
+            pricePerDimLight = 9000;
             pricePerSocket = 6000;
             pricePerCurtain = 8000;
             pricePerFloor = 6000;
+            pricePerRadiator = 6000;
+            pricePerAC = 8000;        // Modbus/ИК
             priceLeak = 30000;
         } else if (sysType === 'loxone') {
             sysPrice = 250000;
             pricePerLight = 12000;
+            pricePerDimLight = 18000;
             pricePerSocket = 12000;
             pricePerCurtain = 15000;
             pricePerFloor = 15000;
+            pricePerRadiator = 15000;
+            pricePerAC = 20000;
             priceLeak = 50000;
         }
 
         total += sysPrice;
 
-        // Расчет опций Умного дома (если не классика)
+        // Считываем значения климата (Они теперь общие)
+        const shFloor = parseInt(form.querySelector('select[name="sh_floor"]').value) || 0;
+        const shRadiator = parseInt(form.querySelector('select[name="sh_radiator"]').value) || 0;
+        const acCount = parseInt(form.querySelector('select[name="ac_count"]').value) || 0;
+
+        total += (shFloor * pricePerFloor);
+        total += (shRadiator * pricePerRadiator);
+        total += (acCount * pricePerAC);
+
+        // Расчет опций Умного дома (только если не классика)
         if (sysType !== 'classic') {
             const shLight = parseInt(form.querySelector('select[name="sh_light"]').value) || 0;
+            const shLightDim = parseInt(form.querySelector('select[name="sh_light_dim"]').value) || 0;
             const shSocket = parseInt(form.querySelector('select[name="sh_socket"]').value) || 0;
             const shCurtain = parseInt(form.querySelector('select[name="sh_curtain"]').value) || 0;
-            const shFloor = parseInt(form.querySelector('select[name="sh_floor"]').value) || 0;
             const shLeak = form.querySelector('input[name="sh_leak"]:checked') ? 1 : 0;
-            // Мастер кнопки программные = 0 руб
 
             total += (shLight * pricePerLight);
+            total += (shLightDim * pricePerDimLight);
             total += (shSocket * pricePerSocket);
             total += (shCurtain * pricePerCurtain);
-            total += (shFloor * pricePerFloor);
             total += (shLeak * priceLeak);
         }
 
@@ -664,18 +709,15 @@
 
         // LED
         const led = form.querySelector('select[name="led_type"]').value;
-        // Если led == none, то значения сброшены выше, и тут будет 0
         const ledCount = parseInt(form.querySelector('select[name="led_count"]').value) || 0;
         const dim = form.querySelector('select[name="led_dim"]').value;
 
-        if (led === 'inside') total += 15000 + (ledCount * 2500);
-        if (led === 'separate') total += 25000 + (ledCount * 2500);
-        if (led === 'local') total += (ledCount * 1000);
-        if (dim === 'yes' && led !== 'none') total += 10000 + (ledCount * 2000);
-
-        // Кондиционеры
-        const acCount = parseInt(form.querySelector('select[name="ac_count"]').value) || 0;
-        total += acCount * 3000; // Автомат + линия
+        if (led !== 'none') {
+            if (led === 'inside') total += 15000 + (ledCount * 2500);
+            if (led === 'separate') total += 25000 + (ledCount * 2500);
+            if (led === 'local') total += (ledCount * 1000);
+            if (dim === 'yes') total += 10000 + (ledCount * 2000);
+        }
 
         // Применяем бюджетный множитель к итоговой сумме
         total = Math.round(total * multiplier);
@@ -712,7 +754,7 @@
         msg += `📦 Тип щита: ${getVal('input[name="case_type"]')} / ${getVal('input[name="system_type"]')}\n`;
 
         if(sysType !== 'classic') {
-            msg += `🧠 Умный дом: Свет: ${getVal('select[name="sh_light"]')}, Розетки: ${getVal('select[name="sh_socket"]')}, Шторы: ${getVal('select[name="sh_curtain"]')}, Теплый пол: ${getVal('select[name="sh_floor"]')}, Протечки: ${form.querySelector('input[name="sh_leak"]:checked') ? 'Да' : 'Нет'}\n`;
+            msg += `🧠 Умный дом: Свет: ${getVal('select[name="sh_light"]')}, Димм: ${getVal('select[name="sh_light_dim"]')}, Розетки: ${getVal('select[name="sh_socket"]')}, Шторы: ${getVal('select[name="sh_curtain"]')}, Протечки: ${form.querySelector('input[name="sh_leak"]:checked') ? 'Да' : 'Нет'}\n`;
             if (form.querySelector('input[name="sh_master_full"]:checked')) msg += `🔘 Мастер-кнопка: Да\n`;
             if (form.querySelector('input[name="sh_master_local"]:checked')) msg += `🔘 Локальные мастер-кнопки: Да\n`;
         }
@@ -729,7 +771,7 @@
             msg += `💡 LED: Нет\n`;
         }
 
-        msg += `❄️ Кондиционеры: ${getVal('select[name="ac_count"]')}\n`;
+        msg += `🌡 Климат: ТП: ${getVal('select[name="sh_floor"]')}, Радиаторы: ${getVal('select[name="sh_radiator"]')}, Конд: ${getVal('select[name="ac_count"]')}\n`;
         msg += `\n💵 Предварительный расчет: ${new Intl.NumberFormat('ru-RU').format(price)} ₽`;
 
         const encoded = encodeURIComponent(msg);
