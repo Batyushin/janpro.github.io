@@ -513,7 +513,7 @@
             return Array.from(els).map(el => el.closest('.option-label').querySelector('.option-text').innerText).join(', ');
         };
 
-        let msg = `🛠 Заявка на расчет щита (Stroy-Ploschadka):\n`;
+        let msg = `Привет! 🛠 Заявка на расчет щита от JanPro.ru:\n`;
         msg += `💰 Бюджет: ${getVal('input[name="budget"]')}\n`;
         msg += `📦 Тип щита: ${getVal('input[name="case_type"]')} / ${getVal('input[name="system_type"]')}\n`;
         msg += `⚡ Ввод: ${getVal('input[name="voltage"]')} \n`;
