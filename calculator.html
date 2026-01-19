@@ -180,7 +180,7 @@
         <form id="calcForm" onchange="calculate()">
 
             <div class="calc-section">
-                <div class="section-header"><div class="section-number">1</div><div class="section-title">Желаемый бюджет</div></div>
+                <div class="section-header"><div class="section-number">1</div><div class="section-title">Электрика</div></div>
                 <div class="options-grid">
                     <label class="option-label">
                         <input type="radio" name="budget" value="low" class="option-input">
@@ -304,9 +304,14 @@
             <div class="calc-section checkbox-mode">
                 <div class="section-header"><div class="section-number">6</div><div class="section-title">Опции щита</div></div>
                 <div class="options-grid">
-                    <label class="option-label">
+                    <label class="option-label classic-only">
                         <input type="checkbox" name="opt_vacation" value="yes" class="option-input">
                         <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Рубильник «Отпуск»</span><span class="option-sub">Выкл. всё лишнее</span></div></div>
+                    </label>
+
+                    <label class="option-label">
+                        <input type="checkbox" name="opt_unswitched" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Неотключаемые группы</span><span class="option-sub">Холодильник, Роутер</span></div></div>
                     </label>
 
                     <label class="option-label classic-only">
@@ -317,11 +322,6 @@
                     <label class="option-label classic-only">
                         <input type="checkbox" name="opt_fan" value="yes" class="option-input">
                         <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Реле времени</span><span class="option-sub">На вентиляторы СУ</span></div></div>
-                    </label>
-
-                    <label class="option-label classic-only">
-                        <input type="checkbox" name="opt_floor" value="yes" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Теплый пол</span><span class="option-sub">Питание/Управление</span></div></div>
                     </label>
 
                     <label class="option-label" id="priorityRelayBlock">
@@ -353,11 +353,6 @@
                     <label class="option-label">
                         <input type="checkbox" name="h_garage" value="yes" class="option-input">
                         <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Гараж / Баня</span><span class="option-sub">Отд. строения</span></div></div>
-                    </label>
-
-                    <label class="option-label classic-only">
-                        <input type="checkbox" name="h_floor_classic" value="yes" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Теплый пол</span><span class="option-sub">Питание</span></div></div>
                     </label>
                 </div>
             </div>
@@ -443,14 +438,15 @@
                 <div class="section-header"><div class="section-number">10</div><div class="section-title">Параметры Умного дома</div></div>
                 <div class="options-grid">
                     <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Релейный свет (групп)</label>
+                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Релейный свет</label>
                         <select name="sh_light" class="styled-select">
-                            <option value="0">0 групп</option>
-                            <option value="5">до 5 групп</option>
-                            <option value="10">5 - 10 групп</option>
-                            <option value="20">10 - 20 групп</option>
-                            <option value="30">20 - 30 групп</option>
-                            <option value="40">30+ групп</option>
+                            <option value="0">Нет</option>
+                            <option value="3">3 группы (1 реле)</option>
+                            <option value="6">6 групп (2 реле)</option>
+                            <option value="9">9 групп (3 реле)</option>
+                            <option value="12">12 групп (4 реле)</option>
+                            <option value="18">18 групп</option>
+                            <option value="24">24+ групп</option>
                         </select>
                     </div>
 
@@ -458,11 +454,10 @@
                         <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Диммируемый свет</label>
                         <select name="sh_light_dim" class="styled-select">
                             <option value="0">Нет</option>
-                            <option value="1">1 группа</option>
-                            <option value="2">2 группы</option>
                             <option value="3">3 группы</option>
-                            <option value="4">4 группы</option>
-                            <option value="5">5+ групп</option>
+                            <option value="6">6 групп</option>
+                            <option value="9">9 групп</option>
+                            <option value="12">12 групп</option>
                         </select>
                     </div>
 
@@ -471,9 +466,10 @@
                         <select name="sh_socket" class="styled-select">
                             <option value="0">Нет</option>
                             <option value="1">1 группа (Всё сразу)</option>
-                            <option value="3">2-3 группы</option>
-                            <option value="5">до 5 групп</option>
-                            <option value="10">более 5 групп</option>
+                            <option value="3">3 группы</option>
+                            <option value="6">6 групп</option>
+                            <option value="9">9 групп</option>
+                            <option value="12">12 групп</option>
                         </select>
                     </div>
                     <div class="styled-select-wrapper">
@@ -691,11 +687,16 @@
         total += (rooms * 3000) + (wc * 5000);
 
         // Опции общие
-        if(form.querySelector('input[name="opt_vacation"]:checked')) total += 5000;
-        // Эти опции считаем только если они видимы (т.е. в классике)
-        if(form.querySelector('input[name="opt_master"]:checked') && sysType === 'classic') total += 7000;
-        if(form.querySelector('input[name="opt_fan"]:checked') && sysType === 'classic') total += 3000;
-        if(form.querySelector('input[name="opt_floor"]:checked') && sysType === 'classic') total += 4000;
+        if(form.querySelector('input[name="opt_vacation"]:checked') && sysType === 'classic') total += 5000;
+
+        // Опции только для классики
+        if(sysType === 'classic') {
+            if(form.querySelector('input[name="opt_master"]:checked')) total += 7000;
+            if(form.querySelector('input[name="opt_fan"]:checked')) total += 3000;
+        }
+
+        // Опция Неотключаемые линии (доступна всем)
+        if(form.querySelector('input[name="opt_unswitched"]:checked')) total += 2500;
 
         if(form.querySelector('input[name="opt_priority"]:checked')) total += 8000;
 
@@ -705,7 +706,6 @@
         if(form.querySelector('input[name="h_street"]:checked')) total += 3000;
         if(form.querySelector('input[name="h_sauna"]:checked')) total += 6000;
         if(form.querySelector('input[name="h_garage"]:checked')) total += 10000;
-        if(form.querySelector('input[name="h_floor_classic"]:checked') && sysType === 'classic') total += 4000;
 
         // LED
         const led = form.querySelector('select[name="led_type"]').value;
@@ -750,7 +750,7 @@
         const sysType = form.querySelector('input[name="system_type"]:checked').value;
 
         let msg = `Привет! 🛠 Заявка на расчет щита от JanPro.ru:\n`;
-        msg += `💰 Бюджет: ${getVal('input[name="budget"]')}\n`;
+        msg += `💰 Электрика: ${getVal('input[name="budget"]')}\n`;
         msg += `📦 Тип щита: ${getVal('input[name="case_type"]')} / ${getVal('input[name="system_type"]')}\n`;
 
         if(sysType !== 'classic') {
