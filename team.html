@@ -36,7 +36,7 @@
             position: relative !important;
         }
 
-        /* Фотография (Базовый стиль для всех) */
+        /* Фотография */
         .member-photo-wrap {
             width: 140px;
             height: 140px;
@@ -47,6 +47,10 @@
             background: rgba(255,255,255,0.05);
             transition: all 0.4s ease;
             position: relative;
+            /* Центрирование если фото нет */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .member-photo {
@@ -135,13 +139,6 @@
             transform: translateX(5px);
             text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
         }
-
-        /* Остальные карточки вообще не реагируют (нет hover эффектов) */
-
-        .placeholder-icon {
-            width: 60px; height: 60px; opacity: 0.3;
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        }
     </style>
 </head>
 <body>
@@ -156,20 +153,18 @@
 
         <div class="card team-card">
             <div class="member-photo-wrap">
-                <img src="site/img/team/jan.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="member-photo" alt="Ян Савченко">
-                <img src="site/img/contact.png" class="placeholder-icon" style="display:none;" alt="Placeholder">
+                <img src="site/img/team/jan.jpg" class="member-photo" alt="Ян Савченко">
             </div>
             <h3 class="member-name">Ян Савченко</h3>
             <span class="member-role">Основатель / Media</span>
             <p class="member-desc">
-                Идейный вдохновитель. Сердце и душа компании. Проектирую сложные системы и лично контролирую качество сборки каждого щита.
+                Идейный вдохновитель. Генерирую идеи со скоростью света. Люблю начинать разговор с фразы «Я всё придумал!», после чего команда бледнеет и думает, как это реализовать. Лично проверяю каждый щит на соответствие моему внутреннему перфекционисту.
             </p>
         </div>
 
         <div class="card team-card">
             <div class="member-photo-wrap">
-                <img src="site/img/team/slava.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="member-photo" alt="Имя">
-                <img src="site/img/contact.png" class="placeholder-icon" style="display:none;" alt="Placeholder">
+                <img src="site/img/team/slava.jpg" class="member-photo" alt="Вячеслав">
             </div>
             <h3 class="member-name">Вячеслав</h3>
             <span class="member-role">Проектировщик / Сборщик щитов</span>
@@ -180,74 +175,79 @@
 
         <div class="card team-card">
             <div class="member-photo-wrap">
-                <img src="site/img/team/sveta.jpeg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="member-photo" alt="Оля (Света)">
-                <img src="site/img/contact.png" class="placeholder-icon" style="display:none;" alt="Placeholder">
+                <img src="site/img/team/sveta.jpeg" class="member-photo" alt="Оля (Света)">
             </div>
             <h3 class="member-name">Оля (Света)</h3>
             <span class="member-role">Успех компании зависит от меня</span>
             <p class="member-desc">
-                Голос JanPro. Именно я провожу опросы, уточняю детали и делаю общение с вами приятным и легким.
+                Профессиональный «доставатель» информации. Перевожу с языка «хочу чтобы было вау» на язык «нужно 50 реле и километр кабеля». Если вы не берете трубку, я найду вас даже в Нарнии, чтобы уточнить цвет рамок.
             </p>
         </div>
 
         <div class="card team-card">
             <div class="member-photo-wrap">
-                <img src="site/img/team/member3.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="member-photo" alt="Имя">
-                <img src="site/img/contact.png" class="placeholder-icon" style="display:none;" alt="Placeholder">
+                <img src="site/img/team/member3.jpg" class="member-photo" alt="Дмитрий">
             </div>
             <h3 class="member-name">Дмитрий</h3>
             <span class="member-role">Мастер сборки</span>
             <p class="member-desc">
-                Человек с золотыми руками. Идеальная укладка проводов и маркировка — его заслуга. Перфекционист.
+                Человек с уровнем ОКР «Бог». Укладываю провода настолько идеально, что иногда щиты начинают мироточить. Считаю, что перекрещивание кабелей — это смертный грех, за который нужно бить линейкой по рукам.
             </p>
         </div>
 
         <a href="https://batyushin.ru" target="_blank" class="card team-card highlight-card">
             <div class="member-photo-wrap">
-                <img src="site/img/team/red.jpeg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="member-photo" alt="Дмитрий (ReD)">
-                <img src="site/img/contact.png" class="placeholder-icon" style="display:none;" alt="Placeholder">
+                <img src="site/img/team/red.jpeg" class="member-photo" alt="Дмитрий (ReD)">
             </div>
             <h3 class="member-name">Дмитрий (ReD)</h3>
             <span class="member-role">Программист / ВЕБ-Дизайнер</span>
             <p class="member-desc">
-                Вдыхаю жизнь в холодное железо. Обучаю дом не просто выполнять команды, а чувствовать вас. Делаю так, чтобы дом вас понимал без слов, а Алиса стала больше, чем просто голосовым помощником.
+                Вдыхаю жизнь в холодное железо. Обучаю дом чувствовать вас, а не просто мигать лампочками. Делаю так, чтобы Алиса понимала вас лучше, чем жена, и стала чем-то большим, чем просто голосовой помощник (ну, если вы понимаете, о чём я).
             </p>
             <div class="arrow-icon">➔</div>
         </a>
 
         <div class="card team-card">
             <div class="member-photo-wrap">
-                <img src="site/img/team/member6.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="member-photo" alt="Имя">
-                <img src="site/img/contact.png" class="placeholder-icon" style="display:none;" alt="Placeholder">
+                <img src="site/img/team/member6.jpg" class="member-photo" alt="Елена">
             </div>
             <h3 class="member-name">Елена</h3>
             <span class="member-role">Менеджер проектов</span>
             <p class="member-desc">
-                Связующее звено между вами и инженерами. Следит за сроками, логистикой и тем, чтобы вы были довольны.
+                Главная по «волшебным пенделям». Слежу, чтобы инженеры не ушли в астрал, а сборщики не уснули в бухте кабеля. Моя суперсила — жонглировать горящими дедлайнами и нервными клетками заказчиков, не роняя улыбки.
             </p>
         </div>
 
         <div class="card team-card">
             <div class="member-photo-wrap">
-                <img src="site/img/team/member7.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="member-photo" alt="Имя">
-                <img src="site/img/contact.png" class="placeholder-icon" style="display:none;" alt="Placeholder">
+                <img src="site/img/team/member7.jpg" class="member-photo" alt="Сергей">
             </div>
             <h3 class="member-name">Сергей</h3>
             <span class="member-role">Электромонтажник</span>
             <p class="member-desc">
-                Специалист по установке щитов на объекте. Аккуратность и соблюдение ПУЭ — его главные принципы.
+                Десантник на объекте. Единственный человек, который знает, куда строители замуровали «тот самый провод». Монтирую щиты так надежно, что они переживут апокалипсис, и так аккуратно, что соседи будут завидовать.
             </p>
         </div>
 
         <div class="card team-card">
             <div class="member-photo-wrap">
-                <img src="site/img/team/cat.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="member-photo" alt="Кот">
-                <img src="site/img/contact.png" class="placeholder-icon" style="display:none;" alt="Placeholder">
+                <img src="site/img/team/cat.jpg" class="member-photo" alt="Вольт">
             </div>
             <h3 class="member-name">Вольт</h3>
             <span class="member-role">Главный по уюту</span>
             <p class="member-desc">
-                Контролирует уровень стресса в офисе. Отвечает за мурчание и тестирование коробок от оборудования.
+                Директор по стресс-менеджменту и контролю качества коробок. Отвечает за принудительную релаксацию сотрудников путем укладывания на клавиатуру. Иногда кусает провода, но только ради тестов на прочность изоляции.
+            </p>
+        </div>
+
+        <div class="card team-card">
+            <div class="member-photo-wrap">
+                <img src="site/img/team/cat.jpg" class="member-photo" alt="Вольт">
+            </div>
+            <h3 class="member-name">Ампер</h3>
+            <span class="member-role">Главный по уюту</span>
+            <p class="member-desc">
+                Директор по стресс-менеджменту и контролю качества коробок. Отвечает за принудительную релаксацию сотрудников путем укладывания на клавиатуру. Иногда кусает провода, но только ради тестов на прочность изоляции.
             </p>
         </div>
 
