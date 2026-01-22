@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Техподдержка | JanPro.ru</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site/styles.css">
+    <link rel="icon" type="image/x-icon" href="site/favicon.ico" />
+    <script src="site/metrics.js"></script>
+
+    <style>
+        /* --- СТИЛЬ КАРТОЧЕК (Строго как на других страницах) --- */
+        .card {
+            background: rgba(15, 10, 10, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(40px);
+        }
+
+        /* --- Описание --- */
+        .info-card {
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px; /* Отступ до кнопок небольшой */
+        }
+
+        .info-text {
+            font-size: 1.1rem;
+            color: #eee;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* --- СЕТКА КНОПОК --- */
+        .grid-row-3 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 20px; /* Отступ после кнопок небольшой */
+        }
+
+        @media (min-width: 700px) {
+            .grid-row-3 { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* --- КНОПКА-КАРТОЧКА --- */
+        .action-card-contact {
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.3s ease, border-color 0.3s, box-shadow 0.3s;
+            height: 100%;
+            min-height: 200px;
+        }
+
+        /* Ховер эффект в нашем стиле (акцентная рамка) */
+        .action-card-contact:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.15);
+        }
+
+        /* Иконки */
+        .action-icon-wrap-contacts {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-card-icon {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+        }
+
+        /* Тексты внутри кнопки */
+        .card-content h3 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #fff;
+            margin: 0 0 10px 0;
+        }
+
+        .card-content p {
+            font-size: 0.95rem;
+            color: #aaa;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* --- Спец стиль для неактивной кнопки (MAX) --- */
+        .action-card-contact.disabled {
+            opacity: 0.5;
+            cursor: default;
+            filter: grayscale(1);
+        }
+        .action-card-contact.disabled:hover {
+            transform: none;
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: none;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="spotlight"></div>
+<div class="bg-depth"></div>
+<div class="container">
+
+    <div id="header-container"></div>
+    <div id="menu-container"></div>
+
+    <div class="card info-card">
+        <p class="info-text">
+            Вся техническая поддержка сейчас производится оперативно через мессенджеры.<br>
+            Выберите удобный способ связи:
+        </p>
+    </div>
+
+    <section class="grid-row-3">
+        <a href="https://t.me/JanPro59" target="_blank" class="card action-card-contact">
+            <div class="action-icon-wrap-contacts">
+                <img src="site/img/tg.svg" class="contact-card-icon" alt="Telegram">
+            </div>
+            <div class="card-content">
+                <h3>Telegram</h3>
+                <p>Для связи<br>напишите сюда</p>
+            </div>
+        </a>
+
+        <a href="https://wa.me/79824699434" target="_blank" class="card action-card-contact">
+            <div class="action-icon-wrap-contacts">
+                <img src="site/img/whatsapp.png" class="contact-card-icon" alt="WhatsApp">
+            </div>
+            <div class="card-content">
+                <h3>WhatsApp</h3>
+                <p>Или сюда<br></p>
+            </div>
+        </a>
+
+        <a href="#" class="card action-card-contact disabled" onclick="return false;">
+            <div class="action-icon-wrap-contacts">
+                <img src="site/img/max.png" class="contact-card-icon" alt="Max">
+            </div>
+            <div class="card-content">
+                <h3>MAX</h3>
+                <p>Сюда пока не пишите,<br>временно недоступно</p>
+            </div>
+        </a>
+    </section>
+
+    <div id="services-container" style="display: flex; flex-direction: column; gap: 20px;"></div>
+
+    <div id="footer-container" style="margin-top: 20px;"></div>
+
+</div>
+
+<script src="site/loader.js"></script>
+<script>
+    if(typeof initPage === 'function') {
+        initPage('support');
+    }
+</script>
+
+</body>
+</html>
