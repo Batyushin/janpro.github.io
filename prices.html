@@ -26,13 +26,13 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            /* height: 100%; <- УБРАЛ global height, чтобы блоки могли быть разной высоты */
+            height: 100%;
             transition: transform 0.3s ease, border-color 0.3s;
             position: relative;
             overflow: hidden;
         }
 
-        /* Свет */
+        /* Свет (работает за счет скрипта внизу) */
         .unified-card::before {
             content: '';
             position: absolute; inset: 0; z-index: 1; pointer-events: none; border-radius: inherit;
@@ -61,10 +61,7 @@
             .price-list-grid { grid-template-columns: 1fr 1fr; }
         }
 
-        .price-list-grid .unified-card {
-            cursor: pointer;
-            height: 100%; /* В сетке карточки одинаковой высоты */
-        }
+        .price-list-grid .unified-card { cursor: pointer; }
         .price-list-grid .unified-card:active { transform: scale(0.98); border-color: var(--accent); }
 
         /* Типографика карточек */
@@ -109,7 +106,7 @@
         .calc-wrapper {
             margin-bottom: 30px;
             scroll-margin-top: 100px;
-            height: auto; /* Авто-высота, чтобы всё влезло */
+            height: auto;
         }
 
         .calc-title { font-size: 2rem; font-weight: 900; color: #fff; text-align: center; margin-bottom: 30px; }
@@ -147,26 +144,13 @@
         }
         .btn-calc:hover { background: rgba(40, 10, 10, 0.6); border-color: var(--accent); box-shadow: 0 0 20px rgba(255,0,0,0.2); }
 
-        /* --- Блок BIM (Компактный) --- */
-        .bim-placeholder {
-            text-align: center;
-            padding: 30px; /* Уменьшил отступы */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            height: auto; /* Высота по содержимому */
-        }
-
-        .bim-placeholder img {
-            height: 40px; /* Уменьшил логотип */
-            margin-bottom: 15px;
-            opacity: 0.4;
-        }
+        .bim-placeholder { text-align: center; padding: 30px; display: flex; align-items: center; justify-content: center; flex-direction: column; height: auto; }
+        .bim-placeholder img { height: 40px; margin-bottom: 15px; opacity: 0.4; }
     </style>
 </head>
 <body>
 
+<div id="spotlight"></div>
 <div class="bg-depth"></div>
 <div class="container">
 
@@ -178,7 +162,7 @@
         <div class="unified-card" onclick="selectParams('simple')">
             <h3 class="price-card-title">Классика (Без клемм)</h3>
             <p class="price-card-desc">
-                Классические электрощиты без вывода на клеммы. Бюджетное и надежное решение для простых проектов. <br>
+                Классические электрощиты без вывода на клеммы. Надежное решение для простых проектов. <br>
                 <span style="color: #fff; opacity: 0.8;">Подходит для 1ф/3ф ввода.</span>
             </p>
             <div class="price-row">
@@ -335,7 +319,7 @@
         document.getElementById('tgLink').href = `https://t.me/JanPro59?text=${encodeURIComponent(msg)}`;
     }
 
-    // --- ГАРАНТИЯ РАБОТЫ ПРОЖЕКТОРА ---
+    // --- ОБЯЗАТЕЛЬНЫЙ СКРИПТ ДЛЯ ПРОЖЕКТОРА ---
     document.addEventListener('mousemove', (e) => {
         document.documentElement.style.setProperty('--x', `${e.clientX}px`);
         document.documentElement.style.setProperty('--y', `${e.clientY}px`);
