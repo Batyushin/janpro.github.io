@@ -80,6 +80,30 @@
             color: #fff;
         }
 
+        /* --- СТИЛИ ДЛЯ НЕАКТИВНОЙ КНОПКИ (MAX) --- */
+        .action-card-contact.disabled {
+            opacity: 0.5;
+            cursor: default;
+            filter: grayscale(100%);
+        }
+
+        /* Отключаем эффекты при наведении для disabled */
+        .action-card-contact.disabled:hover {
+            transform: none !important;
+            background: rgba(15, 10, 10, 0.6) !important; /* Возвращаем дефолтный фон */
+        }
+
+        .action-card-contact.disabled:hover .action-icon-wrap-contacts {
+            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: none;
+        }
+
+        .action-card-contact.disabled:hover .contact-card-icon {
+            transform: none; /* Не вращать */
+        }
+
+
         /* Карточки данных */
         .data-card {
             padding: 25px !important;
@@ -148,7 +172,7 @@
                 </div>
             </a>
 
-            <a href="#" class="card action-card-contact">
+            <a href="#" class="card action-card-contact disabled" onclick="return false;">
                 <div class="action-icon-wrap-contacts">
                     <img src="site/img/max.png" class="contact-card-icon" alt="Max">
                 </div>

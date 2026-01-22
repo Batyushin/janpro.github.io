@@ -11,7 +11,7 @@
     <script src="site/metrics.js"></script>
 
     <style>
-        /* --- СТИЛЬ КАРТОЧЕК (Строго как на других страницах) --- */
+        /* --- СТИЛЬ КАРТОЧЕК (Базовый) --- */
         .card {
             background: rgba(15, 10, 10, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -24,9 +24,8 @@
         .info-card {
             padding: 30px;
             text-align: center;
-            margin-bottom: 20px; /* Отступ до кнопок небольшой */
+            margin-bottom: 20px;
         }
-
         .info-text {
             font-size: 1.1rem;
             color: #eee;
@@ -38,64 +37,80 @@
         .grid-row-3 {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
-            margin-bottom: 20px; /* Отступ после кнопок небольшой */
+            gap: 15px;
+            margin-bottom: 20px;
         }
-
-        @media (min-width: 700px) {
+        @media (min-width: 768px) {
             .grid-row-3 { grid-template-columns: repeat(3, 1fr); }
         }
 
-        /* --- КНОПКА-КАРТОЧКА --- */
+        /* --- КНОПКА-КАРТОЧКА (Стиль контактов) --- */
         .action-card-contact {
-            padding: 30px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            /* Размеры как в контактах */
+            padding: 15px 18px !important;
+            min-height: 105px !important;
+
+            /* Горизонтальное выравнивание */
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            text-align: left !important;
+
             text-decoration: none;
-            transition: transform 0.3s ease, border-color 0.3s, box-shadow 0.3s;
-            height: 100%;
-            min-height: 200px;
+            transition: transform 0.3s ease, border-color 0.3s;
         }
 
-        /* Ховер эффект в нашем стиле (акцентная рамка) */
+        /* Ховер на саму карточку */
         .action-card-contact:hover {
             transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.15);
+            border-color: var(--accent); /* Красная рамка */
         }
 
-        /* Иконки */
+        /* Кружок иконки */
         .action-icon-wrap-contacts {
-            width: 70px;
-            height: 70px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 54px; height: 54px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            display: flex; align-items: center; justify-content: center;
+            margin-right: 15px; /* Отступ справа до текста */
+            margin-bottom: 0; /* Убираем нижний отступ */
+            flex-shrink: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* Сама иконка */
         .contact-card-icon {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Тексты внутри кнопки */
+        /* Эффекты при наведении (Вращение и цвет) */
+        .action-card-contact:hover .action-icon-wrap-contacts {
+            border-color: var(--accent);
+            background: rgba(255, 0, 0, 0.2);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+        }
+
+        .action-card-contact:hover .contact-card-icon {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        /* Тексты */
         .card-content h3 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 900;
             color: #fff;
-            margin: 0 0 10px 0;
+            margin: 0 0 4px 0;
+            line-height: 1;
         }
-
         .card-content p {
-            font-size: 0.95rem;
-            color: #aaa;
-            line-height: 1.4;
+            font-size: 1.05rem;
+            color: #fff;
+            opacity: 0.8;
+            line-height: 1.3;
             margin: 0;
         }
 
@@ -108,6 +123,14 @@
         .action-card-contact.disabled:hover {
             transform: none;
             border-color: rgba(255, 255, 255, 0.1);
+        }
+        /* Отключаем вращение для неактивной кнопки */
+        .action-card-contact.disabled:hover .contact-card-icon {
+            transform: none;
+        }
+        .action-card-contact.disabled:hover .action-icon-wrap-contacts {
+            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             box-shadow: none;
         }
 
@@ -117,6 +140,7 @@
 
 <div id="spotlight"></div>
 <div class="bg-depth"></div>
+
 <div class="container">
 
     <div id="header-container"></div>
