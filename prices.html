@@ -26,7 +26,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            height: 100%;
+            /* height: 100%; <- УБРАЛ global height, чтобы блоки могли быть разной высоты */
             transition: transform 0.3s ease, border-color 0.3s;
             position: relative;
             overflow: hidden;
@@ -61,7 +61,10 @@
             .price-list-grid { grid-template-columns: 1fr 1fr; }
         }
 
-        .price-list-grid .unified-card { cursor: pointer; }
+        .price-list-grid .unified-card {
+            cursor: pointer;
+            height: 100%; /* В сетке карточки одинаковой высоты */
+        }
         .price-list-grid .unified-card:active { transform: scale(0.98); border-color: var(--accent); }
 
         /* Типографика карточек */
@@ -74,14 +77,14 @@
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Описание типа щита */
+        /* Описание */
         .price-card-desc {
             font-size: 0.95rem;
             color: #aaa;
-            line-height: 1.4;
+            line-height: 1.5;
             margin-top: -5px;
-            margin-bottom: 5px;
-            min-height: 40px; /* Чтобы карточки были ровнее */
+            margin-bottom: 10px;
+            flex-grow: 1;
         }
 
         .price-row {
@@ -103,7 +106,12 @@
         }
 
         /* --- Калькулятор --- */
-        .calc-wrapper { margin-bottom: 30px; scroll-margin-top: 100px; }
+        .calc-wrapper {
+            margin-bottom: 30px;
+            scroll-margin-top: 100px;
+            height: auto; /* Авто-высота, чтобы всё влезло */
+        }
+
         .calc-title { font-size: 2rem; font-weight: 900; color: #fff; text-align: center; margin-bottom: 30px; }
         .calc-form-row { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 30px; }
         @media (min-width: 600px) { .calc-form-row { grid-template-columns: 1fr 1fr; } }
@@ -124,7 +132,13 @@
         .res-row:last-child { border-bottom: none; padding-bottom: 0; }
         .res-label { color: #ccc; }
         .res-value { font-weight: 700; color: #fff; font-size: 1.1rem; }
-        .total-row { margin-top: 10px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
+
+        .total-row {
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
         .total-val { font-size: 2rem; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.1); }
         .equip-note { text-align: center; font-size: 0.85rem; color: #666; margin-top: 15px; font-style: italic; }
 
@@ -133,7 +147,22 @@
         }
         .btn-calc:hover { background: rgba(40, 10, 10, 0.6); border-color: var(--accent); box-shadow: 0 0 20px rgba(255,0,0,0.2); }
 
-        .bim-placeholder { text-align: center; padding: 50px 30px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        /* --- Блок BIM (Компактный) --- */
+        .bim-placeholder {
+            text-align: center;
+            padding: 30px; /* Уменьшил отступы */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: auto; /* Высота по содержимому */
+        }
+
+        .bim-placeholder img {
+            height: 40px; /* Уменьшил логотип */
+            margin-bottom: 15px;
+            opacity: 0.4;
+        }
     </style>
 </head>
 <body>
@@ -149,7 +178,8 @@
         <div class="unified-card" onclick="selectParams('simple')">
             <h3 class="price-card-title">Классика (Без клемм)</h3>
             <p class="price-card-desc">
-                Классические электрощиты без вывода на клеммы. Бюджетное и надежное решение для простых проектов.
+                Классические электрощиты без вывода на клеммы. Бюджетное и надежное решение для простых проектов. <br>
+                <span style="color: #fff; opacity: 0.8;">Подходит для 1ф/3ф ввода.</span>
             </p>
             <div class="price-row">
                 <span>Проектирование</span>
@@ -164,7 +194,8 @@
         <div class="unified-card" onclick="selectParams('terminals')">
             <h3 class="price-card-title">Классика (С клеммами)</h3>
             <p class="price-card-desc">
-                Классические электрощиты с полным или частичным выводом нагрузок на клеммы. Удобство монтажа и эстетика.
+                Классические электрощиты с полным или частичным выводом нагрузок на клеммы. Удобство монтажа и эстетика. <br>
+                <span style="color: #fff; opacity: 0.8;">Подходит для 1ф/3ф ввода.</span>
             </p>
             <div class="price-row">
                 <span>Проектирование</span>
@@ -179,7 +210,7 @@
         <div class="unified-card" onclick="selectParams('led')">
             <h3 class="price-card-title">Щиты LED подсветок</h3>
             <p class="price-card-desc">
-                Щиты для размещения блоков питания и контроллеров светодиодных лент. В корпусах или на монтажных панелях.
+                Специализированные щиты для размещения блоков питания и контроллеров светодиодных лент. Собираются в корпусах или на монтажных панелях.
             </p>
             <div class="price-row">
                 <span>Проектирование</span>
@@ -192,9 +223,9 @@
         </div>
 
         <div class="unified-card" onclick="selectParams('smart')">
-            <h3 class="price-card-title">Умный дом</h3>
+            <h3 class="price-card-title">Умный дом (Проводной)</h3>
             <p class="price-card-desc">
-                Электрические щиты для проводных систем умного дома. Сложная автоматика и индивидуальные сценарии.
+                Электрические щиты для проводных систем умного дома. Реализация сложной автоматики и индивидуальных сценариев управления.
             </p>
             <div class="price-row">
                 <span>Проектирование</span>
@@ -251,8 +282,8 @@
     </div>
 
     <div class="unified-card bim-placeholder">
-        <img src="site/img/logo.png" style="height: 60px; opacity: 0.3; margin-bottom: 20px;">
-        <p style="font-size: 1.1rem; color: #ccc;">Цены на BIM моделирование уточняются.<br>Информация появится в ближайшее время.</p>
+        <img src="site/img/logo.png" alt="JanPro">
+        <p style="font-size: 1.1rem; color: #ccc; margin: 0;">Цены на BIM моделирование уточняются.<br>Информация появится в ближайшее время.</p>
     </div>
 
     <div id="services-container" style="display: flex; flex-direction: column; gap: 20px; margin-top: 20px;"></div>
