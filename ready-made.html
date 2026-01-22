@@ -26,6 +26,16 @@
             .projects-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
+        /* --- Дисклеймер --- */
+        .disclaimer-card {
+            text-align: center;
+            margin-bottom: 35px;
+            font-size: 1.1rem;
+            color: #eee;
+            line-height: 1.5;
+            border: 1px solid var(--border-color);
+        }
+
         /* --- Карточка --- */
         .project-card {
             padding: 0 !important;
@@ -36,6 +46,7 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
             text-align: left !important;
             align-items: flex-start !important;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .project-card:hover {
@@ -48,12 +59,12 @@
         .project-img-wrap {
             position: relative;
             width: 100%;
-            height: 320px;
+            height: 300px;
             overflow: hidden;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
-        /* Градиент снизу картинки */
         .project-img-wrap::after {
             content: '';
             position: absolute;
@@ -61,7 +72,6 @@
             width: 100%; height: 50%;
             background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.5));
             pointer-events: none;
-            transition: opacity 0.3s ease;
         }
 
         .project-img {
@@ -75,17 +85,14 @@
             transform: scale(1.05);
         }
 
-        /* --- Лупа (Стиль: красный ободок) --- */
+        /* --- Лупа --- */
         .zoom-icon {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0.5);
             width: 50px; height: 50px;
-
-            /* Спокойное состояние */
             background: rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255,255,255,0.3);
-
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             opacity: 0;
@@ -96,14 +103,11 @@
             z-index: 2;
         }
 
-        /* Наведение */
         .project-img-wrap:hover .zoom-icon {
             opacity: 1;
             transform: translate(-50%, -50%) scale(1);
-
             background: rgba(0, 0, 0, 0.7);
-            border: 2px solid var(--accent); /* Красный ободок */
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+            border: 2px solid var(--accent);
         }
 
         /* --- Контент --- */
@@ -114,34 +118,58 @@
             flex-grow: 1;
             justify-content: space-between;
             width: 100%;
-            background: rgba(0,0,0,0.2);
+            background: rgba(20, 20, 20, 0.6);
         }
 
         .project-title {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 700;
             color: #fff;
-            margin: 0 0 10px 0;
+            margin: 0 0 5px 0;
+            line-height: 1.3;
+        }
+
+        /* ИЗМЕНЕНИЯ ЗДЕСЬ: Обычный шрифт */
+        .project-sub {
+            display: block;
+            font-size: 0.95rem;
+            color: #bbb; /* Спокойный серый цвет */
+            margin-bottom: 12px;
+            font-weight: 400; /* Обычная жирность */
+            /* text-transform: uppercase; - Убрали */
         }
 
         .project-specs {
             list-style: none;
             padding: 0;
-            margin: 0 0 15px 0;
+            margin: 0 0 20px 0;
             font-size: 0.9rem;
-            color: #aaa;
-            line-height: 1.6;
+            color: #ccc;
+            line-height: 1.5;
         }
 
         .project-specs li {
             position: relative;
             padding-left: 15px;
+            margin-bottom: 6px;
         }
         .project-specs li::before {
             content: '•';
             color: var(--accent);
             position: absolute;
             left: 0;
+            top: 0;
+        }
+
+        /* Доп инфо для дорогих щитов */
+        .extra-info {
+            font-size: 0.85rem;
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-style: italic;
         }
 
         .project-price-block {
@@ -154,8 +182,8 @@
             width: 100%;
         }
 
-        .price-label { font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 1px;}
-        .price-value { font-size: 1.3rem; font-weight: 900; color: #fff; text-shadow: 0 0 15px rgba(255,0,0,0.4); }
+        .price-label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 1px;}
+        .price-value { font-size: 1.3rem; font-weight: 900; color: #fff; white-space: nowrap; }
 
         /* --- Лайтбокс --- */
         .lightbox {
@@ -193,137 +221,382 @@
     <div id="header-container"></div>
     <div id="menu-container"></div>
 
+    <div class="card disclaimer-card">
+        ⚠️ В стоимость готового электрического щита входит: разработка проекта щита, сборка щита, стоимость оборудования для сборки.
+    </div>
+
     <div class="projects-grid">
 
         <div class="card project-card">
             <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s1.jpg')">
-                <img src="site/img/shields/s1.jpg" class="project-img" alt="Щит ABB">
+                <img src="site/img/shields/s1.jpg" class="project-img" alt="Щит 1">
                 <div class="zoom-icon">🔍</div>
             </div>
             <div class="project-content">
                 <div>
-                    <h3 class="project-title">Распред. щит коттеджа</h3>
+                    <h3 class="project-title">3к квартира (ABB + DEKraft)</h3>
+                    <span class="project-sub">Корпус ABB 36 модулей</span>
                     <ul class="project-specs">
-                        <li>Оборудование: ABB System Pro M</li>
-                        <li>Корпус: ABB Mistral IP65</li>
-                        <li>Кросс-модули, маркировка</li>
+                        <li>Ввод: Однофазный</li>
+                        <li>Наполнение: DEKraft 6кА</li>
+                        <li>Защита от утечки тока и поражения эл-вом (все группы)</li>
+                        <li>Реле напряжения (защита техники)</li>
+                        <li>Рубильник «Отпуск»</li>
                     </ul>
                 </div>
                 <div class="project-price-block">
-                    <span class="price-label">Работа + Материал</span>
-                    <span class="price-value">320 000 ₽</span>
+                    <span class="price-label">Под ключ</span>
+                    <span class="price-value">49 000 ₽</span>
                 </div>
             </div>
         </div>
 
         <div class="card project-card">
             <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s2.jpg')">
-                <img src="site/img/shields/s2.jpg" class="project-img" alt="WirenBoard Сборка">
+                <img src="site/img/shields/s2.jpg" class="project-img" alt="Щит 2">
                 <div class="zoom-icon">🔍</div>
             </div>
             <div class="project-content">
                 <div>
-                    <h3 class="project-title">Щит автоматики (Умный дом)</h3>
+                    <h3 class="project-title">3к квартира (Systeme9)</h3>
+                    <span class="project-sub">Корпус ABB 48 модулей</span>
                     <ul class="project-specs">
-                        <li>Контроллер: WirenBoard 7</li>
-                        <li>Управление светом, шторами, климатом</li>
-                        <li>Сборка на клеммах Phoenix Contact</li>
+                        <li>Ввод: Однофазный</li>
+                        <li>Наполнение: Systeme Electric Systeme9</li>
+                        <li>Полная дифзащита всех групп</li>
+                        <li>Реле напряжения</li>
+                        <li>Розетка в щите</li>
                     </ul>
                 </div>
                 <div class="project-price-block">
-                    <span class="price-label">Работа + Материал</span>
-                    <span class="price-value">550 000 ₽</span>
+                    <span class="price-label">Под ключ</span>
+                    <span class="price-value">112 000 ₽</span>
                 </div>
             </div>
         </div>
 
         <div class="card project-card">
             <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s3.jpg')">
-                <img src="site/img/shields/s3.jpg" class="project-img" alt="Hager Volta">
+                <img src="site/img/shields/s3.jpg" class="project-img" alt="Щит 3">
                 <div class="zoom-icon">🔍</div>
             </div>
             <div class="project-content">
                 <div>
-                    <h3 class="project-title">Квартирный щит (Hager)</h3>
+                    <h3 class="project-title">3к квартира (Свет + LED)</h3>
+                    <span class="project-sub">Корпус ABB 72 модуля</span>
                     <ul class="project-specs">
-                        <li>Корпус: Hager Volta (48 модулей)</li>
-                        <li>Автоматика: Hager (Франция)</li>
-                        <li>Защита от скачков, УЗО тип А</li>
+                        <li>Наполнение: DEKraft 6кА</li>
+                        <li>Рубильник «Отпуск», Реле напряжения</li>
+                        <li>Блоки питания для LED лент</li>
+                        <li>Диммирование LED подсветок</li>
+                        <li>Диммирование света по 220В</li>
+                        <li>Мастер-выключатель на контакторе</li>
                     </ul>
                 </div>
                 <div class="project-price-block">
-                    <span class="price-label">Работа + Материал</span>
-                    <span class="price-value">85 000 ₽</span>
+                    <span class="price-label">Под ключ</span>
+                    <span class="price-value">125 000 ₽</span>
                 </div>
             </div>
         </div>
 
         <div class="card project-card">
             <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s4.jpg')">
-                <img src="site/img/shields/s4.jpg" class="project-img" alt="ВРУ">
+                <img src="site/img/shields/s4.jpg" class="project-img" alt="Щит 4">
                 <div class="zoom-icon">🔍</div>
             </div>
             <div class="project-content">
                 <div>
-                    <h3 class="project-title">Вводно-распределительный</h3>
+                    <h3 class="project-title">3к квартира (Расширенный)</h3>
+                    <span class="project-sub">Корпус ABB 96 модулей</span>
                     <ul class="project-specs">
-                        <li>Ввод 3 фазы 25кВт</li>
-                        <li>Перекидной рубильник (генератор)</li>
-                        <li>Индикация фаз, вольтметры</li>
+                        <li>Наполнение: Systeme Electric Systeme9</li>
+                        <li>Полная дифзащита, Реле напряжения</li>
+                        <li>Рубильник «Отпуск»</li>
+                        <li>Блоки питания для LED</li>
+                        <li>Диммирование LED подсветок</li>
                     </ul>
                 </div>
                 <div class="project-price-block">
-                    <span class="price-label">Работа + Материал</span>
-                    <span class="price-value">110 000 ₽</span>
+                    <span class="price-label">Под ключ</span>
+                    <span class="price-value">190 000 ₽</span>
                 </div>
             </div>
         </div>
 
         <div class="card project-card">
             <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s5.jpg')">
-                <img src="site/img/shields/s5.jpg" class="project-img" alt="Слаботочка">
+                <img src="site/img/shields/s5.jpg" class="project-img" alt="Щит 5">
                 <div class="zoom-icon">🔍</div>
             </div>
             <div class="project-content">
                 <div>
-                    <h3 class="project-title">Слаботочный щит (IT)</h3>
+                    <h3 class="project-title">Щит LED подсветок</h3>
+                    <span class="project-sub">Корпус ABB 54 модуля</span>
                     <ul class="project-specs">
-                        <li>Размещение роутера Mikrotik</li>
-                        <li>Патч-панель на 24 порта</li>
-                        <li>Питание видеорегистратора</li>
+                        <li>Наполнение: Arlight</li>
+                        <li>10 зон независимых подсветок</li>
+                        <li>Всего 2 мощных БП на все ленты</li>
+                        <li>Диммирование (Push to Dim)</li>
                     </ul>
                 </div>
                 <div class="project-price-block">
-                    <span class="price-label">Работа + Материал</span>
-                    <span class="price-value">45 000 ₽</span>
+                    <span class="price-label">Под ключ</span>
+                    <span class="price-value">97 000 ₽</span>
                 </div>
             </div>
         </div>
 
         <div class="card project-card">
             <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s6.jpg')">
-                <img src="site/img/shields/s6.jpg" class="project-img" alt="DALI Щит">
+                <img src="site/img/shields/s6.jpg" class="project-img" alt="Щит 6">
                 <div class="zoom-icon">🔍</div>
             </div>
             <div class="project-content">
                 <div>
-                    <h3 class="project-title">Щит освещения (DALI)</h3>
+                    <h3 class="project-title">Дом 160 м² (Ввод 3 фазы)</h3>
+                    <span class="project-sub">Корпус ABB 96 модулей</span>
                     <ul class="project-specs">
-                        <li>Блоки питания MeanWell</li>
-                        <li>Управление LED лентами</li>
-                        <li>Диммирование по протоколу DALI</li>
+                        <li>Наполнение: EKF Proxima</li>
+                        <li>Полная защита групп (УЗО/Диф)</li>
+                        <li>Реле напряжения (3 шт)</li>
+                        <li>Рубильник для переключения на генератор</li>
                     </ul>
                 </div>
                 <div class="project-price-block">
-                    <span class="price-label">Работа + Материал</span>
-                    <span class="price-value">180 000 ₽</span>
+                    <span class="price-label">Под ключ</span>
+                    <span class="price-value">200 000 ₽</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card project-card">
+            <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s7.jpg')">
+                <img src="site/img/shields/s7.jpg" class="project-img" alt="Щит 7">
+                <div class="zoom-icon">🔍</div>
+            </div>
+            <div class="project-content">
+                <div>
+                    <h3 class="project-title">Дом 150 м² (Systeme)</h3>
+                    <span class="project-sub">Корпус ABB 120 модулей</span>
+                    <ul class="project-specs">
+                        <li>Наполнение: Systeme Electric Sity9</li>
+                        <li>Реле напряжения, Дифзащита</li>
+                        <li>Ввод генератора + Рубильник «Отпуск»</li>
+                        <li>Реле приоритетных нагрузок</li>
+                        <li>Подготовка под стабилизаторы</li>
+                    </ul>
+                </div>
+                <div class="project-price-block">
+                    <span class="price-label">Под ключ</span>
+                    <span class="price-value">250 000 ₽</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card project-card">
+            <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s8.jpg')">
+                <img src="site/img/shields/s8.jpg" class="project-img" alt="Щит 8">
+                <div class="zoom-icon">🔍</div>
+            </div>
+            <div class="project-content">
+                <div>
+                    <h3 class="project-title">Дом 250 м² (AVERES)</h3>
+                    <span class="project-sub">Корпус ABB 144 модуля</span>
+                    <ul class="project-specs">
+                        <li>Наполнение: EKF AVERES (Industrial)</li>
+                        <li>Полный комплекс защит</li>
+                        <li>Генератор, Приоритет нагрузок</li>
+                        <li>Подготовка под стабилизаторы</li>
+                        <li>Мастер-выключатель на контакторе</li>
+                    </ul>
+                </div>
+                <div class="project-price-block">
+                    <span class="price-label">Под ключ</span>
+                    <span class="price-value">380 000 ₽</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card project-card">
+            <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s9.jpg')">
+                <img src="site/img/shields/s9.jpg" class="project-img" alt="Щит 9">
+                <div class="zoom-icon">🔍</div>
+            </div>
+            <div class="project-content">
+                <div>
+                    <h3 class="project-title">Дом 150 м² (Максимальный)</h3>
+                    <span class="project-sub">Корпус ABB 216 модулей</span>
+                    <ul class="project-specs">
+                        <li>Наполнение: Systeme Electric Sity9</li>
+                        <li>Все защиты + Генератор + Приоритет</li>
+                        <li>Подготовка под Стабилизаторы и ИБП</li>
+                        <li>6 зон LED (диммирование, 1 общий БП)</li>
+                        <li>Астрономическое реле на уличный свет</li>
+                    </ul>
+                </div>
+                <div class="project-price-block">
+                    <span class="price-label">Под ключ</span>
+                    <span class="price-value">430 000 ₽</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card project-card">
+            <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s10.jpg')">
+                <img src="site/img/shields/s10.jpg" class="project-img" alt="Щит 10">
+                <div class="zoom-icon">🔍</div>
+            </div>
+            <div class="project-content">
+                <div>
+                    <h3 class="project-title">Дом 130 м² (Умный дом)</h3>
+                    <span class="project-sub">Корпус ABB 168 модулей</span>
+                    <ul class="project-specs">
+                        <li>Контроллер: <strong>WirenBoard</strong></li>
+                        <li>Наполнение: Systeme Sity9</li>
+                        <li>Стабилизатор (байпас), Генератор</li>
+                        <li>24 реле света, 4 зоны LED (димм)</li>
+                        <li>Климат: Отопление, Кондиционеры, Вент.</li>
+                        <li>Шторы, Ворота, Подогревы (погода)</li>
+                    </ul>
+                </div>
+                <div class="project-price-block">
+                    <span class="price-label">Под ключ</span>
+                    <span class="price-value">550 000 ₽</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card project-card">
+            <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s11.jpg')">
+                <img src="site/img/shields/s11.jpg" class="project-img" alt="Щит 11">
+                <div class="zoom-icon">🔍</div>
+            </div>
+            <div class="project-content">
+                <div>
+                    <h3 class="project-title">Кв. 110 м² (Умный дом + DALI)</h3>
+                    <span class="project-sub">Корпус ABB 168 модулей</span>
+                    <ul class="project-specs">
+                        <li>Контроллер: <strong>WirenBoard</strong></li>
+                        <li>Наполнение: EKF AVERES</li>
+                        <li>Шлюз Arlight DALI (весь свет, temp/dim)</li>
+                        <li>Сбор показаний счетчиков</li>
+                        <li>12 групп реле света, 9 зон (розетки/полы)</li>
+                        <li>Отопление, Климат, Шторы</li>
+                    </ul>
+                </div>
+                <div class="project-price-block">
+                    <span class="price-label">Под ключ</span>
+                    <span class="price-value">600 000 ₽</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card project-card">
+            <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s12.jpg')">
+                <img src="site/img/shields/s12.jpg" class="project-img" alt="Щит 12">
+                <div class="zoom-icon">🔍</div>
+            </div>
+            <div class="project-content">
+                <div>
+                    <h3 class="project-title">Кв. 140 м² (Pro Smart)</h3>
+                    <span class="project-sub">Монтажная панель 420 модулей</span>
+                    <ul class="project-specs">
+                        <li>Контроллер: <strong>WirenBoard</strong></li>
+                        <li>Наполнение: EKF AVERES</li>
+                        <li>Диммирование 220В + 18 зон LED DALI</li>
+                        <li>Реле приоритета, Счетчики</li>
+                        <li>5 зон теплых полов, 6 реле света</li>
+                        <li>Полный климат-контроль + Шторы</li>
+                    </ul>
+                </div>
+                <div class="project-price-block">
+                    <span class="price-label">Под ключ</span>
+                    <span class="price-value">1 200 000 ₽</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card project-card">
+            <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s13.jpg')">
+                <img src="site/img/shields/s13.jpg" class="project-img" alt="Щит 13">
+                <div class="zoom-icon">🔍</div>
+            </div>
+            <div class="project-content">
+                <div>
+                    <h3 class="project-title">Кв. 165 м² (Max DALI)</h3>
+                    <span class="project-sub">Монтажная панель 450 модулей</span>
+                    <ul class="project-specs">
+                        <li>Контроллер: <strong>WirenBoard</strong></li>
+                        <li>2 шлюза Arlight DALI (управление всем)</li>
+                        <li>24 контура LED (Dim + Tunable White)</li>
+                        <li>Счетчики, 6 полов, 6 реле света</li>
+                        <li>Отопление, Кондиционеры, Вент, Шторы</li>
+                    </ul>
+                </div>
+                <div class="project-price-block">
+                    <span class="price-label">Под ключ</span>
+                    <span class="price-value">1 400 000 ₽</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card project-card">
+            <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s14.jpg')">
+                <img src="site/img/shields/s14.jpg" class="project-img" alt="Щит 14">
+                <div class="zoom-icon">🔍</div>
+            </div>
+            <div class="project-content">
+                <div>
+                    <h3 class="project-title">Кв. 180 м² (Premium Loxone)</h3>
+                    <span class="project-sub">Монтажная панель 460 модулей</span>
+                    <ul class="project-specs">
+                        <li>Контроллер: <strong>Loxone (Австрия)</strong></li>
+                        <li>Наполнение: EKF AVERES</li>
+                        <li>2 шлюза DALI, Счетчики</li>
+                        <li>20 LED (Dim+TW), 6 полов, 12 реле</li>
+                        <li>Полный климат-контроль + Шторы</li>
+                    </ul>
+                    <div class="extra-info">
+                        + Оригинальные выключатели, датчики и термоголовки Loxone
+                    </div>
+                </div>
+                <div class="project-price-block">
+                    <span class="price-label">Под ключ</span>
+                    <span class="price-value">3 700 000 ₽</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card project-card">
+            <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s15.jpg')">
+                <img src="site/img/shields/s15.jpg" class="project-img" alt="Щит 15">
+                <div class="zoom-icon">🔍</div>
+            </div>
+            <div class="project-content">
+                <div>
+                    <h3 class="project-title">Дом 450 м² (Luxury Loxone)</h3>
+                    <span class="project-sub">Корпус ESB 850 модулей</span>
+                    <ul class="project-specs">
+                        <li>Контроллер: <strong>Loxone (Австрия)</strong></li>
+                        <li>Весь свет: Dim / Tunable White / RGB</li>
+                        <li>Стабилизаторы, Генератор, Мониторинг</li>
+                        <li>Климат, Шторы, Ворота, Мультирум (AirPlay)</li>
+                        <li>Полная экосистема умного дома</li>
+                    </ul>
+                    <div class="extra-info">
+                        + Полный комплект периферии Loxone (выключатели, датчики, приводы)
+                    </div>
+                </div>
+                <div class="project-price-block">
+                    <span class="price-label">Под ключ</span>
+                    <span class="price-value">5 500 000 ₽</span>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <div id="services-container" style="display: flex; flex-direction: column; gap: 20px; margin-top: 20px;"></div>
     <div id="footer-container"></div>
 
 </div>
@@ -336,7 +609,6 @@
 <script>
     initPage('shields');
 
-    // Скрипт лайтбокса
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
 
