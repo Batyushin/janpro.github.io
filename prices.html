@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Цены на услуги | JanPro.ru</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site/styles.css">
+    <link rel="icon" type="image/x-icon" href="site/favicon.ico" />
+    <script src="site/metrics.js"></script>
+
+    <style>
+        /* --- ОБЩИЙ СТИЛЬ КАРТОЧЕК --- */
+        .unified-card {
+            background: rgba(15, 10, 10, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(40px);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            height: 100%;
+            transition: transform 0.3s ease, border-color 0.3s;
+        }
+
+        .unified-card:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+
+        /* --- Сетка для прайс-листа --- */
+        .price-list-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+            margin-top: 30px;
+        }
+
+        @media (min-width: 900px) {
+            .price-list-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* Делаем карточки прайса кликабельными */
+        .price-list-grid .unified-card {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .price-list-grid .unified-card:active {
+            transform: scale(0.98);
+            border-color: var(--accent);
+        }
+
+        /* Заголовки внутри карточек */
+        .price-card-title {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #fff;
+            margin: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            color: #ccc;
+            line-height: 1.5;
+        }
+        .price-val {
+            font-weight: 700;
+            color: var(--accent);
+            white-space: nowrap;
+            margin-left: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* --- КАЛЬКУЛЯТОР --- */
+        .calc-wrapper {
+            margin-bottom: 30px;
+            scroll-margin-top: 100px;
+        }
+
+        .calc-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .calc-form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        @media (min-width: 600px) {
+            .calc-form-row { grid-template-columns: 1fr 1fr; }
+        }
+
+        .input-group { display: flex; flex-direction: column; gap: 10px; }
+        .input-label { font-size: 0.9rem; color: #aaa; font-weight: 500; }
+
+        /* Стили инпутов */
+        .styled-input, .styled-select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 15px; border-radius: 12px;
+            font-size: 1rem;
+            width: 100%;
+            outline: none;
+            transition: 0.3s;
+            font-family: 'Roboto', sans-serif;
+        }
+        .styled-input:focus, .styled-select:focus { border-color: var(--accent); background: rgba(0,0,0,0.3); }
+        .styled-select option { background: #1a1a1a; }
+
+        /* Результаты калькулятора */
+        .results-block {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .res-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
+        .res-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .res-label { color: #ccc; }
+        .res-value { font-weight: 700; color: #fff; font-size: 1.1rem; }
+
+        .total-row {
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .total-val { font-size: 2rem; color: var(--accent); text-shadow: 0 0 20px rgba(255,0,0,0.3); }
+
+        .equip-note {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .btn-calc {
+            display: block;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-align: center;
+            padding: 18px;
+            border-radius: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            margin-top: 25px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        .btn-calc:hover {
+            background: rgba(40, 10, 10, 0.6);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(255,0,0,0.2);
+        }
+
+        /* Блок BIM */
+        .bim-placeholder {
+            text-align: center;
+            padding: 50px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-depth"></div>
+<div class="container">
+
+    <div id="header-container"></div>
+    <div id="menu-container"></div>
+
+    <div class="price-list-grid">
+
+        <div class="unified-card" onclick="selectParams('simple')">
+            <h3 class="price-card-title">Щиты (Без клемм)</h3>
+            <p style="font-size: 0.85rem; color: #888; margin-top:-10px;">Для квартир и домов, 1ф/3ф ввод</p>
+            <div class="price-row">
+                <span>Проектирование</span>
+                <span class="price-val">400 ₽ / модуль</span>
+            </div>
+            <div class="price-row">
+                <span>Сборка</span>
+                <span class="price-val">400 ₽ / модуль</span>
+            </div>
+        </div>
+
+        <div class="unified-card" onclick="selectParams('terminals')">
+            <h3 class="price-card-title">Щиты (С клеммами)</h3>
+            <p style="font-size: 0.85rem; color: #888; margin-top:-10px;">Полный вывод на клеммы, 1ф/3ф</p>
+            <div class="price-row">
+                <span>Проектирование</span>
+                <span class="price-val">500 ₽ / модуль</span>
+            </div>
+            <div class="price-row">
+                <span>Сборка</span>
+                <span class="price-val">500 ₽ / модуль</span>
+            </div>
+        </div>
+
+        <div class="unified-card" onclick="selectParams('led')">
+            <h3 class="price-card-title">Щиты LED подсветок</h3>
+            <p style="font-size: 0.85rem; color: #888; margin-top:-10px;">В корпусах или на панелях</p>
+            <div class="price-row">
+                <span>Проектирование</span>
+                <span class="price-val">400 ₽ / модуль</span>
+            </div>
+            <div class="price-row">
+                <span>Сборка</span>
+                <span class="price-val">400 ₽ / модуль</span>
+            </div>
+        </div>
+
+        <div class="unified-card" onclick="selectParams('smart')">
+            <h3 class="price-card-title">Умный дом (Проводной)</h3>
+            <p style="font-size: 0.85rem; color: #888; margin-top:-10px;">Сложная автоматика</p>
+            <div class="price-row">
+                <span>Проектирование</span>
+                <span class="price-val">500 ₽ / модуль</span>
+            </div>
+            <div class="price-row">
+                <span>Сборка</span>
+                <span class="price-val">800 ₽ / модуль</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="unified-card calc-wrapper" id="calculatorBlock">
+        <div class="calc-title">Калькулятор стоимости</div>
+
+        <form id="serviceCalc" oninput="calcService()">
+            <div class="calc-form-row">
+                <div class="input-group">
+                    <label class="input-label">Тип щита</label>
+                    <select id="sType" class="styled-select">
+                        <option value="simple">Обычный (без клемм)</option>
+                        <option value="terminals">Обычный (с клеммами)</option>
+                        <option value="led">Щит LED подсветок</option>
+                        <option value="smart">Умный дом</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Количество модулей (объем)</label>
+                    <input type="number" id="sMods" class="styled-input" placeholder="Введите число, например 48" min="1">
+                </div>
+            </div>
+        </form>
+
+        <div class="results-block">
+            <div class="res-row">
+                <span class="res-label">Стоимость проектирования:</span>
+                <span class="res-value" id="resDesign">0 ₽</span>
+            </div>
+            <div class="res-row">
+                <span class="res-label">Стоимость сборки:</span>
+                <span class="res-value" id="resAssembly">0 ₽</span>
+            </div>
+            <div class="res-row total-row">
+                <span class="res-label" style="color: #fff;">ИТОГО (Работы):</span>
+                <span class="res-value total-val" id="resTotal">0 ₽</span>
+            </div>
+        </div>
+
+        <div class="equip-note">
+            + Стоимость выбранного оборудования (рассчитывается индивидуально)
+        </div>
+
+        <a href="#" id="tgLink" target="_blank" class="btn-calc">Заказать расчет в Telegram</a>
+    </div>
+
+    <div class="unified-card bim-placeholder">
+        <img src="site/img/logo.png" style="height: 60px; opacity: 0.3; margin-bottom: 20px;">
+        <p style="font-size: 1.1rem; color: #ccc;">Цены на BIM моделирование уточняются.<br>Информация появится в ближайшее время.</p>
+    </div>
+
+    <div id="footer-container" style="margin-top: 50px;"></div>
+
+</div>
+
+<script src="site/loader.js"></script>
+<script>
+    if(typeof initPage === 'function') {
+        initPage('prices');
+    }
+
+    // Функция выбора типа при клике на карточку
+    function selectParams(type) {
+        const select = document.getElementById('sType');
+        select.value = type;
+
+        const calcBlock = document.getElementById('calculatorBlock');
+        calcBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        const input = document.getElementById('sMods');
+        setTimeout(() => {
+            input.focus();
+        }, 600);
+
+        calcService();
+    }
+
+    function calcService() {
+        const type = document.getElementById('sType').value;
+        const mods = parseInt(document.getElementById('sMods').value) || 0;
+
+        let rateDesign = 0;
+        let rateAssembly = 0;
+
+        switch (type) {
+            case 'simple': // Обычный без клемм
+                rateDesign = 400;
+                rateAssembly = 400;
+                break;
+            case 'terminals': // Обычный с клеммами
+                rateDesign = 500;
+                rateAssembly = 500;
+                break;
+            case 'led': // LED
+                rateDesign = 400;
+                rateAssembly = 400;
+                break;
+            case 'smart': // Умный дом
+                rateDesign = 500;
+                rateAssembly = 800;
+                break;
+        }
+
+        const costDesign = mods * rateDesign;
+        const costAssembly = mods * rateAssembly;
+        const total = costDesign + costAssembly;
+
+        const fmt = new Intl.NumberFormat('ru-RU').format;
+
+        document.getElementById('resDesign').textContent = fmt(costDesign) + ' ₽';
+        document.getElementById('resAssembly').textContent = fmt(costAssembly) + ' ₽';
+        document.getElementById('resTotal').textContent = fmt(total) + ' ₽';
+
+        // Обновление ссылки Telegram
+        const typeText = document.getElementById('sType').options[document.getElementById('sType').selectedIndex].text;
+        const msg = `Здравствуйте! Интересует сборка щита.\nТип: ${typeText}\nОбъем: ${mods} модулей.\nОриентировочная стоимость работ: ${fmt(total)} ₽`;
+        document.getElementById('tgLink').href = `https://t.me/JanPro59?text=${encodeURIComponent(msg)}`;
+    }
+</script>
+
+</body>
+</html>
