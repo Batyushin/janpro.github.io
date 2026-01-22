@@ -73,12 +73,15 @@
             color: #ccc;
             line-height: 1.5;
         }
+
+        /* ЦЕНА: Стиль как на странице щитов (Белый, жирный) */
         .price-val {
-            font-weight: 700;
-            color: var(--accent);
+            font-weight: 900;
+            color: #fff; /* Был accent */
             white-space: nowrap;
             margin-left: 10px;
             font-size: 1.1rem;
+            text-shadow: 0 0 10px rgba(255,255,255,0.1);
         }
 
         /* --- КАЛЬКУЛЯТОР --- */
@@ -144,7 +147,13 @@
             padding-top: 15px;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
-        .total-val { font-size: 2rem; color: var(--accent); text-shadow: 0 0 20px rgba(255,0,0,0.3); }
+
+        /* ИТОГО: Тоже белый цвет */
+        .total-val {
+            font-size: 2rem;
+            color: #fff; /* Был accent */
+            text-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
 
         .equip-note {
             text-align: center;
@@ -299,6 +308,7 @@
         <p style="font-size: 1.1rem; color: #ccc;">Цены на BIM моделирование уточняются.<br>Информация появится в ближайшее время.</p>
     </div>
 
+    <div id="services-container" style="display: flex; flex-direction: column; gap: 20px;"></div>
     <div id="footer-container" style="margin-top: 50px;"></div>
 
 </div>
