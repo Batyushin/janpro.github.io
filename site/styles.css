@@ -299,7 +299,10 @@ a.card:hover .arrow-icon {
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
     transform: scale(1.1) rotate(10deg);
 }
-.info-card:hover .info-img { opacity: 1; filter: brightness(100); }
+.info-card:hover .info-img {
+    opacity: 1;
+    /* filter: brightness(100); УБРАЛИ ЭТО, чтобы сохранить цвета картинки */
+}
 .info-card:hover h3 { color: #fff; }
 
 .info-card .arrow-icon { display: block; position: absolute; bottom: 10px; right: 20px; font-size: 1rem; opacity: 0.4; transition: all 0.3s; }
