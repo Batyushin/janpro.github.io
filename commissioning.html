@@ -55,12 +55,19 @@
 
         /* --- Вкладки (Tabs) --- */
         .tabs-wrapper {
-            overflow-x: auto; white-space: nowrap; margin-bottom: 25px; padding-bottom: 5px;
-            -ms-overflow-style: none; scrollbar-width: none;
+            margin-bottom: 25px;
+            padding-bottom: 5px;
         }
+
+        .tabs-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
         .tabs-wrapper::-webkit-scrollbar { display: none; }
 
-        .tabs-nav { display: inline-flex; gap: 10px; min-width: 100%; justify-content: center; }
 
         .tab-btn {
             background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
@@ -206,8 +213,10 @@
             .calc-social-btn { padding: 0; width: 42px; height: 42px; border-radius: 10px; }
             .calc-social-btn span { display: none; }
             .disclaimer-text { width: 100%; text-align: center; margin-top: 8px; display: block; }
-            .tabs-nav { justify-content: flex-start; }
+            .tabs-nav { justify-content: center; }
         }
+
+
     </style>
 </head>
 <body>
