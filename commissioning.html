@@ -214,6 +214,7 @@
             .calc-social-btn span { display: none; }
             .disclaimer-text { width: 100%; text-align: center; margin-top: 8px; display: block; }
             .tabs-nav { justify-content: center; }
+            .accordion-group .compact-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
 
@@ -439,13 +440,14 @@
         <div id="tab-scenarios" class="tab-content">
             <div class="calc-card-wrapper"> <div class="calc-header" style="border:none; padding:0; margin-bottom:15px;">
             </div>
-                <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 25px; text-align:center;">
-                    Расчет уникальной логики (если нет в типовых).<br>
-                    База: 1000₽ + Триггер: 300₽ + Действие: 300₽.
-                </p>
                 <div id="scenariosList" class="scenarios-container"></div>
                 <button class="btn-add" onclick="addScenarioRow()">+ Добавить сценарий</button>
             </div>
+
+            <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 25px; text-align:center;">
+                Расчет уникальной логики (если нет в типовых).<br>
+                База: 1000₽ + Триггер: 300₽ + Действие: 300₽.
+            </p>
         </div>
 
         <div id="tab-consult" class="tab-content">
