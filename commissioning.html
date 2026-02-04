@@ -160,13 +160,10 @@
         /* --- ИТОГО (Sticky - Точно как в калькуляторе) --- */
         .total-sticky {
             position: sticky; bottom: 10px; z-index: 100;
-            margin-top: 20px; padding: 15px 25px;
+            margin-top: 20px;
+            padding: 15px 25px;
             display: flex; flex-direction: column; align-items: center; text-align: center;
-            background: rgba(15, 10, 10, 0.85) !important; /* Как в калькуляторе */
-            border: 1px solid var(--accent) !important;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-            backdrop-filter: blur(25px);
+            border: 1px solid var(--accent) !important; /* Выделяем красной рамкой */
         }
 
         .total-label { font-size: 0.85rem; color: #c0c0c0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
@@ -432,7 +429,6 @@
 
         <div id="tab-scenarios" class="tab-content">
             <div class="calc-card-wrapper"> <div class="calc-header" style="border:none; padding:0; margin-bottom:15px;">
-                <h3 class="calc-title" style="font-size:1.4rem;">Конструктор Сценариев</h3>
             </div>
                 <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 25px; text-align:center;">
                     Расчет уникальной логики (если нет в типовых).<br>
@@ -446,7 +442,6 @@
         <div id="tab-consult" class="tab-content">
             <div class="calc-card-wrapper">
                 <div class="calc-header" style="border:none; padding:0; margin-bottom:15px;">
-                    <h3 class="calc-title" style="font-size:1.4rem;">Консультации</h3>
                 </div>
 
                 <label class="consult-item">
@@ -483,13 +478,12 @@
         <div id="tab-other" class="tab-content">
             <div class="calc-card-wrapper">
                 <div class="calc-header" style="border:none; padding:0; margin-bottom:15px;">
-                    <h3 class="calc-title" style="font-size:1.4rem;">Сопутствующие работы</h3>
                 </div>
 
                 <div class="input-group-compact" style="margin-bottom:20px;">
                     <label class="label-compact" style="font-size:1rem; color:#fff; min-height:auto; margin-bottom:5px;">Диагностика и исправление (за час)</label>
                     <input type="number" class="styled-input pnr-input" placeholder="Кол-во часов" min="0" data-price="5200" oninput="calcPnr()">
-                    <div style="font-size:0.85rem; color:#aaa; margin-top:5px;">Стоимость: 5 200 ₽ / час</div>
+                    <div style="font-size:0.85rem; color:#aaa; margin-top:5px;">*Если электрика выполнена не нашими специалистами, стоимость исправлений рассчитывается по факту затраченного времени (диагностика + монтаж).<br>Стоимость: 5 200 ₽ / час</div>
                 </div>
             </div>
         </div>
