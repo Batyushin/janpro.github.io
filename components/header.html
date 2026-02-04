@@ -47,61 +47,66 @@
         font-size: 2.5rem;
         font-weight: 900;
         letter-spacing: -1px;
-        /* Исходная тень (легкая) */
         text-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
         line-height: 1;
         margin: 0;
     }
 
     /* Обертка для & и Логотипа */
-    .partner-group {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    /* СТИЛЬ АМПЕРСАНДА (&) */
-    .ampersand-box {
-        background-color: #FFEE00;
-        color: #111;
-        font-family: 'Arial Rounded MT Bold', 'Arial Rounded MT', 'Helvetica Rounded', Arial, sans-serif;
-        font-size: 1.4rem;
-        font-weight: bold;
-        line-height: 0.8;
-        padding: 0 5px;
-        border-radius: 2px;
-        transform: skewX(-10deg);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 22px;
-        box-shadow: none;
-        cursor: default;
-    }
-
-    .ampersand-symbol { display: block; }
+    .partner-group { display: flex; align-items: center; gap: 6px; }
 
     /* ССЫЛКА НА СТРОЙПЛОЩАДКУ */
-    .sp-link {
-        display: block;
-        text-decoration: none;
-        transition: transform 0.3s ease;
-    }
-
-    .sp-logo-img {
-        height: 60px;
-        width: auto;
-        object-fit: contain;
-        display: block;
-        transition: filter 0.3s ease;
-    }
-
+    .sp-link { display: block; text-decoration: none; transition: transform 0.3s ease; }
+    .sp-logo-img { height: 60px; width: auto; object-fit: contain; display: block; transition: filter 0.3s ease; }
     .sp-link:hover { transform: translateY(-2px) scale(1.05); }
     .sp-link:hover .sp-logo-img { filter: drop-shadow(0 0 10px #FFEE00); }
 
     .red-text { color: var(--accent); transition: text-shadow 0.3s ease; }
-
     .desc { max-width: 650px; color: var(--text-muted); line-height: 1.4; font-size: 1.1rem; margin: 0 auto; }
+
+    /* --- ЭФФЕКТЫ ЛОГОТИПА --- */
+    .logo-link-text {
+        color: inherit; text-decoration: none; display: inline-block;
+        transition: transform 0.3s ease, text-shadow 0.3s ease, opacity 0.3s;
+    }
+    .logo-link-text:hover {
+        transform: scale(1.05); opacity: 1;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+    .logo-link-text:hover .red-text {
+        text-shadow: 0 0 10px rgba(255, 0, 0, 1), 0 0 25px rgba(255, 0, 0, 0.8);
+    }
+
+    /* --- ЦИФРА 59 (НАД ТОЧКОЙ) --- */
+    .dot-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    .sup-59 {
+        font-size: 0.45em; /* Размер цифры */
+        position: absolute;
+
+        /* Центрируем относительно точки */
+        left: 50%;
+        transform: translateX(-50%);
+
+        /* Начальная позиция (спрятано в точке) */
+        top: 0.1em;
+
+        color: #fff; /* Цвет цифры (белый, чтобы отличался от красной точки) */
+        opacity: 0; /* Невидимо по умолчанию */
+
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        pointer-events: none;
+    }
+
+    /* При наведении на ссылку цифра взлетает */
+    .logo-link-text:hover .sup-59 {
+        opacity: 1;
+        top: -0.3em; /* Взлетает вверх как степень */
+        text-shadow: 0 0 10px rgba(255,255,255,0.8);
+    }
 
     /* --- АДАПТИВНОСТЬ --- */
     @media (max-width: 900px) {
@@ -109,73 +114,13 @@
         .header-content { flex-direction: column; gap: 0; padding-left: 0; justify-content: flex-start; align-items: center; height: auto; }
         .header-col-logo { flex: 0 0 auto; width: 100%; justify-content: center; margin-bottom: 0; }
         .main-logo-img { max-width: 270px; display: block; }
-
-        .header-col-text {
-            width: 100%;
-            margin-top: -25px;
-            position: relative;
-            flex: auto;
-        }
-
-        .title-row {
-            justify-content: flex-end;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 5px;
-        }
-
+        .header-col-text { width: 100%; margin-top: -25px; position: relative; flex: auto; }
+        .title-row { justify-content: flex-end; gap: 10px; flex-wrap: wrap; margin-bottom: 5px; }
         .logo-text { font-size: 1.4rem; }
-
-        .ampersand-box {
-            height: 15px;
-            font-size: 0.9rem;
-            padding: 0 3px;
-        }
-
         .sp-logo-img { height: 28px; }
-
         .desc br { display: inline; }
-        .desc {
-            width: 100%;
-            display: block;
-            font-size: 0.9rem;
-            white-space: normal;
-            text-align: right;
-            opacity: 0.8;
-            margin-top: 5px;
-            line-height: 1.3;
-        }
+        .desc { width: 100%; display: block; font-size: 0.9rem; white-space: normal; text-align: right; opacity: 0.8; margin-top: 5px; line-height: 1.3; }
     }
-
-    /* --- ЛОГИКА СВЕЧЕНИЯ JANPRO --- */
-
-    .logo-link-text {
-        color: inherit;
-        text-decoration: none;
-        display: inline-block;
-        /* Плавный переход для трансформации и тени */
-        transition: transform 0.3s ease, text-shadow 0.3s ease, opacity 0.3s;
-    }
-
-    /* При наведении ИМЕННО НА ССЫЛКУ JanPro */
-    .logo-link-text:hover {
-        transform: scale(1.05);
-        opacity: 1;
-        /* Белое многослойное свечение для текста "JanPro" */
-        text-shadow:
-                0 0 10px rgba(255, 255, 255, 0.8),
-                0 0 20px rgba(255, 255, 255, 0.5),
-                0 0 40px rgba(255, 255, 255, 0.3);
-    }
-
-    /* При наведении на ссылку, КРАСНАЯ часть (.ru) светится КРАСНЫМ */
-    .logo-link-text:hover .red-text {
-        text-shadow:
-                0 0 10px rgba(255, 0, 0, 1),
-                0 0 25px rgba(255, 0, 0, 0.8),
-                0 0 50px rgba(255, 0, 0, 0.6);
-    }
-
 </style>
 
 <div class="card header-card">
@@ -190,7 +135,7 @@
             <div class="title-row">
                 <h1 class="logo-text">
                     <a href="https://www.youtube.com/@jan.pro59" target="_blank" class="logo-link-text">
-                        JanPro<span class="red-text">.ru</span>
+                        JanPro<span class="red-text"><span class="dot-wrapper">.<span class="sup-59">59</span></span>ru</span>
                     </a>
                 </h1>
 
