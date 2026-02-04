@@ -152,6 +152,14 @@
         }
         .btn-remove:hover { background: rgba(255,0,0,0.5); border-color: red; }
 
+        .scenario-note {
+            margin-top: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
         /* --- Консультации (Чекбоксы) --- */
         .consult-item {
             background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
@@ -444,9 +452,16 @@
                 <button class="btn-add" onclick="addScenarioRow()">+ Добавить сценарий</button>
             </div>
 
-            <p style="color: #aaa; font-size: 0.9rem; margin-top: 15px; margin-bottom: 25px; text-align:center;">
+            <p class="scenario-note">
                 Расчет уникальной логики (если нет в типовых).<br>
                 База: 1000₽ + Триггер: 300₽ + Действие: 300₽.
+            </p>
+            <p class="scenario-note">
+                <b>*Триггер</b> — это событие, которое запускает сценарий
+                (например: нажали кнопку, открылась дверь, наступило время).<br>
+
+                <b>*Действие</b> — это то, что система делает после запуска
+                (например: включить свет, закрыть шторы, отправить уведомление).
             </p>
         </div>
 
