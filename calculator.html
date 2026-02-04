@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор щита | Стройплощадка</title>
+    <title>Калькулятор щита | JanPro.ru</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="site/styles.css">
@@ -11,137 +11,205 @@
     <script src="site/metrics.js"></script>
 
     <style>
-        /* --- СТИЛИ КАЛЬКУЛЯТОРА --- */
+        /* --- СЛОИ --- */
+        .bg-depth { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .container { position: relative; z-index: 1; }
+
+        /* --- ЛОКАЛЬНЫЕ СТИЛИ (ТОЛЬКО ОТСТУПЫ) --- */
+        /* Визуал берется из глобального .card */
+
         .calc-card-wrapper {
-            background: rgba(15, 10, 10, 0.6);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 30px;
-            display: flex; flex-direction: column; gap: 0;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(40px);
-            position: relative;
+            padding: 25px;
+            display: flex; flex-direction: column;
+            margin-bottom: 20px;
         }
 
+        /* --- ЗАГОЛОВОК --- */
         .calc-header {
-            text-align: center; margin: -30px -30px 0 -30px; padding: 30px 30px 25px 30px;
-            display: flex; flex-direction: column; align-items: center;
+            text-align: center; margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;
         }
-        .calc-title-row { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 8px; }
-        .calc-title-icon { width: 40px; height: 40px; }
-        .calc-title { margin: 0; font-size: 2rem; font-weight: 900; color: #fff; }
-        .calc-subtitle { margin: 0; color: #aaa; font-size: 1rem; }
+        .calc-title-row { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 5px; }
 
+        /* Иконка с наклоном */
+        .calc-title-icon {
+            width: 36px; height: 36px; opacity: 0.9;
+            transform: rotate(-15deg);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        /* При наведении на блок выравниваем иконку */
+        .calc-card-wrapper:hover .calc-title-icon { transform: rotate(0deg) scale(1.1); }
+
+        .calc-title { margin: 0; font-size: 1.8rem; font-weight: 900; color: #fff; }
+        .calc-subtitle { margin: 0; color: #c0c0c0; font-size: 0.95rem; }
+
+        /* --- СЕКЦИИ --- */
         .calc-section {
-            padding: 25px 0; display: flex; flex-direction: column; gap: 15px;
+            padding: 20px 0; display: flex; flex-direction: column; gap: 15px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .calc-section:last-child { border-bottom: none; }
+        .calc-section:last-child { border-bottom: none; padding-bottom: 0; }
         .calc-section.hidden { display: none; }
 
-        .section-header { display: flex; align-items: center; gap: 15px; min-width: 200px; }
+        .section-header { display: flex; align-items: center; gap: 12px; min-width: 200px; }
+
         .section-number {
             display: flex; align-items: center; justify-content: center;
-            width: 32px; height: 32px; border: 2px solid var(--accent); border-radius: 50%;
-            color: var(--accent); font-size: 1.1rem; font-weight: 900; flex-shrink: 0;
+            width: 28px; height: 28px; border: 2px solid var(--accent); border-radius: 50%;
+            color: #fff; font-size: 0.9rem; font-weight: 900; background: rgba(255, 0, 0, 0.2);
+            flex-shrink: 0;
         }
-        .section-title { font-size: 1.1rem; font-weight: 700; color: #fff; }
 
-        .options-grid { display: grid; grid-template-columns: 1fr; gap: 12px; width: 100%; }
+        .section-title { font-size: 1.05rem; font-weight: 700; color: #fff; }
+
+        .options-grid { display: grid; grid-template-columns: 1fr; gap: 10px; width: 100%; }
 
         @media (min-width: 900px) {
             .calc-section { flex-direction: row; align-items: flex-start; }
-            .section-header { padding-top: 10px; min-width: 250px; }
+            .section-header { padding-top: 8px; }
             .options-grid { grid-template-columns: repeat(3, 1fr); }
             .options-grid.small-grid { grid-template-columns: repeat(4, 1fr); }
-            /* Спец стиль для 2 колонок */
             .options-grid.two-cols { grid-template-columns: repeat(2, 1fr); }
         }
 
-        /* --- КАРТОЧКИ --- */
-        .option-label { cursor: pointer; position: relative; display: block; width: 100%; }
+        /* --- КАРТОЧКИ ВЫБОРА --- */
+        .option-label { cursor: pointer; position: relative; display: block; width: 100%; height: 100%; }
         .option-label.hidden { display: none; }
         .option-input { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
 
         .option-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px; padding: 15px;
-            display: flex; align-items: center; gap: 15px;
-            transition: all 0.3s ease; height: 100%; min-height: 70px;
+            border-radius: 14px; padding: 12px 15px;
+            display: flex; align-items: center; gap: 12px;
+            transition: all 0.3s ease; height: 100%; min-height: 60px; box-sizing: border-box;
         }
 
-        .option-label:hover .option-card { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.3); }
+        .option-label:hover .option-card { background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.3); transform: translateY(-2px); }
 
         .option-marker {
-            width: 20px; height: 20px; border-radius: 50%;
+            width: 18px; height: 18px; border-radius: 50%;
             border: 2px solid rgba(255,255,255,0.3); flex-shrink: 0; position: relative;
+            background: rgba(0,0,0,0.3); transition: all 0.3s ease;
         }
         .option-marker::after {
             content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
             width: 10px; height: 10px; background: #fff; border-radius: 50%; transition: transform 0.2s;
         }
-        .checkbox-mode .option-marker { border-radius: 4px; }
+        .checkbox-mode .option-marker { border-radius: 5px; }
         .checkbox-mode .option-marker::after { border-radius: 2px; }
 
         .option-input:checked + .option-card {
-            background: rgba(40, 10, 10, 0.6); border-color: var(--accent);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.15);
+            background: rgba(255, 0, 0, 0.15); border-color: var(--accent);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.1);
         }
         .option-input:checked + .option-card .option-marker { border-color: var(--accent); background: var(--accent); }
         .option-input:checked + .option-card .option-marker::after { transform: translate(-50%, -50%) scale(1); }
-
         .option-input:disabled + .option-card { opacity: 0.4; cursor: not-allowed; filter: grayscale(1); }
 
         .option-content { display: flex; flex-direction: column; }
-        .option-text { color: #fff; font-weight: 700; font-size: 0.95rem; line-height: 1.2; }
-        .option-sub { font-size: 0.8rem; color: #888; margin-top: 4px; }
+        .option-text { color: #fff; font-weight: 700; font-size: 0.95rem; line-height: 1.1; }
+        .option-sub { font-size: 0.8rem; color: #aaa; margin-top: 3px; }
+        .option-input:checked + .option-card .option-sub { color: #ddd; }
 
-        /* --- SELECT --- */
+        /* --- SELECTS --- */
         .styled-select-wrapper { position: relative; width: 100%; display: block; }
         .styled-select-wrapper.disabled { opacity: 0.3; pointer-events: none; }
 
         .styled-select {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 15px; border-radius: 12px;
-            font-size: 1rem; font-family: 'Roboto', sans-serif;
+            width: 100%; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1); color: #fff;
+            padding: 12px 15px; border-radius: 12px;
+            font-size: 0.95rem; font-family: 'Roboto', sans-serif;
             appearance: none; -webkit-appearance: none; -moz-appearance: none;
             cursor: pointer; transition: 0.3s;
         }
-        .styled-select:focus { outline: none; border-color: var(--accent); background: rgba(0,0,0,0.3); }
+        .styled-select:focus { outline: none; border-color: var(--accent); background: rgba(255, 255, 255, 0.1); }
         .styled-select option { background: #1a1a1a; color: #fff; padding: 10px; }
-
         .styled-select-wrapper::after {
             content: '▼'; position: absolute; right: 15px; top: 0; bottom: 0; margin: auto;
             height: 1em; line-height: 1; color: var(--accent); font-size: 0.8rem; pointer-events: none;
         }
 
-        /* --- ИТОГ --- */
+        /* --- ИТОГОВЫЙ БЛОК (STICKY) --- */
+        /* Добавляем .card в HTML, здесь только позиционирование */
         .total-sticky {
-            position: sticky; bottom: 20px; z-index: 100;
-            background: rgba(15, 10, 10, 0.8);
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(20px); border-radius: 24px;
-            padding: 20px 25px; margin-top: 20px;
+            position: sticky; bottom: 10px; z-index: 100;
+            margin-top: 20px;
+            padding: 15px 25px;
             display: flex; flex-direction: column; align-items: center; text-align: center;
+            border: 1px solid var(--accent) !important; /* Выделяем красной рамкой */
         }
-        .total-price { font-size: 2.8rem; font-weight: 900; color: #fff; margin: 0 0 15px 0; text-shadow: 0 0 20px rgba(255,255,255,0.1); }
-        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 500px; }
+
+        .total-label { font-size: 0.85rem; color: #c0c0c0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+
+        .total-price {
+            font-size: 2.2rem; font-weight: 900; color: #fff;
+            margin: 0 0 10px 0; text-shadow: 0 0 20px rgba(255,0,0,0.3); line-height: 1;
+        }
+
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 400px; }
 
         .calc-social-btn {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 12px; border-radius: 16px; color: #fff; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 10px; border-radius: 12px; color: #fff; font-weight: 700; font-size: 0.9rem;
             background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15);
-            transition: 0.3s;
+            transition: 0.3s; text-decoration: none;
         }
-        .calc-social-btn:hover { background: rgba(40, 10, 10, 0.6); border-color: var(--accent); }
-        .calc-social-btn img { width: 24px; height: 24px; }
+        .calc-social-btn:hover {
+            background: rgba(40, 10, 10, 0.8); border-color: var(--accent); transform: translateY(-2px);
+        }
+        .calc-social-btn img { width: 20px; height: 20px; }
 
+        .disclaimer-text {
+            font-size: 0.75rem; color: #777; margin: 10px 0 0 0; line-height: 1.3;
+        }
+
+        /* --- МОБИЛЬНАЯ ВЕРСИЯ (КОМПАКТНАЯ СТРОКА) --- */
         @media (max-width: 600px) {
-            .total-price { font-size: 2.2rem; }
+            .total-sticky {
+                padding: 10px 15px;
+                flex-direction: row; /* В РЯД */
+                flex-wrap: wrap;     /* Чтобы дисклеймер упал вниз */
+                justify-content: space-between;
+                align-items: center;
+                gap: 0;
+            }
+
+            /* Левая часть: Цена */
+            .total-info-col {
+                text-align: left;
+                flex-grow: 1;
+            }
+            .total-price { font-size: 1.5rem; margin: 0; }
+            .total-label { font-size: 0.6rem; margin-bottom: 0; }
+
+            /* Правая часть: Кнопки */
+            .social-grid {
+                width: auto;
+                display: flex;
+                gap: 8px;
+            }
+            .calc-social-btn {
+                padding: 0; /* Убираем паддинг */
+                width: 42px; height: 42px; /* Фиксированный квадрат */
+                border-radius: 10px;
+            }
+            .calc-social-btn span { display: none; } /* Скрываем текст */
+            .calc-social-btn img { width: 24px; height: 24px; margin: 0; }
+
+            /* Дисклеймер внизу на всю ширину */
+            .disclaimer-text {
+                width: 100%;
+                font-size: 0.6rem;
+                margin: 5px 0 0 0;
+                text-align: center;
+                opacity: 0.7;
+            }
+
+            .calc-card-wrapper { padding: 15px; }
+            .section-number { margin-right: 5px; width: 24px; height: 24px; font-size: 0.8rem; }
+            .calc-title { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -249,7 +317,7 @@
 
             <div class="calc-section">
                 <div class="section-header"><div class="section-number">5</div><div class="section-title">Объект</div></div>
-                <div style="width: 100%; display: flex; flex-direction: column; gap: 12px;">
+                <div style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
                     <div class="options-grid two-cols">
                         <label class="option-label">
                             <input type="radio" name="obj_type" value="apartment" class="option-input" checked>
@@ -361,7 +429,7 @@
                 <div class="section-header"><div class="section-number">8</div><div class="section-title">LED Подсветка</div></div>
                 <div class="options-grid">
                     <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Расположение блоков питания</label>
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Расположение блоков</label>
                         <select name="led_type" id="ledType" class="styled-select">
                             <option value="none">Нет подсветок</option>
                             <option value="inside">Внутри этого щита</option>
@@ -370,7 +438,7 @@
                         </select>
                     </div>
                     <div class="styled-select-wrapper" id="ledCountWrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Кол-во контуров (лент)</label>
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Кол-во контуров (лент)</label>
                         <select name="led_count" class="styled-select">
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -385,7 +453,7 @@
                         </select>
                     </div>
                     <div class="styled-select-wrapper" id="ledDimWrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Диммирование (яркость)</label>
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Диммирование</label>
                         <select name="led_dim" class="styled-select">
                             <option value="no">Нет (вкл/выкл)</option>
                             <option value="yes">Да (нужно диммирование)</option>
@@ -398,7 +466,7 @@
                 <div class="section-header"><div class="section-number">9</div><div class="section-title">Климат</div></div>
                 <div class="options-grid">
                     <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Теплый пол (контуров)</label>
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Теплый пол (контуров)</label>
                         <select name="sh_floor" class="styled-select">
                             <option value="0">Нет</option>
                             <option value="1">1 зона</option>
@@ -409,7 +477,7 @@
                         </select>
                     </div>
                     <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Радиаторы (шт)</label>
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Радиаторы (шт)</label>
                         <select name="sh_radiator" class="styled-select">
                             <option value="0">Нет</option>
                             <option value="1">1 шт</option>
@@ -421,7 +489,7 @@
                         </select>
                     </div>
                     <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Кондиционеры (шт)</label>
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Кондиционеры (шт)</label>
                         <select name="ac_count" class="styled-select">
                             <option value="0">Нет</option>
                             <option value="1">1 шт</option>
@@ -438,7 +506,7 @@
                 <div class="section-header"><div class="section-number">10</div><div class="section-title">Параметры Умного дома</div></div>
                 <div class="options-grid">
                     <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Релейный свет</label>
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Релейный свет</label>
                         <select name="sh_light" class="styled-select">
                             <option value="0">Нет</option>
                             <option value="3">1-3 группы</option>
@@ -451,7 +519,7 @@
                     </div>
 
                     <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Диммируемый свет</label>
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Диммируемый свет</label>
                         <select name="sh_light_dim" class="styled-select">
                             <option value="0">Нет</option>
                             <option value="3">1-3 группы</option>
@@ -462,7 +530,7 @@
                     </div>
 
                     <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Отключаемые розетки</label>
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Отключаемые розетки</label>
                         <select name="sh_socket" class="styled-select">
                             <option value="0">Нет</option>
                             <option value="1">1 группа (Всё сразу)</option>
@@ -473,7 +541,7 @@
                         </select>
                     </div>
                     <div class="styled-select-wrapper">
-                        <label style="color: #aaa; font-size: 0.8rem; margin-bottom: 5px; display:block;">Электрокарнизы</label>
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Электрокарнизы</label>
                         <select name="sh_curtain" class="styled-select">
                             <option value="0">Нет</option>
                             <option value="1">1 шт</option>
@@ -503,19 +571,21 @@
         </form>
     </div>
 
-    <div class="total-sticky card" id="totalBlock">
-        <div class="total-label">Примерная стоимость</div>
-        <div class="total-price" id="totalPrice">0 ₽</div>
+    <div class="card total-sticky" id="totalBlock">
+        <div class="total-info-col">
+            <div class="total-label">Примерная стоимость</div>
+            <div class="total-price" id="totalPrice">0 ₽</div>
+        </div>
 
         <div class="social-grid">
             <a href="#" id="tgLink" target="_blank" class="calc-social-btn">
-                <img src="site/img/tg.svg" alt="TG"> Telegram
+                <img src="site/img/tg.svg" alt="TG"> <span>Telegram</span>
             </a>
             <a href="#" id="waLink" target="_blank" class="calc-social-btn">
-                <img src="site/img/whatsapp.png" alt="WA"> WhatsApp
+                <img src="site/img/whatsapp.png" alt="WA"> <span>WhatsApp</span>
             </a>
         </div>
-        <p style="font-size: 0.75rem; color: var(--text-muted); margin: 15px 0 0 0;">
+        <p class="disclaimer-text">
             *Цена ориентировочная. Включает проектирование, сборку и комплектующие.
         </p>
     </div>
@@ -547,25 +617,22 @@
         const classicOnlyOptions = document.querySelectorAll('.classic-only');
 
         if (sysType === 'classic') {
-            // Если классика:
-            smartSection.classList.add('hidden'); // Скрываем параметры умного дома
-            classicOnlyOptions.forEach(el => el.classList.remove('hidden')); // Показываем опции классики
+            smartSection.classList.add('hidden');
+            classicOnlyOptions.forEach(el => el.classList.remove('hidden'));
         } else {
-            // Если Умный дом:
-            smartSection.classList.remove('hidden'); // Показываем параметры умного дома
+            smartSection.classList.remove('hidden');
             classicOnlyOptions.forEach(el => {
-                el.classList.add('hidden'); // Скрываем опции классики
-                el.querySelector('input').checked = false; // Сбрасываем их значения
+                el.classList.add('hidden');
+                el.querySelector('input').checked = false;
             });
         }
 
-        // 3. УПРАВЛЕНИЕ LED (Активность полей)
+        // 3. УПРАВЛЕНИЕ LED
         const ledType = document.getElementById('ledType').value;
         const ledCountWrapper = document.getElementById('ledCountWrapper');
         const ledDimWrapper = document.getElementById('ledDimWrapper');
 
         if (ledType === 'none') {
-            // Отключаем
             ledCountWrapper.classList.add('disabled');
             ledDimWrapper.classList.add('disabled');
         } else {
@@ -573,8 +640,7 @@
             ledDimWrapper.classList.remove('disabled');
         }
 
-
-        // 4. УПРАВЛЕНИЕ РЕЛЕ ПРИОРИТЕТА (Только 3 фазы)
+        // 4. РЕЛЕ ПРИОРИТЕТА
         const voltage = form.querySelector('input[name="voltage"]:checked').value;
         const priorityBlock = document.getElementById('priorityRelayBlock');
         const priorityInput = priorityBlock.querySelector('input');
@@ -588,141 +654,73 @@
             priorityBlock.style.opacity = '0.5';
         }
 
-        // --- БАЗА ДЛЯ РАСЧЕТА (ЦЕНЫ) ---
+        // --- РАСЧЕТ ЦЕНЫ ---
         let total = 0;
-
-        // Бюджет (множитель)
         const budget = form.querySelector('input[name="budget"]:checked').value;
         let multiplier = 1;
         if (budget === 'low') multiplier = 0.8;
         if (budget === 'high') multiplier = 1.4;
 
-        // Система (базовая цена сборки + оборудование)
-        let sysPrice = 20000; // Классика
+        let sysPrice = 20000;
+        let pricePerLight = 0, pricePerDimLight = 0, pricePerSocket = 0, pricePerCurtain = 0;
+        let pricePerFloor = 3000, pricePerRadiator = 3000, pricePerAC = 3000, priceLeak = 0;
 
-        // Цены за точку (Базовые для Классики)
-        let pricePerLight = 0;
-        let pricePerDimLight = 0;
-        let pricePerSocket = 0;
-        let pricePerCurtain = 0;
-        let pricePerFloor = 3000;     // Автомат + линия (Классика)
-        let pricePerRadiator = 3000;  // Автомат + линия (Классика)
-        let pricePerAC = 3000;        // Автомат + линия (Классика)
-        let priceLeak = 0;
-
-        // Переопределение цен для Умного дома
         if (sysType === 'zigbee') {
-            sysPrice = 40000;
-            pricePerLight = 2000;
-            pricePerDimLight = 3500;
-            pricePerSocket = 2500;
-            pricePerCurtain = 4000;
-            pricePerFloor = 3000;     // Реле/Термостат
-            pricePerRadiator = 3000;  // Термоголовка/Реле
-            pricePerAC = 4000;        // ИК шлюз
-            priceLeak = 15000;
+            sysPrice = 40000; pricePerLight = 2000; pricePerDimLight = 3500; pricePerSocket = 2500; pricePerCurtain = 4000; priceLeak = 15000; pricePerAC = 4000;
         } else if (sysType === 'wirenboard') {
-            sysPrice = 120000;
-            pricePerLight = 6000;
-            pricePerDimLight = 9000;
-            pricePerSocket = 6000;
-            pricePerCurtain = 8000;
-            pricePerFloor = 6000;
-            pricePerRadiator = 6000;
-            pricePerAC = 8000;        // Modbus/ИК
-            priceLeak = 30000;
+            sysPrice = 120000; pricePerLight = 6000; pricePerDimLight = 9000; pricePerSocket = 6000; pricePerCurtain = 8000; pricePerFloor = 6000; pricePerRadiator = 6000; pricePerAC = 8000; priceLeak = 30000;
         } else if (sysType === 'loxone') {
-            sysPrice = 250000;
-            pricePerLight = 12000;
-            pricePerDimLight = 18000;
-            pricePerSocket = 12000;
-            pricePerCurtain = 15000;
-            pricePerFloor = 15000;
-            pricePerRadiator = 15000;
-            pricePerAC = 20000;
-            priceLeak = 50000;
+            sysPrice = 250000; pricePerLight = 12000; pricePerDimLight = 18000; pricePerSocket = 12000; pricePerCurtain = 15000; pricePerFloor = 15000; pricePerRadiator = 15000; pricePerAC = 20000; priceLeak = 50000;
         }
 
         total += sysPrice;
 
-        // Считываем значения климата (Они теперь общие)
         const shFloor = parseInt(form.querySelector('select[name="sh_floor"]').value) || 0;
         const shRadiator = parseInt(form.querySelector('select[name="sh_radiator"]').value) || 0;
         const acCount = parseInt(form.querySelector('select[name="ac_count"]').value) || 0;
+        total += (shFloor * pricePerFloor) + (shRadiator * pricePerRadiator) + (acCount * pricePerAC);
 
-        total += (shFloor * pricePerFloor);
-        total += (shRadiator * pricePerRadiator);
-        total += (acCount * pricePerAC);
-
-        // Расчет опций Умного дома (только если не классика)
         if (sysType !== 'classic') {
             const shLight = parseInt(form.querySelector('select[name="sh_light"]').value) || 0;
             const shLightDim = parseInt(form.querySelector('select[name="sh_light_dim"]').value) || 0;
             const shSocket = parseInt(form.querySelector('select[name="sh_socket"]').value) || 0;
             const shCurtain = parseInt(form.querySelector('select[name="sh_curtain"]').value) || 0;
             const shLeak = form.querySelector('input[name="sh_leak"]:checked') ? 1 : 0;
-
-            total += (shLight * pricePerLight);
-            total += (shLightDim * pricePerDimLight);
-            total += (shSocket * pricePerSocket);
-            total += (shCurtain * pricePerCurtain);
-            total += (shLeak * priceLeak);
+            total += (shLight * pricePerLight) + (shLightDim * pricePerDimLight) + (shSocket * pricePerSocket) + (shCurtain * pricePerCurtain) + (shLeak * priceLeak);
         }
 
-        // Площадь
         const area = form.querySelector('select[name="area"]').value;
         let areaPrice = 0;
-        if(area === '50') areaPrice = 15000;
-        else if(area === '100') areaPrice = 30000;
-        else if(area === '160') areaPrice = 50000;
-        else if(area === '250') areaPrice = 80000;
-        else if(area === '500') areaPrice = 120000;
-        else areaPrice = 180000;
-
+        if(area === '50') areaPrice = 15000; else if(area === '100') areaPrice = 30000; else if(area === '160') areaPrice = 50000; else if(area === '250') areaPrice = 80000; else if(area === '500') areaPrice = 120000; else areaPrice = 180000;
         total += areaPrice;
 
-        // Комнаты и СУ
         const rooms = parseInt(form.querySelector('select[name="rooms_count"]').value);
         const wc = parseInt(form.querySelector('select[name="wc_count"]').value);
         total += (rooms * 3000) + (wc * 5000);
 
-        // Опции общие
         if(form.querySelector('input[name="opt_vacation"]:checked') && sysType === 'classic') total += 5000;
-
-        // Опции только для классики
         if(sysType === 'classic') {
             if(form.querySelector('input[name="opt_master"]:checked')) total += 7000;
             if(form.querySelector('input[name="opt_fan"]:checked')) total += 3000;
         }
-
-        // Опция Неотключаемые линии (доступна всем)
         if(form.querySelector('input[name="opt_unswitched"]:checked')) total += 2500;
-
         if(form.querySelector('input[name="opt_priority"]:checked')) total += 8000;
-
-        // Опции дома
         if(form.querySelector('input[name="h_gen"]:checked')) total += 15000;
         if(form.querySelector('input[name="h_boiler"]:checked')) total += 5000;
         if(form.querySelector('input[name="h_street"]:checked')) total += 3000;
         if(form.querySelector('input[name="h_sauna"]:checked')) total += 6000;
         if(form.querySelector('input[name="h_garage"]:checked')) total += 10000;
 
-        // LED
-        const led = form.querySelector('select[name="led_type"]').value;
         const ledCount = parseInt(form.querySelector('select[name="led_count"]').value) || 0;
         const dim = form.querySelector('select[name="led_dim"]').value;
-
-        if (led !== 'none') {
-            if (led === 'inside') total += 15000 + (ledCount * 2500);
-            if (led === 'separate') total += 25000 + (ledCount * 2500);
-            if (led === 'local') total += (ledCount * 1000);
+        if (ledType !== 'none') {
+            if (ledType === 'inside') total += 15000 + (ledCount * 2500);
+            if (ledType === 'separate') total += 25000 + (ledCount * 2500);
+            if (ledType === 'local') total += (ledCount * 1000);
             if (dim === 'yes') total += 10000 + (ledCount * 2000);
         }
 
-        // Применяем бюджетный множитель к итоговой сумме
         total = Math.round(total * multiplier);
-
-        // Вывод
         totalEl.textContent = new Intl.NumberFormat('ru-RU').format(total) + ' ₽';
         updateLinks(total, form);
     };
@@ -738,9 +736,7 @@
             }
             return '-';
         };
-
         const getChecks = (containerSel) => {
-            // Берем только видимые чекбоксы
             const els = document.querySelectorAll(containerSel + ' input:checked');
             const visibleEls = Array.from(els).filter(el => !el.closest('.option-label').classList.contains('hidden'));
             if (visibleEls.length === 0) return 'Нет';
@@ -748,30 +744,16 @@
         };
 
         const sysType = form.querySelector('input[name="system_type"]:checked').value;
-
         let msg = `Привет! 🛠 Заявка на расчет щита от JanPro.ru:\n`;
         msg += `💰 Электрика: ${getVal('input[name="budget"]')}\n`;
         msg += `📦 Тип щита: ${getVal('input[name="case_type"]')} / ${getVal('input[name="system_type"]')}\n`;
 
         if(sysType !== 'classic') {
             msg += `🧠 Умный дом: Свет: ${getVal('select[name="sh_light"]')}, Димм: ${getVal('select[name="sh_light_dim"]')}, Розетки: ${getVal('select[name="sh_socket"]')}, Шторы: ${getVal('select[name="sh_curtain"]')}, Протечки: ${form.querySelector('input[name="sh_leak"]:checked') ? 'Да' : 'Нет'}\n`;
-            if (form.querySelector('input[name="sh_master_full"]:checked')) msg += `🔘 Мастер-кнопка: Да\n`;
-            if (form.querySelector('input[name="sh_master_local"]:checked')) msg += `🔘 Локальные мастер-кнопки: Да\n`;
         }
-
         msg += `⚡ Ввод: ${getVal('input[name="voltage"]')} \n`;
         msg += `🏠 Объект: ${getVal('input[name="obj_type"]')} (${getVal('select[name="area"]')})\n`;
-        msg += `🚪 Комнат: ${getVal('select[name="rooms_count"]')}, СУ: ${getVal('select[name="wc_count"]')}\n`;
         msg += `⚙️ Опции: ${getChecks('.calc-section:not(.hidden)')}\n`;
-
-        const ledVal = getVal('select[name="led_type"]');
-        if (ledVal !== 'Нет подсветок') {
-            msg += `💡 LED: ${ledVal} (${getVal('select[name="led_count"]')}), Димм: ${getVal('select[name="led_dim"]')}\n`;
-        } else {
-            msg += `💡 LED: Нет\n`;
-        }
-
-        msg += `🌡 Климат: ТП: ${getVal('select[name="sh_floor"]')}, Радиаторы: ${getVal('select[name="sh_radiator"]')}, Конд: ${getVal('select[name="ac_count"]')}\n`;
         msg += `\n💵 Предварительный расчет: ${new Intl.NumberFormat('ru-RU').format(price)} ₽`;
 
         const encoded = encodeURIComponent(msg);
@@ -782,8 +764,13 @@
     if(typeof initPage === 'function') {
         initPage('calculator');
     }
-    // Запуск расчета при загрузке
     document.addEventListener("DOMContentLoaded", calculate);
+
+    // --- ОБЯЗАТЕЛЬНЫЙ СКРИПТ ДЛЯ ПРОЖЕКТОРА ---
+    document.addEventListener('mousemove', (e) => {
+        document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+        document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+    });
 </script>
 
 </body>
