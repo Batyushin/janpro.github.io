@@ -39,7 +39,7 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        gap: 12px; /* БЫЛО 20px, СТАЛО 6px (как внутри группы) */
+        gap: 12px;
         margin-bottom: 10px;
     }
 
@@ -47,6 +47,7 @@
         font-size: 2.5rem;
         font-weight: 900;
         letter-spacing: -1px;
+        /* Исходная тень (легкая) */
         text-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
         line-height: 1;
         margin: 0;
@@ -56,36 +57,29 @@
     .partner-group {
         display: flex;
         align-items: center;
-        gap: 6px; /* Эталонный отступ */
+        gap: 6px;
     }
 
     /* СТИЛЬ АМПЕРСАНДА (&) */
     .ampersand-box {
         background-color: #FFEE00;
         color: #111;
-
         font-family: 'Arial Rounded MT Bold', 'Arial Rounded MT', 'Helvetica Rounded', Arial, sans-serif;
         font-size: 1.4rem;
         font-weight: bold;
         line-height: 0.8;
-
         padding: 0 5px;
         border-radius: 2px;
         transform: skewX(-10deg);
-
         display: flex;
         align-items: center;
         justify-content: center;
-
         height: 22px;
         box-shadow: none;
         cursor: default;
     }
 
-    .ampersand-symbol {
-        display: block;
-        /* Наклон наследуется от родителя */
-    }
+    .ampersand-symbol { display: block; }
 
     /* ССЫЛКА НА СТРОЙПЛОЩАДКУ */
     .sp-link {
@@ -102,16 +96,10 @@
         transition: filter 0.3s ease;
     }
 
-    /* ХОВЕР ТОЛЬКО НА ЛОГОТИПЕ */
-    .sp-link:hover {
-        transform: translateY(-2px) scale(1.05);
-    }
+    .sp-link:hover { transform: translateY(-2px) scale(1.05); }
+    .sp-link:hover .sp-logo-img { filter: drop-shadow(0 0 10px #FFEE00); }
 
-    .sp-link:hover .sp-logo-img {
-        filter: drop-shadow(0 0 10px #FFEE00);
-    }
-
-    .red-text { color: var(--accent); }
+    .red-text { color: var(--accent); transition: text-shadow 0.3s ease; }
 
     .desc { max-width: 650px; color: var(--text-muted); line-height: 1.4; font-size: 1.1rem; margin: 0 auto; }
 
@@ -131,7 +119,7 @@
 
         .title-row {
             justify-content: flex-end;
-            gap: 10px; /* На мобильном оставляем как было (чуть свободнее) */
+            gap: 10px;
             flex-wrap: wrap;
             margin-bottom: 5px;
         }
@@ -158,6 +146,36 @@
             line-height: 1.3;
         }
     }
+
+    /* --- ЛОГИКА СВЕЧЕНИЯ JANPRO --- */
+
+    .logo-link-text {
+        color: inherit;
+        text-decoration: none;
+        display: inline-block;
+        /* Плавный переход для трансформации и тени */
+        transition: transform 0.3s ease, text-shadow 0.3s ease, opacity 0.3s;
+    }
+
+    /* При наведении ИМЕННО НА ССЫЛКУ JanPro */
+    .logo-link-text:hover {
+        transform: scale(1.05);
+        opacity: 1;
+        /* Белое многослойное свечение для текста "JanPro" */
+        text-shadow:
+                0 0 10px rgba(255, 255, 255, 0.8),
+                0 0 20px rgba(255, 255, 255, 0.5),
+                0 0 40px rgba(255, 255, 255, 0.3);
+    }
+
+    /* При наведении на ссылку, КРАСНАЯ часть (.ru) светится КРАСНЫМ */
+    .logo-link-text:hover .red-text {
+        text-shadow:
+                0 0 10px rgba(255, 0, 0, 1),
+                0 0 25px rgba(255, 0, 0, 0.8),
+                0 0 50px rgba(255, 0, 0, 0.6);
+    }
+
 </style>
 
 <div class="card header-card">
@@ -170,17 +188,20 @@
         <div class="header-col-text">
 
             <div class="title-row">
-                <h1 class="logo-text">JanPro<span class="red-text">.ru</span></h1>
+                <h1 class="logo-text">
+                    <a href="https://www.youtube.com/@jan.pro59" target="_blank" class="logo-link-text">
+                        JanPro<span class="red-text">.ru</span>
+                    </a>
+                </h1>
 
                 <div class="partner-group">
-
-                    <a href="#" target="_blank" class="sp-link">
+                    <a href="https://www.youtube.com/@stroyploschadka" target="_blank" class="sp-link">
                         <img src="site/img/sp2.png" alt="Стройплощадка" class="sp-logo-img">
                     </a>
                 </div>
             </div>
 
-            <p class="desc">Профессиональная сборка  электрощитов<br>для квартир и частных домов.</p>
+            <p class="desc">Профессиональная сборка электрощитов<br>для квартир и частных домов.</p>
         </div>
     </div>
 </div>
