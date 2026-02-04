@@ -22,7 +22,7 @@
             grid-template-columns: 1fr;
             gap: 20px;
             width: 100%;
-            margin-bottom: 60px; /* Отступ до текстового блока */
+            margin-bottom: 10px;
         }
 
         @media (min-width: 600px) {
@@ -129,30 +129,30 @@
             color: var(--accent); opacity: 1; transform: translateX(5px); text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
         }
 
-        /* --- БЛОК С ТЕКСТОМ (МАНИФЕСТ) --- */
+        /* --- ТЕКСТОВЫЙ БЛОК --- */
+        /* Используем цвета, как в member-desc */
         .manifesto-block {
-            background: rgba(15, 10, 10, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 40px;
-            margin-bottom: 40px;
-            backdrop-filter: blur(40px);
+            margin-bottom: 10px;
+            text-align: left !important;
+            align-items: flex-start !important;
         }
 
         .manifesto-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 900;
             color: #fff;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            width: 100%;
         }
 
         .manifesto-text {
-            font-size: 1.05rem;
-            line-height: 1.8;
-            color: #ddd;
-            margin-bottom: 25px;
+            font-size: 1rem;
+            line-height: 1.7;
+            /* Цвет текста как везде (чуть приглушенный серый) */
+            color: #c0c0c0;
+            margin-bottom: 20px;
         }
 
         .manifesto-text:last-child { margin-bottom: 0; }
@@ -165,12 +165,14 @@
         .quote-box {
             border-left: 4px solid var(--accent);
             padding-left: 20px;
-            margin: 30px 0;
+            margin: 25px 0;
             font-style: italic;
-            color: #ccc;
+            /* Цвет текста цитаты чуть темнее или такой же */
+            color: #aaa;
             background: rgba(255,255,255,0.02);
-            padding: 20px;
+            padding: 15px;
             border-radius: 0 12px 12px 0;
+            width: 100%;
         }
 
     </style>
@@ -287,14 +289,14 @@
 
     </div>
 
-    <div class="manifesto-block">
+    <div class="card manifesto-block">
         <h2 class="manifesto-title">Почему нам доверяют?</h2>
 
         <p class="manifesto-text">
             Я считаю, что наша команда уникальна. Все, кто принимает участие в проектировании щитов для частных домов и систем «Умного дома», <span class="manifesto-highlight">сами живут в частных домах и пользуются этими системами ежедневно</span>.
         </p>
         <p class="manifesto-text">
-            Практически у вссей команды реализован умный дом на объектах, где они живут постоянно. У нас в офисе работает умный дом, и мы взаимодействуем с ним каждый день. Именно поэтому мы, как никто другой, понимаем реальный опыт эксплуатации: что системы могут, что не могут, и чем их лучше не нагружать.
+            Практически у всей команды реализован умный дом на объектах, где они живут постоянно. У нас в офисе работает умный дом, и мы взаимодействуем с ним каждый день. Именно поэтому мы, как никто другой, понимаем реальный опыт эксплуатации: что системы могут, что не могут, и чем их лучше не нагружать.
         </p>
 
         <div class="quote-box">
@@ -321,6 +323,12 @@
 <script src="site/loader.js"></script>
 <script>
     initPage('team');
+
+    // Обновляем координаты для глобального .card::before
+    document.addEventListener('mousemove', (e) => {
+        document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+        document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+    });
 </script>
 
 </body>
