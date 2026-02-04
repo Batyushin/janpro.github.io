@@ -12,12 +12,17 @@
     <script src="site/metrics.js"></script>
 
     <style>
+        /* --- СЛОИ --- */
+        .bg-depth { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .container { position: relative; z-index: 1; }
+
         /* Сетка команды */
         .team-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 20px;
             width: 100%;
+            margin-bottom: 60px; /* Отступ до текстового блока */
         }
 
         @media (min-width: 600px) {
@@ -29,11 +34,22 @@
 
         /* Карточка сотрудника */
         .team-card {
+            background: rgba(15, 10, 10, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
             padding: 35px 20px !important;
             height: 100%;
             justify-content: flex-start !important;
             text-align: center;
             position: relative !important;
+            transition: transform 0.3s ease, border-color 0.3s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         /* Фотография */
@@ -47,10 +63,7 @@
             background: rgba(255,255,255,0.05);
             transition: all 0.4s ease;
             position: relative;
-            /* Центрирование если фото нет */
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
         }
 
         .member-photo {
@@ -66,7 +79,7 @@
             line-height: 1.1;
         }
 
-        /* Стиль должности (Стеклянная пилюля) */
+        /* Стиль должности */
         .member-role {
             display: inline-block;
             font-size: 0.75rem;
@@ -93,52 +106,73 @@
             margin-bottom: 20px;
         }
 
-        /* ========================================= */
-        /* --- ИНТЕРАКТИВ ТОЛЬКО ДЛЯ highlight-card --- */
-        /* ========================================= */
-
-        /* 1. Стрелка в покое (серая, еле заметная) */
+        /* Highlight Card */
         .team-card.highlight-card .arrow-icon {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            font-size: 1.2rem;
-            color: #fff;
-            opacity: 0.2; /* Почти не видно */
-            transition: all 0.3s ease;
+            position: absolute; bottom: 20px; right: 20px; font-size: 1.2rem; color: #fff; opacity: 0.2; transition: all 0.3s ease;
         }
-
-        /* 2. Ховер эффекты (Только когда наводим) */
         .team-card.highlight-card:hover {
             transform: translateY(-5px);
-            background: rgba(40, 15, 15, 0.6); /* Фон чуть краснеет */
+            background: rgba(40, 15, 15, 0.6);
             cursor: pointer;
         }
-
-        /* Фото краснеет только при наведении */
         .team-card.highlight-card:hover .member-photo-wrap {
             border-color: #FF0000;
             box-shadow: 0 0 25px rgba(255, 0, 0, 0.4), inset 0 0 10px rgba(255,0,0,0.2);
         }
-
-        /* Должность краснеет только при наведении */
         .team-card.highlight-card:hover .member-role {
             border-color: #FF0000;
             color: #fff;
             background: rgba(255, 0, 0, 0.1);
         }
-
-        .team-card.highlight-card:hover .member-photo {
-            transform: scale(1.1);
-        }
-
-        /* Стрелка краснеет и выезжает */
+        .team-card.highlight-card:hover .member-photo { transform: scale(1.1); }
         .team-card.highlight-card:hover .arrow-icon {
-            color: var(--accent);
-            opacity: 1;
-            transform: translateX(5px);
-            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            color: var(--accent); opacity: 1; transform: translateX(5px); text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
         }
+
+        /* --- БЛОК С ТЕКСТОМ (МАНИФЕСТ) --- */
+        .manifesto-block {
+            background: rgba(15, 10, 10, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(40px);
+        }
+
+        .manifesto-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .manifesto-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #ddd;
+            margin-bottom: 25px;
+        }
+
+        .manifesto-text:last-child { margin-bottom: 0; }
+
+        .manifesto-highlight {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .quote-box {
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin: 30px 0;
+            font-style: italic;
+            color: #ccc;
+            background: rgba(255,255,255,0.02);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+        }
+
     </style>
 </head>
 <body>
@@ -251,6 +285,33 @@
             </p>
         </div>
 
+    </div>
+
+    <div class="manifesto-block">
+        <h2 class="manifesto-title">Почему нам доверяют?</h2>
+
+        <p class="manifesto-text">
+            Я считаю, что наша команда уникальна. Все, кто принимает участие в проектировании щитов для частных домов и систем «Умного дома», <span class="manifesto-highlight">сами живут в частных домах и пользуются этими системами ежедневно</span>.
+        </p>
+        <p class="manifesto-text">
+            Практически у вссей команды реализован умный дом на объектах, где они живут постоянно. У нас в офисе работает умный дом, и мы взаимодействуем с ним каждый день. Именно поэтому мы, как никто другой, понимаем реальный опыт эксплуатации: что системы могут, что не могут, и чем их лучше не нагружать.
+        </p>
+
+        <div class="quote-box">
+            К сожалению, большинство проектировщиков живут в обычных квартирах и понятия не имеют о проблемах загородной жизни. А мы знаем эти проблемы изнутри, поэтому на стадии проекта сразу объясняем заказчику, с чем он может столкнуться, и заранее решаем эти задачи.
+        </div>
+
+        <p class="manifesto-text">
+            Не хочу никого обидеть, но теоретики в проектировании напоминают школьника, который начитался книжек о том, как знакомиться с девушками, и учит других, хотя сам этого никогда не делал. Именно так выглядят проектировщики, которые берут схемы из интернета, никогда не держав в руках реальное оборудование.
+        </p>
+
+        <p class="manifesto-text">
+            <span class="manifesto-highlight">Мы принципиально не работаем по чужим проектам.</span> В большинстве случаев нам приносят не монтажные, а однолинейные схемы, по которым качественно собрать щит невозможно. При глубоком изучении чужих проектов мы всегда находим критические ошибки, которые делают эксплуатацию щита невозможной.
+        </p>
+
+        <p class="manifesto-text">
+            Мы не хотим нести ответственность за ошибки других. Правило «кто последний, тот и папа» здесь работает безотказно: если мы соберем щит по кривому проекту, виноваты в глазах заказчика будем мы. Поэтому мы предлагаем единственный честный вариант: мы делаем проект с нуля так, как считаем правильным, и несем <span class="manifesto-highlight">полную ответственность за результат</span>.
+        </p>
     </div>
 
     <div id="footer-container"></div>
