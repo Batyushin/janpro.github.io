@@ -11,108 +11,648 @@
     <script src="site/metrics.js"></script>
 
     <style>
-        /* --- СТИЛЬ ЗАГЛУШКИ --- */
-        .dev-placeholder {
-            min-height: 400px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        /* --- СЛОИ --- */
+        .bg-depth { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .container { position: relative; z-index: 1; }
+
+        /* --- КАРТОЧКА ОБЕРТКА --- */
+        /* Растянуть аккордеон на всю ширину карточки */
+        .calc-card-wrapper > .accordion-group {
+            margin-left: -30px;
+            margin-right: -30px;
+            border-radius: 0;
+        }
+
+        /* Чтобы первый и последний аккордеон выглядели аккуратно */
+        .calc-card-wrapper > .accordion-group:first-of-type {
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .calc-card-wrapper > .accordion-group:last-of-type {
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        /* --- ЗАГОЛОВОК --- */
+        .calc-header {
             text-align: center;
-            padding: 40px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 20px;
+        }
+        .calc-title-row { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 5px; }
+
+        .calc-title-icon {
+            width: 36px; height: 36px; opacity: 0.9;
+            transform: rotate(-15deg);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .calc-card-wrapper:hover .calc-title-icon { transform: rotate(0deg) scale(1.1); }
+
+        .calc-title { margin: 0; font-size: 1.8rem; font-weight: 900; color: #fff; }
+        .calc-subtitle { margin: 0; color: #c0c0c0; font-size: 0.95rem; }
+
+        /* --- Вкладки (Tabs) --- */
+        .tabs-wrapper {
+            overflow-x: auto; white-space: nowrap; margin-bottom: 25px; padding-bottom: 5px;
+            -ms-overflow-style: none; scrollbar-width: none;
+        }
+        .tabs-wrapper::-webkit-scrollbar { display: none; }
+
+        .tabs-nav { display: inline-flex; gap: 10px; min-width: 100%; justify-content: center; }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa; padding: 12px 20px; border-radius: 12px; cursor: pointer;
+            font-weight: 700; transition: 0.3s; text-align: center; white-space: nowrap;
+        }
+        .tab-btn.active {
+            background: var(--accent); color: #fff; border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(204, 0, 0, 0.3);
         }
 
-        .dev-icon {
-            width: 100px;
-            opacity: 0.2;
-            margin-bottom: 30px;
-            filter: grayscale(100%);
+        .tab-content { display: none; animation: fadeIn 0.4s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- Аккордеон --- */
+        .accordion-group {
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px; margin-bottom: 10px; overflow: hidden; transition: 0.3s;
         }
 
-        .dev-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 15px;
+        .accordion-header {
+            padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255,255,255,0.05); transition: 0.3s;
+        }
+        .accordion-header:hover { background: rgba(255,255,255,0.08); }
+        .accordion-title { font-weight: 700; color: #fff; font-size: 1rem; text-align: left; }
+        .accordion-icon { color: var(--accent); font-weight: bold; transition: 0.3s; }
+
+        .accordion-content {
+            max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; padding: 0 20px;
+        }
+        .accordion-group.open .accordion-content { padding: 20px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .accordion-group.open .accordion-icon { transform: rotate(45deg); }
+
+        /* --- Сетка инпутов --- */
+        .compact-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
         }
 
-        .dev-text {
-            font-size: 1.1rem;
-            color: #aaa;
-            line-height: 1.6;
-            max-width: 500px;
-            margin-bottom: 30px;
+        .input-group-compact { display: flex; flex-direction: column; gap: 6px; }
+
+        .label-compact {
+            font-size: 0.8rem; color: #aaa;
+            min-height: 2.4em; display: flex; align-items: end; line-height: 1.1;
         }
 
-        /* Кнопка */
-        .btn-action {
-            display: inline-block;
+        .styled-input {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            text-align: center;
-            padding: 15px 30px;
-            border-radius: 12px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
+            color: #fff; padding: 10px; border-radius: 8px;
+            font-size: 1rem; width: 100%; outline: none; transition: 0.3s;
+            box-sizing: border-box; font-family: 'Roboto', sans-serif;
         }
-        .btn-action:hover {
-            background: rgba(40, 10, 10, 0.6);
-            border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(255,0,0,0.2);
+        .styled-input:focus { border-color: var(--accent); background: rgba(255, 255, 255, 0.1); }
+
+        /* --- Сценарии --- */
+        .scenarios-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .scenario-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px; padding: 15px;
+            display: grid; grid-template-columns: 1fr 1fr 40px; gap: 10px; align-items: end;
+        }
+        .scenario-header { grid-column: 1 / -1; font-size: 0.85rem; color: var(--accent); font-weight: 700; margin-bottom: 5px; }
+
+        .btn-add {
+            background: rgba(255, 255, 255, 0.05); border: 1px dashed rgba(255, 255, 255, 0.3);
+            color: #fff; width: 100%; padding: 12px; border-radius: 12px; cursor: pointer;
+            transition: 0.3s; font-weight: 700; margin-top: 5px; font-size: 0.9rem;
+        }
+        .btn-add:hover { background: rgba(255, 255, 255, 0.1); border-color: #fff; }
+
+        .btn-remove {
+            width: 38px; height: 38px;
+            background: rgba(255,0,0,0.2); border: 1px solid rgba(255,0,0,0.3);
+            color: #fff; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; transition: 0.3s;
+        }
+        .btn-remove:hover { background: rgba(255,0,0,0.5); border-color: red; }
+
+        /* --- Консультации (Чекбоксы) --- */
+        .consult-item {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; padding: 15px; margin-bottom: 10px;
+            display: flex; gap: 15px; align-items: flex-start; cursor: pointer; transition: 0.3s;
+        }
+        .consult-item:hover { background: rgba(255,255,255,0.06); }
+        .consult-check { accent-color: var(--accent); width: 20px; height: 20px; flex-shrink: 0; margin-top: 3px; }
+        .consult-content { display: flex; flex-direction: column; gap: 5px; }
+        .consult-title { font-weight: 700; color: #fff; font-size: 0.95rem; line-height: 1.3; }
+        .consult-price { color: var(--accent); font-weight: 900; }
+
+        /* --- ИТОГО (Sticky - Точно как в калькуляторе) --- */
+        .total-sticky {
+            position: sticky; bottom: 10px; z-index: 100;
+            margin-top: 20px; padding: 15px 25px;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            background: rgba(15, 10, 10, 0.85) !important; /* Как в калькуляторе */
+            border: 1px solid var(--accent) !important;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            backdrop-filter: blur(25px);
         }
 
-        /* --- ОБЩИЙ СТИЛЬ КАРТОЧКИ --- */
-        .unified-card {
-            background: rgba(15, 10, 10, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(40px);
+        .total-label { font-size: 0.85rem; color: #c0c0c0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .total-price { font-size: 2.2rem; font-weight: 900; color: #fff; margin: 0 0 10px 0; text-shadow: 0 0 20px rgba(255,0,0,0.3); line-height: 1; }
+
+        /* Стеклянная кнопка */
+        .btn-glass {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; max-width: 400px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff; text-align: center; padding: 15px; border-radius: 12px;
+            font-weight: 700; text-decoration: none; transition: 0.3s;
+            text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem;
+            backdrop-filter: blur(5px);
         }
+        .btn-glass:hover {
+            background: rgba(255, 0, 0, 0.2); border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+        }
+
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 400px; }
+        .calc-social-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 10px; border-radius: 12px; color: #fff; font-weight: 700; font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: 0.3s; text-decoration: none;
+        }
+        .calc-social-btn:hover { background: rgba(40, 10, 10, 0.8); border-color: var(--accent); transform: translateY(-2px); }
+        .calc-social-btn img { width: 20px; height: 20px; }
+
+        .disclaimer-text { font-size: 0.75rem; color: #777; margin: 10px 0 0 0; line-height: 1.3; }
 
         @media (max-width: 600px) {
-            .dev-title { font-size: 1.4rem; }
+            .total-sticky { padding: 10px 15px; flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: 0; }
+            .total-info-col { text-align: left; flex-grow: 1; }
+            .total-price { font-size: 1.6rem; margin: 0; }
+            .total-label { font-size: 0.6rem; margin-bottom: 0; }
+            .btn-glass { width: auto; padding: 10px 20px; font-size: 0.8rem; margin: 0; }
+            .social-grid { width: auto; display: flex; gap: 8px; }
+            .calc-social-btn { padding: 0; width: 42px; height: 42px; border-radius: 10px; }
+            .calc-social-btn span { display: none; }
+            .disclaimer-text { width: 100%; text-align: center; margin-top: 8px; display: block; }
+            .tabs-nav { justify-content: flex-start; }
         }
     </style>
 </head>
 <body>
-<div id="spotlight"></div>
+
 <div class="bg-depth"></div>
 <div class="container">
 
     <div id="header-container"></div>
     <div id="menu-container"></div>
 
-    <div class="card info-card">
+    <div class="card calc-card-wrapper">
 
-        <div class="dev-title">Раздел в разработке</div>
-        <p class="dev-text">
-            Мы прямо сейчас пишем подробное описание процесса настройки Умного дома и стоимости пусконаладочных работ (ПНР).<br><br>
-            Информация появится здесь в ближайшее время.
-        </p>
+        <div class="calc-header">
+            <div class="calc-title-row">
+                <svg class="calc-title-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="appleSilverGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#FFFFFF" />
+                            <stop offset="100%" style="stop-color:#C0C8D8" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="4" y="2" width="16" height="20" rx="4" fill="url(#appleSilverGrad1)"/>
+                    <rect x="7" y="6" width="10" height="3" rx="1.5" fill="#080808" opacity="0.3"/>
+                    <circle cx="8.5" cy="13.5" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="12" cy="13.5" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="15.5" cy="13.5" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="8.5" cy="17" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="12" cy="17" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="15.5" cy="17" r="1.5" fill="#080808" opacity="0.4"/>
+                </svg>
+                <h2 class="calc-title">Калькулятор пусконаладочных работ</h2>
+            </div>
+            <p class="calc-subtitle">Детальный расчет стоимости настройки (WirenBoard)</p>
+        </div>
 
-        <a href="https://t.me/JanPro59?text=Здравствуйте!%20Меня%20интересует%20стоимость%20и%20условия%20пусконаладки%20(ПНР)" target="_blank" class="btn-action">
-            Узнать подробности в Telegram
-        </a>
+        <div class="tabs-wrapper">
+            <div class="tabs-nav">
+                <div class="tab-btn active" onclick="switchTab('hardware')">1. Оборудование</div>
+                <div class="tab-btn" onclick="switchTab('scenarios')">2. Сценарии</div>
+                <div class="tab-btn" onclick="switchTab('consult')">3. Консультации</div>
+                <div class="tab-btn" onclick="switchTab('other')">4. Сопутствующие</div>
+            </div>
+        </div>
+
+        <div id="tab-hardware" class="tab-content active">
+
+            <div class="accordion-group open">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="accordion-title">Конфигурация и добавление устройств</span>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content" style="max-height: 2000px;"> <div class="compact-grid">
+                    <div class="input-group-compact"><label class="label-compact">Устройство WirenBoard</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="2600" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Датчик WB Modbus</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="1300" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Сторонний Modbus (1 рег)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="6500" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Датчик 1-Wire</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="650" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Шторы (Фазные)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="3900" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Шторы (Modbus)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="3900" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Dali контроллер</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="13000" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Dali устройство</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="1300" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Интеграция замка</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="3900" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Привод окна</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="6500" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Устройство Zigbee</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="650" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Устройство WiFi</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="3250" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Устройство MQTT</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="3250" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Устройство Z-Wave</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="650" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Робот-пылесос</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="6500" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Бризер Tion 4s</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="6500" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Бризер Xiaomi WiFi</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="3900" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Увлажнитель Xiaomi</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="3900" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Увл. канальный (Сух.к)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="1300" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Кондиционер (Модуль)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="26000" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Увл. канальный Modbus</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="39000" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Кондиционер Xiaomi</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="6500" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Кондиционер ИК</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="13000" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Вентмашина ModBus</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="65000" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Термостат ModBus</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="39000" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Neptun Modbus</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="6500" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Leak Protect</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="6500" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Бытовые Xiaomi</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="6500" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Датчики WiFi Xiaomi</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="650" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Лампы/Ленты Xiaomi</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="1300" oninput="calcPnr()"></div>
+                    <div class="input-group-compact"><label class="label-compact">Термостаты WiFi</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="5200" oninput="calcPnr()"></div>
+                </div>
+                </div>
+            </div>
+
+            <div class="accordion-group">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="accordion-title">Готовые устройства</span>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="compact-grid">
+                        <div class="input-group-compact"><label class="label-compact">HMI 4" SprutHub</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="33800" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">HMI 4" Custom (1-я)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="104000" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">HMI 4" Custom (след.)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="33800" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">iPad Pro 11 + Рамка</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="221000" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Упр. воротами (РФ)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="15600" oninput="calcPnr()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-group">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="accordion-title">Системы</span>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="compact-grid">
+                        <div class="input-group-compact"><label class="label-compact">Настройка Spruthub</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="13000" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Apple HomeKit (Siri)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="13000" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Яндекс Алиса</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="6500" oninput="calcPnr()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-group">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="accordion-title">Типовые готовые сценарные решения</span>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="compact-grid">
+                        <div class="input-group-compact"><label class="label-compact">Контроль СО2</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="1950" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Сбор показаний ЖКХ</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="39000" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Уведомление TG</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="650" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Уведомление Алиса</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="1300" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Резервное копирование</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="6500" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Восстановление (backup)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="13000" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Восстановление (0)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="0" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Климат 1 зона</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="3900" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Шторы по солнцу</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="1300" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Циркадный свет</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="3900" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Ночная подсветка</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="1300" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Мастер-выкл (Дом)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="3900" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Мастер-выкл (Зона)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="1300" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">АВР (Генератор)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="26000" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Режим "Отпуск"</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="6500" oninput="calcPnr()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-group">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="accordion-title">Сторонние интеграции</span>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="compact-grid">
+                        <div class="input-group-compact"><label class="label-compact">Погода (Интеграция)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="19500" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Автозапуск (StarLine)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="13000" oninput="calcPnr()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-group">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="accordion-title">Видеонаблюдение</span>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="compact-grid">
+                        <div class="input-group-compact"><label class="label-compact">Камера</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="2600" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Видеорегистратор</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="6500" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Вызывная панель</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="2600" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Домофон</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="2600" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Интеграция камер</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="65000" oninput="calcPnr()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-group">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="accordion-title">Домашняя сеть</span>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="compact-grid">
+                        <div class="input-group-compact"><label class="label-compact">Роутер</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="3900" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Точка доступа</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="2600" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Коммутатор</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="650" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">NAS Сервер</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="26000" oninput="calcPnr()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-group">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="accordion-title">Мультимедиа</span>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="compact-grid">
+                        <div class="input-group-compact"><label class="label-compact">Алиса</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="1300" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">HomePod</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="1300" oninput="calcPnr()"></div>
+                        <div class="input-group-compact"><label class="label-compact">Мультирум ModBus</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="65000" oninput="calcPnr()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-group">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="accordion-title">Переделки и исправления по электрике</span>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="compact-grid">
+                        <div class="input-group-compact"><label class="label-compact">Монтажные (час)</label><input type="number" class="styled-input pnr-input" placeholder="0" min="0" data-price="3900" oninput="calcPnr()"></div>
+                        <div style="grid-column: 1 / -1; font-size:0.8rem; color:#888; font-style:italic; margin-top:5px;">* Если электрика выполнена не нами, считаем по часам.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 25px; text-align: center;">
+                <button class="btn-glass" style="margin: 0 auto; width: auto; padding: 12px 30px;" onclick="switchTab('scenarios')">Далее: Сценарии &rarr;</button>
+            </div>
+        </div>
+
+        <div id="tab-scenarios" class="tab-content">
+            <div class="calc-card-wrapper"> <div class="calc-header" style="border:none; padding:0; margin-bottom:15px;">
+                <h3 class="calc-title" style="font-size:1.4rem;">Конструктор Сценариев</h3>
+            </div>
+                <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 25px; text-align:center;">
+                    Расчет уникальной логики (если нет в типовых).<br>
+                    База: 1000₽ + Триггер: 300₽ + Действие: 300₽.
+                </p>
+                <div id="scenariosList" class="scenarios-container"></div>
+                <button class="btn-add" onclick="addScenarioRow()">+ Добавить сценарий</button>
+            </div>
+        </div>
+
+        <div id="tab-consult" class="tab-content">
+            <div class="calc-card-wrapper">
+                <div class="calc-header" style="border:none; padding:0; margin-bottom:15px;">
+                    <h3 class="calc-title" style="font-size:1.4rem;">Консультации</h3>
+                </div>
+
+                <label class="consult-item">
+                    <input type="checkbox" class="consult-check pnr-check" data-price="6500" onchange="calcPnr()">
+                    <div class="option-marker"></div>
+                    <div class="consult-content">
+                        <span class="consult-title">Общая телефонная консультация (1 час)</span>
+                        <span class="consult-price">6 500 ₽</span>
+                    </div>
+                </label>
+
+                <label class="consult-item">
+                    <input type="checkbox" class="consult-check pnr-check" data-price="39000" onchange="calcPnr()">
+                    <div class="option-marker"></div>
+                    <div class="consult-content">
+                        <span class="consult-title">Удаленная настройка с обучением (Zoom/Video)</span>
+                        <span style="font-size:0.8rem; color:#aaa;">Решение задач с объяснением и записью.</span>
+                        <span class="consult-price">39 000 ₽</span>
+                    </div>
+                </label>
+
+                <label class="consult-item">
+                    <input type="checkbox" class="consult-check pnr-check" data-price="130000" onchange="calcPnr()">
+                    <div class="option-marker"></div>
+                    <div class="consult-content">
+                        <span class="consult-title">Разработка уникального решения (R&D)</span>
+                        <span style="font-size:0.8rem; color:#aaa;">Сложные, нетипичные задачи, разработка плат.</span>
+                        <span class="consult-price">130 000 ₽</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div id="tab-other" class="tab-content">
+            <div class="calc-card-wrapper">
+                <div class="calc-header" style="border:none; padding:0; margin-bottom:15px;">
+                    <h3 class="calc-title" style="font-size:1.4rem;">Сопутствующие работы</h3>
+                </div>
+
+                <div class="input-group-compact" style="margin-bottom:20px;">
+                    <label class="label-compact" style="font-size:1rem; color:#fff; min-height:auto; margin-bottom:5px;">Диагностика и исправление (за час)</label>
+                    <input type="number" class="styled-input pnr-input" placeholder="Кол-во часов" min="0" data-price="5200" oninput="calcPnr()">
+                    <div style="font-size:0.85rem; color:#aaa; margin-top:5px;">Стоимость: 5 200 ₽ / час</div>
+                </div>
+            </div>
+        </div>
+
     </div>
+        <div class="card total-sticky" id="totalBlock">
+            <div class="total-info-col">
+                <div class="total-label">Стоимость пусконаладочных работ</div>
+                <div class="total-price" id="totalPrice">0 ₽</div>
+            </div>
 
-    <div id="services-container" style="display: flex; flex-direction: column; gap: 20px; margin-top: 30px;"></div>
+            <div class="social-grid">
+                <a href="#" id="tgLink" target="_blank" class="calc-social-btn">
+                    <img src="site/img/tg.svg" alt="TG"> <span>Telegram</span>
+                </a>
+                <a href="#" id="waLink" target="_blank" class="calc-social-btn">
+                    <img src="site/img/whatsapp.png" alt="WA"> <span>WhatsApp</span>
+                </a>
+            </div>
 
-    <div id="footer-container"></div>
 
-</div>
+            <p class="disclaimer-text">
+                *Расчет предварительный. Пусконаладка производится инженером удаленно.
+            </p>
+        </div>
 
-<script src="site/loader.js"></script>
-<script>
-    if(typeof initPage === 'function') {
-        initPage('commissioning');
-    }
-</script>
+
+        <div id="footer-container" style="margin-top: 50px;"></div>
+
+
+
+    <script src="site/loader.js"></script>
+    <script>
+        if(typeof initPage === 'function') {
+            initPage('commissioning');
+        }
+
+        const PRICES = {
+            scenBase: 1000,
+            scenTrig: 300,
+            scenAct: 300
+        };
+
+        let scenarios = [];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Убрал автоматическое добавление сценария, чтобы цена была 0
+            calcPnr();
+        });
+
+        // Аккордеон
+        function toggleAccordion(header) {
+            const group = header.parentElement;
+            group.classList.toggle('open');
+            const content = group.querySelector('.accordion-content');
+            if (group.classList.contains('open')) {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.style.maxHeight = 0;
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            const tabs = ['hardware', 'scenarios', 'consult', 'other'];
+            const idx = tabs.indexOf(tabId);
+
+            if (idx !== -1) {
+                document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+                document.getElementById('tab-' + tabId).classList.add('active');
+            }
+
+            window.scrollTo({ top: 100, behavior: 'smooth' });
+        }
+
+        function addScenarioRow() {
+            const id = Date.now();
+            const container = document.getElementById('scenariosList');
+            const div = document.createElement('div');
+            div.className = 'scenario-card';
+            div.id = `scen-${id}`;
+            div.innerHTML = `
+            <div class="scenario-header">Сценарий ${scenarios.length + 1}</div>
+            <div class="input-group-compact">
+                <label class="label-compact">Триггеров</label>
+                <input type="number" class="styled-input scen-trig" value="1" min="1" oninput="calcPnr()">
+            </div>
+            <div class="input-group-compact">
+                <label class="label-compact">Действий</label>
+                <input type="number" class="styled-input scen-act" value="1" min="1" oninput="calcPnr()">
+            </div>
+            <button class="btn-remove" onclick="removeScenario('${id}')">×</button>
+        `;
+            container.appendChild(div);
+            scenarios.push(id);
+            updateScenarioNumbers();
+            calcPnr();
+        }
+
+        function removeScenario(id) {
+            const el = document.getElementById(`scen-${id}`);
+            if(el) el.remove();
+            scenarios = scenarios.filter(sId => sId !== id);
+            updateScenarioNumbers();
+            calcPnr();
+        }
+
+        function updateScenarioNumbers() {
+            const cards = document.querySelectorAll('.scenario-card .scenario-header');
+            cards.forEach((header, index) => {
+                header.textContent = `Сценарий ${index + 1}`;
+            });
+        }
+
+        function calcPnr() {
+            // Запрет отрицательных
+            const inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                if (input.value < 0) input.value = 0;
+            });
+
+            let total = 0; // База 0
+
+            // 1. Оборудование (Inputs)
+            document.querySelectorAll('.pnr-input').forEach(input => {
+                const qty = parseInt(input.value) || 0;
+                const price = parseInt(input.dataset.price) || 0;
+                total += qty * price;
+            });
+
+            // 2. Чекбоксы (Консультации)
+            document.querySelectorAll('.pnr-check').forEach(chk => {
+                if (chk.checked) {
+                    total += parseInt(chk.dataset.price) || 0;
+                }
+            });
+
+            // 3. Кастомные сценарии
+            let scenCount = 0;
+            let scenCost = 0;
+            document.querySelectorAll('.scenario-card').forEach(row => {
+                const trigs = parseInt(row.querySelector('.scen-trig').value) || 0;
+                const acts = parseInt(row.querySelector('.scen-act').value) || 0;
+                const rowCost = PRICES.scenBase + (trigs * PRICES.scenTrig) + (acts * PRICES.scenAct);
+                scenCost += rowCost;
+                scenCount++;
+            });
+            total += scenCost;
+
+            // Вывод
+            const fmt = new Intl.NumberFormat('ru-RU').format;
+            document.getElementById('totalPrice').textContent = fmt(total) + ' ₽';
+
+            // Ссылка TG
+            const equipCost = total - scenCost;
+            const msg = `Заявка на ПНР (WB).\nОборудование/Услуги: ~${fmt(equipCost)} р.\nСценарии (Custom): ${scenCount} шт.\nИтого: ${fmt(total)} р.`;
+
+            document.getElementById('tgLink').href = `https://t.me/JanPro59?text=${encodeURIComponent(msg)}`;
+            document.getElementById('waLink').href = `https://wa.me/79824699434?text=${encodeURIComponent(msg)}`;
+        }
+    </script>
 
 </body>
 </html>
