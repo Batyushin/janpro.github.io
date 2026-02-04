@@ -24,9 +24,9 @@
             margin-bottom: 20px;
         }
 
-        /* --- Стили для больших карточек --- */
+        /* --- Стили Категории --- */
         .solution-category-card {
-            padding: 30px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
         }
@@ -35,20 +35,24 @@
             font-size: 2rem;
             font-weight: 900;
             color: #fff;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             padding-bottom: 15px;
-            text-align: center; /* Заголовки категорий оставляем по центру для структуры */
+            text-align: center;
         }
 
-        /* --- Сетка товаров --- */
+        /* --- Сетка товаров (Стандартная 2 колонки) --- */
         .products-row {
             display: grid;
             grid-template-columns: 1fr;
             gap: 20px;
             margin-bottom: 30px;
+            width: 100%;
         }
-        @media (min-width: 700px) { .products-row { grid-template-columns: 1fr 1fr; } }
+
+        @media (min-width: 700px) {
+            .products-row { grid-template-columns: 1fr 1fr; }
+        }
 
         /* --- Карточка товара --- */
         .product-item {
@@ -56,67 +60,96 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            transition: transform 0.3s ease, border-color 0.3s;
+            height: 100%;
+            width: 100%;
+            transition: transform 0.3s ease;
         }
 
-        .product-item:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); }
+        .product-item:hover { transform: translateY(-5px); }
 
-        /* ФОТО */
+        /* --- ФОТО (На всю ширину без пустот) --- */
         .product-img-wrap {
             width: 100%;
-            height: 300px;
+            height: 550px;
             overflow: hidden;
             position: relative;
             cursor: pointer;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-        .product-item:hover .product-img { transform: scale(1.05); }
 
-        /* ИНФО (ВЫРАВНИВАНИЕ ВЛЕВО) */
-        .product-info {
-            padding: 20px;
-            text-align: left; /* <--- ИЗМЕНЕНО: Выравнивание по левому краю */
-            flex-grow: 1;
-            display: flex; flex-direction: column; justify-content: flex-end;
-            background: rgba(0,0,0,0.1);
+        .product-img {
+            width: 100%;
+            height: 100%;
+            /* ВЕРНУЛИ COVER: заполняет всю ширину, обрезая верх/низ */
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            object-position: center;
         }
-        .product-name { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
-        .product-price { font-size: 1.5rem; font-weight: 900; color: #fff; margin-bottom: 15px; display: block; }
+        .product-item:hover .product-img { transform: scale(1.02); }
+
+        /* --- ЛУПА --- */
+        .zoom-icon {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5);
+            width: 60px; height: 60px; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: all 0.3s ease; color: #fff; font-size: 1.5rem; backdrop-filter: blur(4px); z-index: 3;
+        }
+        .product-img-wrap:hover .zoom-icon {
+            opacity: 1; transform: translate(-50%, -50%) scale(1);
+            background: rgba(0, 0, 0, 0.7); border: 2px solid var(--accent); box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        }
+
+        /* --- ИНФО (КОМПАКТНАЯ СТРОКА) --- */
+        .product-info {
+            padding: 20px 25px;
+            background: rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .product-name {
+            font-size: 1.3rem; font-weight: 700; color: #fff; margin: 0; text-align: left; flex-grow: 1;
+        }
+
+        .product-meta {
+            display: flex; align-items: center; gap: 15px; flex-shrink: 0;
+        }
+
+        .product-price {
+            font-size: 1.4rem; font-weight: 900; color: #fff; margin: 0; white-space: nowrap;
+        }
 
         .btn-buy {
             display: inline-block; background: var(--accent); color: #fff; text-decoration: none;
-            padding: 12px 25px; border-radius: 8px; font-weight: 700; transition: background 0.3s ease;
-            width: 100%; text-align: center; /* Текст кнопки по центру */
+            padding: 10px 20px; border-radius: 10px; font-weight: 700; transition: background 0.3s ease;
+            white-space: nowrap; font-size: 1rem;
         }
         .btn-buy:hover { background: #cc0000; }
 
-        /* --- Описание внизу --- */
+        /* --- Описание --- */
         .cat-details-block {
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            text-align: left; /* <--- ИЗМЕНЕНО: Явное выравнивание влево */
+            padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); text-align: left;
         }
 
-        .cat-desc {
-            font-size: 1rem;
-            color: #c0c0c0;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
+        .cat-desc { font-size: 1rem; color: #c0c0c0; line-height: 1.6; margin-bottom: 20px; }
 
         .features-list { list-style: none; padding: 0; margin: 0 0 20px 0; }
         .features-list li {
-            position: relative;
-            padding-left: 25px;
-            margin-bottom: 8px;
-            color: #c0c0c0;
-            font-size: 0.95rem;
-            line-height: 1.5;
+            position: relative; padding-left: 25px; margin-bottom: 8px;
+            color: #c0c0c0; font-size: 0.95rem; line-height: 1.5;
         }
         .features-list li::before { content: '✓'; color: var(--accent); position: absolute; left: 0; font-weight: bold; }
 
-        @media (max-width: 600px) { .cat-title { font-size: 1.5rem; } }
+        @media (max-width: 600px) {
+            .cat-title { font-size: 1.5rem; }
+            .product-img-wrap { height: 450px; }
+            .product-info { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .product-meta { width: 100%; justify-content: space-between; margin-top: 5px; }
+        }
 
         /* Лайтбокс */
         .lightbox { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; }
@@ -140,23 +173,29 @@
 
             <div class="products-row">
                 <div class="card product-item">
-                    <div class="project-img-wrap" onclick="openLightbox('site/img/solutions/e1.jpeg')">
+                    <div class="product-img-wrap" onclick="openLightbox('site/img/solutions/e1.jpeg')">
                         <img src="site/img/solutions/e1.jpeg" class="product-img" alt="Встраиваемый">
+                        <div class="zoom-icon">🔍</div>
                     </div>
                     <div class="product-info">
                         <div class="product-name">Встраиваемый</div>
-                        <div class="product-price">35 000 ₽</div>
-                        <a href="https://t.me/JanPro59?text=Здравствуйте!%20Хочу%20купить%20готовый%20щит%20для%201-2к%20квартиры%20(Встраиваемый)" target="_blank" class="btn-buy">Купить</a>
+                        <div class="product-meta">
+                            <div class="product-price">35 000 ₽</div>
+                            <a href="https://t.me/JanPro59?text=Здравствуйте!%20Хочу%20купить%20готовый%20щит%20для%201-2к%20квартиры%20(Встраиваемый)" target="_blank" class="btn-buy">Купить</a>
+                        </div>
                     </div>
                 </div>
                 <div class="card product-item">
-                    <div class="project-img-wrap" onclick="openLightbox('site/img/solutions/e2.jpeg')">
+                    <div class="product-img-wrap" onclick="openLightbox('site/img/solutions/e2.jpeg')">
                         <img src="site/img/solutions/e2.jpeg" class="product-img" alt="Накладной">
+                        <div class="zoom-icon">🔍</div>
                     </div>
                     <div class="product-info">
                         <div class="product-name">Накладной</div>
-                        <div class="product-price">35 000 ₽</div>
-                        <a href="https://t.me/JanPro59?text=Здравствуйте!%20Хочу%20купить%20готовый%20щит%20для%201-2к%20квартиры%20(Накладной)" target="_blank" class="btn-buy">Купить</a>
+                        <div class="product-meta">
+                            <div class="product-price">35 000 ₽</div>
+                            <a href="https://t.me/JanPro59?text=Здравствуйте!%20Хочу%20купить%20готовый%20щит%20для%201-2к%20квартиры%20(Накладной)" target="_blank" class="btn-buy">Купить</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -190,23 +229,29 @@
 
             <div class="products-row">
                 <div class="card product-item">
-                    <div class="project-img-wrap" onclick="openLightbox('site/img/solutions/e3.jpeg')">
+                    <div class="product-img-wrap" onclick="openLightbox('site/img/solutions/e3.jpeg')">
                         <img src="site/img/solutions/e3.jpeg" class="product-img" alt="Встраиваемый">
+                        <div class="zoom-icon">🔍</div>
                     </div>
                     <div class="product-info">
                         <div class="product-name">Встраиваемый</div>
-                        <div class="product-price">47 500 ₽</div>
-                        <a href="https://t.me/JanPro59?text=Здравствуйте!%20Хочу%20купить%20готовый%20щит%20для%203-4к%20квартиры%20(Встраиваемый)" target="_blank" class="btn-buy">Купить</a>
+                        <div class="product-meta">
+                            <div class="product-price">47 500 ₽</div>
+                            <a href="https://t.me/JanPro59?text=Здравствуйте!%20Хочу%20купить%20готовый%20щит%20для%203-4к%20квартиры%20(Встраиваемый)" target="_blank" class="btn-buy">Купить</a>
+                        </div>
                     </div>
                 </div>
                 <div class="card product-item">
-                    <div class="project-img-wrap" onclick="openLightbox('site/img/solutions/e4.jpeg')">
+                    <div class="product-img-wrap" onclick="openLightbox('site/img/solutions/e4.jpeg')">
                         <img src="site/img/solutions/e4.jpeg" class="product-img" alt="Накладной">
+                        <div class="zoom-icon">🔍</div>
                     </div>
                     <div class="product-info">
                         <div class="product-name">Накладной</div>
-                        <div class="product-price">47 500 ₽</div>
-                        <a href="https://t.me/JanPro59?text=Здравствуйте!%20Хочу%20купить%20готовый%20щит%20для%203-4к%20квартиры%20(Накладной)" target="_blank" class="btn-buy">Купить</a>
+                        <div class="product-meta">
+                            <div class="product-price">47 500 ₽</div>
+                            <a href="https://t.me/JanPro59?text=Здравствуйте!%20Хочу%20купить%20готовый%20щит%20для%203-4к%20квартиры%20(Накладной)" target="_blank" class="btn-buy">Купить</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -239,14 +284,17 @@
             <h2 class="cat-title">Готовые решения для Умного дома</h2>
 
             <div class="products-row">
-                <div class="card product-item" style="width: 100%; max-width: 500px; margin: 0 auto;">
-                    <div class="project-img-wrap" onclick="openLightbox('site/img/solutions/e5.jpg')">
+                <div class="card product-item">
+                    <div class="product-img-wrap" onclick="openLightbox('site/img/solutions/e5.jpg')">
                         <img src="site/img/solutions/e5.jpg" class="product-img" alt="Умный щит">
+                        <div class="zoom-icon">🔍</div>
                     </div>
                     <div class="product-info">
                         <div class="product-name">Умный щит (Типовой)</div>
-                        <div class="product-price">425 000 ₽</div>
-                        <a href="https://t.me/JanPro59?text=Здравствуйте!%20Интересует%20готовый%20умный%20щит" target="_blank" class="btn-buy">Купить</a>
+                        <div class="product-meta">
+                            <div class="product-price">425 000 ₽</div>
+                            <a href="https://t.me/JanPro59?text=Здравствуйте!%20Интересует%20готовый%20умный%20щит" target="_blank" class="btn-buy">Купить</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -264,7 +312,7 @@
                     <li>Подписи на автоматах, на наклейках в щите и подписи клемм в проекте можно изменить по вашему списку, но менять состав щита, номиналы устройств или их кол-во не получится</li>
                 </ul>
                 <p class="cat-desc">
-                    Готовый к установке щит на текущий момент будет стоить <strong>425.000 ₽</strong> с учетом предварительной настройки контроллера, упаковки и доставки к вам. В эту цену не входит комплекс пуско-наладочных работ, который выполняется на чистовых этапах ремонта. Он считается индивидуально и зависит от подключаемого оборудования, количества сценариев, их сложности и тд. Как правило, такие работы стоят от 50 до 200 тыс. Более подробно ознакомится с стоимостью ПНР можно в таблице по ссылке.
+                    Готовый к установке щит на текущий момент будет стоить <strong>380.000 ₽</strong> с учетом предварительной настройки контроллера, упаковки и доставки к вам. В эту цену не входит комплекс пуско-наладочных работ, который выполняется на чистовых этапах ремонта. Он считается индивидуально и зависит от подключаемого оборудования, количества сценариев, их сложности и тд. Как правило, такие работы стоят от 50 до 200 тыс. Более подробно ознакомится с стоимостью ПНР можно в таблице по ссылке.
                 </p>
             </div>
         </div>
@@ -299,12 +347,6 @@
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
     }
-
-    // --- ГЛОБАЛЬНЫЙ СКРИПТ ПРОЖЕКТОРА (mouse-x/y) ---
-    document.addEventListener('mousemove', (e) => {
-        document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
-        document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
-    });
 </script>
 
 </body>
