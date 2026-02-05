@@ -10,6 +10,200 @@
     <link rel="icon" type="image/x-icon" href="site/favicon.ico" />
     <meta property="og:image" content="site/img/og-preview.png" />
     <script src="site/metrics.js"></script>
+
+    <style>
+        /* --- БАЗОВЫЕ ПЕРЕМЕННЫЕ --- */
+        :root {
+            --bg-base: #080808;
+            --card-bg: rgba(15, 15, 15, 0.5);
+            --border-color: rgba(255, 255, 255, 0.12);
+            --accent: #FF0000;
+            --text-main: #ffffff;
+            --text-muted: #c0c0c0;
+            --radius: 24px;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            padding: 30px 15px;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        a { text-decoration: none; color: inherit; display: block; }
+
+        .bg-depth {
+            position: fixed; inset: 0; z-index: -2;
+            background: radial-gradient(circle at 50% 0%, #801500 0%, #330808 45%, #080808 100%);
+        }
+
+        .container {
+            width: 100%; max-width: 1000px;
+            display: flex; flex-direction: column; gap: 20px;
+            position: relative; z-index: 1;
+        }
+
+        /* --- КАРТОЧКА --- */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 25px;
+            position: relative;
+            backdrop-filter: blur(10px) saturate(120%);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            overflow: hidden;
+        }
+
+        /* --- СЕКЦИЯ "КТО МЫ" --- */
+        .about-section {
+            padding: 25px 25px 90px 25px; /* Отступ снизу под кнопки */
+            display: flex; flex-direction: column; gap: 20px;
+        }
+
+        .about-top {
+            display: flex; flex-direction: row; gap: 25px; min-height: 220px;
+        }
+
+        .about-intro {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; text-align: center; padding-top: 15px;
+        }
+
+        .about-title-row {
+            display: flex; align-items: center; justify-content: center;
+            gap: 15px; margin-bottom: 15px;
+        }
+
+        .about-intro h2 { font-size: 2rem; margin: 0; color: #fff; }
+        .about-slogan { font-size: 1.15rem; line-height: 1.5; color: var(--text-muted); font-weight: 500; }
+
+        .about-description {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 25px;
+            color: var(--text-muted); font-size: 1.05rem; line-height: 1.7;
+            padding-right: 20px; /* Чтобы текст не наезжал на кнопки, если экран узкий */
+        }
+        .red-text { color: var(--accent); }
+
+        /* --- ВИДЕО ВНУТРИ "КТО МЫ" --- */
+        .about-video {
+            flex: 1; border-radius: 16px; overflow: hidden;
+            border: 1px solid var(--border-color);
+            min-height: 220px; cursor: pointer; position: relative; transition: 0.3s;
+        }
+        .about-video:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .video-cover { width: 100%; height: 100%; position: relative; }
+        .video-cover img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+
+        /* КНОПКА PLAY (В УГЛУ) */
+        .custom-play-btn {
+            position: absolute;
+            bottom: 20px; right: 20px;
+
+            width: 70px; height: 70px;
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 35px; color: #fff; padding-left: 5px;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .about-video:hover .custom-play-btn {
+            background: rgba(255, 0, 0, 0.8); border-color: var(--accent);
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* --- КОНТЕЙНЕР ДЛЯ КНОПОК (НОВЫЙ) --- */
+        /* Держит кнопки вместе справа внизу */
+        .about-buttons-wrapper {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10;
+            display: flex;
+            gap: 15px; /* Расстояние между кнопками */
+        }
+
+        /* --- СТИЛЬНЫЕ КНОПКИ --- */
+        .nav-btn {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 28px;
+
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Иконки внутри кнопок */
+        .btn-icon-play, .btn-icon-arrow {
+            font-size: 1.1rem;
+            color: var(--accent);
+            transition: transform 0.3s ease;
+            line-height: 1;
+        }
+
+        /* --- ХОВЕР ЭФФЕКТЫ --- */
+        .nav-btn:hover {
+            border-color: var(--accent);
+            background: rgba(255, 0, 0, 0.15); /* Красная подсветка */
+            box-shadow:
+                    0 0 25px rgba(255, 0, 0, 0.3),
+                    inset 0 0 15px rgba(255, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+
+        /* Анимация иконки PLAY (увеличивается и чуть вправо) */
+        .nav-btn:hover .btn-icon-play {
+            transform: translateX(3px) scale(1.2);
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+        }
+
+        /* Анимация иконки СТРЕЛКИ (едет вправо) */
+        .nav-btn:hover .btn-icon-arrow {
+            transform: translateX(5px);
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+        }
+
+
+        /* --- АДАПТИВНОСТЬ --- */
+        @media (max-width: 900px) {
+            .about-top { flex-direction: column; }
+            .about-intro { text-align: center; }
+            .about-video { min-height: 250px; }
+
+            .about-section { padding-bottom: 25px; }
+
+            /* На мобильном разгруппировываем контейнер */
+            .about-buttons-wrapper {
+                position: static;
+                flex-direction: column;
+                width: 100%;
+                margin-top: 20px;
+            }
+
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+                background: rgba(255, 255, 255, 0.07);
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -17,23 +211,22 @@
 <div class="container">
 
     <div id="header-container"></div>
-
     <div id="menu-container"></div>
 
     <div class="card about-section">
         <div class="about-top">
             <div class="about-intro">
                 <div class="about-title-row">
-                    <div class="title-icon-wrap">
-                        <svg class="title-img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <div style="width: 44px; height: 44px; display:flex; align-items:center; justify-content:center;">
+                        <svg viewBox="0 0 24 24" fill="none" style="width:100%; height:100%; transform: rotate(-5deg);">
                             <defs>
-                                <linearGradient id="appleSilverGradWho" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" style="stop-color:#FFFFFF" />
                                     <stop offset="100%" style="stop-color:#C0C8D8" />
                                 </linearGradient>
                             </defs>
-                            <rect x="5" y="4" width="14" height="18" rx="3" fill="url(#appleSilverGradWho)"/>
-                            <rect x="10" y="2" width="4" height="3" rx="1" fill="url(#appleSilverGradWho)"/>
+                            <rect x="5" y="4" width="14" height="18" rx="3" fill="url(#grad1)"/>
+                            <rect x="10" y="2" width="4" height="3" rx="1" fill="url(#grad1)"/>
                             <circle cx="12" cy="10" r="2.5" fill="#080808" opacity="0.15"/>
                             <path d="M12 13.5C10.5 13.5 9.15 14.1 8.5 15C9.2 16.2 10.5 17 12 17C13.5 17 14.8 16.2 15.5 15C14.85 14.1 13.5 13.5 12 13.5Z" fill="#080808" opacity="0.15"/>
                             <rect x="8" y="18" width="8" height="1.5" rx="0.75" fill="#080808" opacity="0.2"/>
@@ -58,10 +251,17 @@
             <p>Мы - команда профессионалов <b>JanPro<span class="red-text">.ru</span></b>, много лет занимающаяся любимым делом. Прошли путь от электромонтажников до компании, производящей уникальные электрощиты для квартир и частных домов, а так же щиты с системами "Умный дом".</p>
         </div>
 
-        <a href="team.html" class="about-team-link">
-            <span class="about-team-text">Познакомиться с командой</span>
-            <div class="arrow-icon">➔</div>
-        </a>
+        <div class="about-buttons-wrapper">
+            <a href="videos.html" class="nav-btn">
+                <span class="btn-icon-play">►</span>
+                <span>Обучающие видео</span>
+            </a>
+
+            <a href="team.html" class="nav-btn">
+                <span>Командой</span>
+                <span class="btn-icon-arrow">➔</span>
+            </a>
+        </div>
     </div>
 
     <div id="services-container" style="display: flex; flex-direction: column; gap: 20px;"></div>
@@ -73,7 +273,7 @@
 <script src="site/loader.js"></script>
 
 <script>
-    // Функция загрузки видео (нужна для блока "Кто мы")
+    // Загрузка видео ВК
     function loadVideo(element) {
         const oid = element.getAttribute('data-vk-oid');
         const id = element.getAttribute('data-vk-id');
@@ -90,9 +290,9 @@
         element.appendChild(iframe);
     }
 
-    // Инициализация страницы
-    // loadServices() вызовется внутри initPage автоматически (мы это прописали в loader.js)
-    initPage('home');
+    if(typeof initPage === 'function') {
+        initPage('home');
+    }
 </script>
 
 </body>
