@@ -57,6 +57,7 @@
             backdrop-filter: blur(10px) saturate(120%);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
             overflow: hidden;
+            transition: all 0.3s ease; /* Плавность для самой карточки */
         }
 
         /* --- СЕКЦИЯ "КТО МЫ" --- */
@@ -78,6 +79,23 @@
             display: flex; align-items: center; justify-content: center;
             gap: 15px; margin-bottom: 15px;
         }
+
+        /* --- СТИЛИ ДЛЯ ИКОНКИ ЗАГОЛОВКА (ИСПРАВЛЕНО) --- */
+        .title-icon-svg {
+            width: 100%;
+            height: 100%;
+            /* Начальное состояние - наклон */
+            transform: rotate(-5deg);
+            /* Плавный переход */
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* ХОВЕР НА КАРТОЧКУ "КТО МЫ" */
+        /* Когда наводим на .about-section, иконка внутри выравнивается */
+        .about-section:hover .title-icon-svg {
+            transform: rotate(0deg) scale(1.1); /* Выравниваем и чуть увеличиваем */
+        }
+
 
         .about-intro h2 { font-size: 2rem; margin: 0; color: #fff; }
         .about-slogan { font-size: 1.15rem; line-height: 1.5; color: var(--text-muted); font-weight: 500; }
@@ -127,70 +145,33 @@
             gap: 15px;
         }
 
-        /* --- ОБНОВЛЕННЫЙ СТИЛЬ КНОПОК (PREMIUM GLASS) --- */
+        /* --- СТИЛЬ КНОПОК (PREMIUM GLASS) --- */
         .nav-btn {
             display: flex; align-items: center; gap: 12px;
             padding: 14px 24px;
-
-            /* Форма */
             border-radius: 12px;
-
-            /* ФОН: Светлее и с легким градиентом, чтобы выделяться на темном фоне */
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%);
-
-            /* РАМКА: Более четкая */
             border: 1px solid rgba(255, 255, 255, 0.25);
-
-            /* Стекло */
             backdrop-filter: blur(12px);
-
             color: #fff;
-            font-weight: 700;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            text-decoration: none;
-
+            font-weight: 700; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.8px;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-
-            /* Тень для объема */
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
 
-        /* Иконки в покое белые (или слегка прозрачные), чтобы не пестрить */
         .btn-icon-play, .btn-icon-arrow {
-            color: #fff;
-            opacity: 0.9;
-            font-size: 1.1rem;
-            line-height: 1;
+            color: #fff; opacity: 0.9; font-size: 1.1rem; line-height: 1;
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        /* --- ХОВЕР (АКТИВАЦИЯ) --- */
+        /* ХОВЕР (АКТИВАЦИЯ) */
         .nav-btn:hover {
-            /* Заливаем красным */
-            background: var(--accent);
-            border-color: var(--accent);
-
-            /* Поднимаем */
+            background: var(--accent); border-color: var(--accent);
             transform: translateY(-4px);
-
-            /* Сильное свечение */
-            box-shadow:
-                    0 10px 30px rgba(255, 0, 0, 0.5), /* Красный ореол */
-                    0 0 10px rgba(255, 255, 255, 0.2) inset; /* Блик внутри */
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.5), 0 0 10px rgba(255, 255, 255, 0.2) inset;
         }
-
-        /* Анимация иконок при наведении */
-        .nav-btn:hover .btn-icon-play {
-            opacity: 1;
-            transform: scale(1.3); /* Плей чуть увеличивается */
-        }
-
-        .nav-btn:hover .btn-icon-arrow {
-            opacity: 1;
-            transform: translateX(6px); /* Стрелка едет вправо */
-        }
+        .nav-btn:hover .btn-icon-play { opacity: 1; transform: scale(1.3); }
+        .nav-btn:hover .btn-icon-arrow { opacity: 1; transform: translateX(6px); }
 
 
         /* --- АДАПТИВНОСТЬ --- */
@@ -211,7 +192,6 @@
             .nav-btn {
                 width: 100%;
                 justify-content: center;
-                /* На мобильном чуть темнее, чтобы не отвлекать */
                 background: rgba(255, 255, 255, 0.08);
             }
         }
@@ -230,7 +210,7 @@
             <div class="about-intro">
                 <div class="about-title-row">
                     <div style="width: 44px; height: 44px; display:flex; align-items:center; justify-content:center;">
-                        <svg viewBox="0 0 24 24" fill="none" style="width:100%; height:100%; transform: rotate(-5deg);">
+                        <svg class="title-icon-svg" viewBox="0 0 24 24" fill="none">
                             <defs>
                                 <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" style="stop-color:#FFFFFF" />
