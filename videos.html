@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Видео-блог | JanPro.ru</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site/styles.css">
+    <link rel="icon" type="image/x-icon" href="site/favicon.ico" />
+    <script src="site/metrics.js"></script>
+
+    <style>
+        /* --- СЛОИ --- */
+        .bg-depth { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .container { position: relative; z-index: 1; }
+
+        /* --- ЛЕНТА --- */
+        .video-feed {
+            display: flex; flex-direction: column; gap: 30px;
+            width: 100%; max-width: 1000px; margin: 20px auto 0;
+        }
+
+        /* --- КАРТОЧКА ПОСТА --- */
+        .video-post {
+            padding: 0 !important;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ВЕРХНИЙ РЯД (Видео + Интро) */
+        .post-top-row {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            min-height: 300px;
+        }
+
+        /* Левая колонка (Видео) */
+        .video-col {
+            flex: 0 0 55%;
+            position: relative;
+            background: #000;
+        }
+
+        /* Правая колонка (Заголовок + Краткое) */
+        .intro-col {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+
+            /* --- ИЗМЕНЕНИЯ ЗДЕСЬ: Выравнивание ВЕРХ + ЛЕВО --- */
+            justify-content: flex-start;
+            align-items: flex-start;
+            text-align: left;
+
+            border-left: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* --- ЭЛЕМЕНТЫ ВИДЕО --- */
+        .video-wrapper {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            cursor: pointer; overflow: hidden;
+        }
+        .video-placeholder {
+            width: 100%; height: 100%; object-fit: cover; opacity: 0.9;
+            transition: opacity 0.3s, transform 0.5s;
+        }
+        .video-wrapper:hover .video-placeholder { opacity: 0.7; transform: scale(1.02); }
+
+        .play-btn-center {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 70px; height: 70px;
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.5); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px; color: #fff; padding-left: 4px;
+            transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 2;
+        }
+        .video-wrapper:hover .play-btn-center {
+            background: rgba(255, 0, 0, 0.8); border-color: var(--accent);
+            transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+        }
+
+        /* --- ТЕКСТЫ --- */
+        .post-title {
+            font-size: 1.6rem; font-weight: 800; margin-bottom: 15px;
+            color: #fff; line-height: 1.2;
+            margin-top: 0; /* Убираем верхний отступ, чтобы прижать к верху */
+        }
+        .post-short-desc {
+            color: var(--text-muted); font-size: 1rem; line-height: 1.5; margin-bottom: 0;
+        }
+
+        /* --- СПОЙЛЕР (ВНИЗУ) --- */
+        .seo-spoiler {
+            width: 100%;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0,0,0,0.2);
+        }
+
+        .seo-spoiler summary {
+            padding: 15px 30px;
+            cursor: pointer;
+            color: #aaa;
+            font-weight: 500; font-size: 0.9rem;
+            list-style: none;
+            display: flex; align-items: center; gap: 10px;
+            transition: 0.3s; user-select: none; outline: none;
+        }
+        .seo-spoiler summary:hover { color: #fff; background: rgba(255,255,255,0.02); }
+        .seo-spoiler summary::after { content: '▼'; font-size: 0.7em; transition: transform 0.3s; opacity: 0.7; }
+        .seo-spoiler[open] summary::after { transform: rotate(180deg); }
+        .seo-spoiler summary::-webkit-details-marker { display: none; }
+
+        .spoiler-body {
+            padding: 0 30px 30px 30px;
+            font-size: 0.95rem; color: #ccc; line-height: 1.7;
+            animation: fadeIn 0.4s;
+            text-align: left;
+        }
+        .spoiler-body p { margin-bottom: 15px; }
+        .spoiler-body ul, .spoiler-body ol { padding-left: 20px; margin-bottom: 15px; }
+        .spoiler-body li { margin-bottom: 8px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- АДАПТИВНОСТЬ --- */
+        @media (max-width: 900px) {
+            .post-top-row { flex-direction: column; min-height: auto; }
+            .video-col { width: 100%; aspect-ratio: 16 / 9; }
+            .intro-col { border-left: none; border-top: 1px solid rgba(255,255,255,0.1); padding: 20px; }
+            .post-title { font-size: 1.3rem; }
+            .seo-spoiler summary, .spoiler-body { padding-left: 20px; padding-right: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-depth"></div>
+
+<div class="container">
+
+    <div id="header-container"></div>
+    <div id="menu-container"></div>
+
+    <div class="video-feed">
+
+        <div class="card video-post">
+            <div class="post-top-row">
+                <div class="video-col">
+                    <div class="video-wrapper" onclick="loadVideo(this)" data-src="https://vk.com/video_ext.php?oid=-76846822&id=456239435&hd=2&autoplay=1">
+                        <img src="site/img/video-cover.jpg" alt="Философия JanPro" class="video-placeholder">
+                        <div class="play-btn-center">▶</div>
+                    </div>
+                </div>
+                <div class="intro-col">
+                    <h2 class="post-title">Кто мы такие? Философия JanPro</h2>
+                    <p class="post-short-desc">
+                        Короткий ролик о том, как мы прошли путь от простых электромонтажников до производителей уникальных электрощитов.
+                    </p>
+                </div>
+            </div>
+
+            <details class="seo-spoiler">
+                <summary>Читать полное описание выпуска</summary>
+                <div class="spoiler-body">
+                    <p>В этом видео основатель компании Ян Савченко подробно рассказывает о внутренней кухне и принципах работы JanPro.</p>
+                    <p><b>Основные темы выпуска:</b></p>
+                    <ul>
+                        <li>Почему важна техническая эстетика внутри электрощита?</li>
+                        <li>Как мы автоматизируем рутинные процессы сборки.</li>
+                        <li>Команда профессионалов и подход к каждому клиенту.</li>
+                    </ul>
+                    <p>Мы верим, что электрощит — это сердце дома, и оно должно работать безупречно. Позвольте себе стать "Великим Нехочухой", а техническую часть мы полностью возьмем на себя.</p>
+                </div>
+            </details>
+        </div>
+
+        <div class="card video-post">
+            <div class="post-top-row">
+                <div class="video-col">
+                    <div class="video-wrapper" onclick="loadVideo(this)" data-src="https://vk.com/video_ext.php?oid=-76846822&id=456239436&hd=2&autoplay=1">
+                        <img src="site/img/projects/p6.png" alt="Loxone Коттедж" class="video-placeholder">
+                        <div class="play-btn-center">▶</div>
+                    </div>
+                </div>
+                <div class="intro-col">
+                    <h2 class="post-title">Обзор щита для коттеджа на Loxone (460 м²)</h2>
+                    <p class="post-short-desc">
+                        Разбираем огромный шкаф автоматизации на 850 модулей. Управление светом, климатом, шторами и полная интеграция мультимедиа.
+                    </p>
+                </div>
+            </div>
+
+            <details class="seo-spoiler">
+                <summary>Технические характеристики проекта</summary>
+                <div class="spoiler-body">
+                    <p>Этот проект является одним из самых сложных и интересных в нашем портфолио за последний год. Коттедж площадью 460 квадратных метров полностью управляется системой Loxone.</p>
+                    <p><b>Установленное оборудование:</b></p>
+                    <ul>
+                        <li>Центральный контроллер: Loxone Miniserver.</li>
+                        <li>Модули расширения: Relay Extension, Dimmer Extension.</li>
+                        <li>Блоки питания: Mean Well промышленной серии.</li>
+                    </ul>
+                    <p><b>Реализованный функционал:</b></p>
+                    <ol>
+                        <li>Сценарии освещения по протоколам DALI и 0-10V.</li>
+                        <li>Погодозависимая автоматика отопления.</li>
+                        <li>Управление приводами въездных ворот и рольставнями.</li>
+                    </ol>
+                </div>
+            </details>
+        </div>
+
+        <div class="card video-post">
+            <div class="post-top-row">
+                <div class="video-col">
+                    <div class="video-wrapper" onclick="loadVideo(this)" data-src="https://vk.com/video_ext.php?oid=-76846822&id=456239437&hd=2&autoplay=1">
+                        <img src="site/img/projects/p1.png" alt="Щит для квартиры" class="video-placeholder">
+                        <div class="play-btn-center">▶</div>
+                    </div>
+                </div>
+                <div class="intro-col">
+                    <h2 class="post-title">Идеальный щит для 3-комнатной квартиры</h2>
+                    <p class="post-short-desc">
+                        Можно ли сделать качественно и недорого? Обзор типового решения на 72 модуля с импульсными реле и мастер-кнопкой.
+                    </p>
+                </div>
+            </div>
+
+            <details class="seo-spoiler">
+                <summary>Подробности конфигурации</summary>
+                <div class="spoiler-body">
+                    <p>В этом проекте мы реализовали "золотой стандарт" для современной городской квартиры.</p>
+                    <p><b>Что внутри:</b></p>
+                    <ul>
+                        <li>Реле напряжения (УЗМ) для защиты всей бытовой техники.</li>
+                        <li>УЗО на все мокрые зоны (ванная, кухня).</li>
+                        <li>Мастер-выключатель "Выключить всё" у выхода.</li>
+                        <li>Выделенные неотключаемые линии: холодильник, Wi-Fi роутер, защита от протечек.</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+        <div class="card video-post">
+            <div class="post-top-row">
+                <div class="video-col">
+                    <div class="video-wrapper" onclick="loadVideo(this)" data-src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1">
+                        <img src="site/img/wb_logo.png" style="object-fit: contain; background: #222;" alt="WirenBoard" class="video-placeholder">
+                        <div class="play-btn-center">▶</div>
+                    </div>
+                </div>
+                <div class="intro-col">
+                    <h2 class="post-title">WirenBoard 7: Основа российского умного дома</h2>
+                    <p class="post-short-desc">
+                        Почему мы выбираем WirenBoard для большинства проектов? Обзор контроллера, модулей реле и возможностей интеграции с SprutHub.
+                    </p>
+                </div>
+            </div>
+
+            <details class="seo-spoiler">
+                <summary>О контроллере WirenBoard</summary>
+                <div class="spoiler-body">
+                    <p><b>Wiren Board 7</b> — это универсальный контроллер на базе Linux, ставший стандартом де-факто в российских инсталляциях.</p>
+                    <ul>
+                        <li><b>Надежность:</b> Промышленное исполнение, работа от -40 до +70 °C.</li>
+                        <li><b>Гибкость:</b> Поддержка Modbus RTU, MQTT для подключения тысяч датчиков.</li>
+                        <li><b>Экосистема:</b> Родные модули расширения (реле, диммеры, входы).</li>
+                        <li><b>Софт:</b> Возможность запускать Home Assistant, SprutHub или писать скрипты на JS.</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+    </div>
+
+    <div id="footer-container" style="margin-top: 50px;"></div>
+
+</div>
+
+<script src="site/loader.js"></script>
+<script>
+    if(typeof initPage === 'function') {
+        initPage('video');
+    }
+
+    // Универсальная функция загрузки видео
+    function loadVideo(wrapper) {
+        const src = wrapper.getAttribute('data-src');
+        const iframe = document.createElement('iframe');
+        iframe.setAttribute('src', src);
+        iframe.setAttribute('width', '100%');
+        iframe.setAttribute('height', '100%');
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
+        iframe.setAttribute('allowfullscreen', '');
+
+        iframe.style.position = 'absolute';
+        iframe.style.top = '0';
+        iframe.style.left = '0';
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.zIndex = '10';
+
+        wrapper.innerHTML = '';
+        wrapper.appendChild(iframe);
+    }
+</script>
+
+</body>
+</html>
