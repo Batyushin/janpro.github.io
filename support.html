@@ -11,102 +11,140 @@
     <script src="site/metrics.js"></script>
 
     <style>
-        /* --- СТИЛЬ КАРТОЧЕК (Базовый) --- */
-        .card {
+        /* --- УНИКАЛЬНЫЕ СТИЛИ ДЛЯ ТЕХПОДДЕРЖКИ (sup-*) --- */
+
+        /* Базовый стиль стеклянной панели */
+        .sup-card {
             background: rgba(15, 10, 10, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(40px);
+            overflow: hidden;
+            position: relative;
         }
 
-        /* --- Описание --- */
-        .info-card {
-            padding: 30px;
+        /* --- ВЕРХНИЙ ИНФО-БЛОК --- */
+        .sup-info-block {
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
             margin-bottom: 20px;
         }
-        .info-text {
+
+        /* Ряд: Иконка + Заголовок */
+        .sup-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        /* Иконка заголовка */
+        .sup-main-icon {
+            width: 50px;
+            height: 50px;
+            opacity: 0.9;
+            flex-shrink: 0;
+        }
+
+        /* Текст заголовка */
+        .sup-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+            line-height: 1.2;
+            text-align: left;
+        }
+
+        /* Описание */
+        .sup-text {
             font-size: 1.1rem;
             color: #eee;
             line-height: 1.6;
             margin: 0;
+            max-width: 700px;
         }
 
         /* --- СЕТКА КНОПОК --- */
-        .grid-row-3 {
+        .sup-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr; /* Мобильный: 1 колонка */
             gap: 15px;
+            width: 100%;
             margin-bottom: 20px;
         }
         @media (min-width: 768px) {
-            .grid-row-3 { grid-template-columns: repeat(3, 1fr); }
+            .sup-grid {
+                grid-template-columns: repeat(3, 1fr); /* Десктоп: 3 колонки */
+            }
         }
 
-        /* --- КНОПКА-КАРТОЧКА (Стиль контактов) --- */
-        .action-card-contact {
-            /* Размеры как в контактах */
-            padding: 15px 18px !important;
-            min-height: 105px !important;
-
-            /* Горизонтальное выравнивание */
+        /* --- КНОПКИ (ОРИГИНАЛЬНЫЙ СТИЛЬ) --- */
+        .sup-btn {
+            /* Принудительно задаем flex, чтобы не ломалось */
             display: flex !important;
             flex-direction: row !important;
             align-items: center !important;
             justify-content: flex-start !important;
-            text-align: left !important;
+
+            padding: 15px 18px !important;
+            min-height: 105px !important;
 
             text-decoration: none;
+            text-align: left;
             transition: transform 0.3s ease, border-color 0.3s;
         }
 
-        /* Ховер на саму карточку */
-        .action-card-contact:hover {
+        /* Эффекты при наведении на кнопку */
+        .sup-btn:hover {
             transform: translateY(-5px);
-            border-color: var(--accent); /* Красная рамка */
+            border-color: var(--accent);
         }
 
-        /* Кружок иконки */
-        .action-icon-wrap-contacts {
+        /* Кружок вокруг иконки */
+        .sup-btn-icon-circle {
             width: 54px; height: 54px;
             border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, 0.1);
             background: rgba(255, 255, 255, 0.05);
             display: flex; align-items: center; justify-content: center;
-            margin-right: 15px; /* Отступ справа до текста */
-            margin-bottom: 0; /* Убираем нижний отступ */
+            margin-right: 15px;
             flex-shrink: 0;
-            overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Сама иконка */
-        .contact-card-icon {
-            width: 100%; height: 100%; object-fit: cover;
+        /* Сама иконка внутри кружка */
+        .sup-btn-icon-img {
+            width: 28px; height: 28px;
+            object-fit: contain; /* Чтобы не сплющивало */
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Эффекты при наведении (Вращение и цвет) */
-        .action-card-contact:hover .action-icon-wrap-contacts {
+        /* Ховер на кружок и иконку */
+        .sup-btn:hover .sup-btn-icon-circle {
             border-color: var(--accent);
             background: rgba(255, 0, 0, 0.2);
             box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
         }
-
-        .action-card-contact:hover .contact-card-icon {
+        .sup-btn:hover .sup-btn-icon-img {
             transform: rotate(360deg) scale(1.1);
         }
 
-        /* Тексты */
-        .card-content h3 {
+        /* Тексты внутри кнопки */
+        .sup-btn-content h3 {
             font-size: 1.3rem;
             font-weight: 900;
             color: #fff;
             margin: 0 0 4px 0;
             line-height: 1;
         }
-        .card-content p {
+        .sup-btn-content p {
             font-size: 1.05rem;
             color: #fff;
             opacity: 0.8;
@@ -114,26 +152,30 @@
             margin: 0;
         }
 
-        /* --- Спец стиль для неактивной кнопки (MAX) --- */
-        .action-card-contact.disabled {
+        /* --- СТИЛЬ ДЛЯ ОТКЛЮЧЕННОЙ КНОПКИ --- */
+        .sup-btn.disabled {
             opacity: 0.5;
             cursor: default;
             filter: grayscale(1);
         }
-        .action-card-contact.disabled:hover {
+        .sup-btn.disabled:hover {
             transform: none;
             border-color: rgba(255, 255, 255, 0.1);
         }
-        /* Отключаем вращение для неактивной кнопки */
-        .action-card-contact.disabled:hover .contact-card-icon {
-            transform: none;
-        }
-        .action-card-contact.disabled:hover .action-icon-wrap-contacts {
-            border-color: rgba(255, 255, 255, 0.1);
+        .sup-btn.disabled:hover .sup-btn-icon-circle {
             background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
             box-shadow: none;
         }
+        .sup-btn.disabled:hover .sup-btn-icon-img {
+            transform: none;
+        }
 
+        /* Адаптив заголовка */
+        @media (max-width: 600px) {
+            .sup-title-row { flex-direction: column; gap: 10px; text-align: center; }
+            .sup-title { text-align: center; }
+        }
     </style>
 </head>
 <body>
@@ -146,50 +188,72 @@
     <div id="header-container"></div>
     <div id="menu-container"></div>
 
-    <div class="card info-card">
-        <p class="info-text">
+    <div class="sup-card sup-info-block">
+        <div class="sup-title-row">
+            <div class="sup-main-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:100%; height:100%;">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                </svg>
+            </div>
+            <h1 class="sup-title">Техническая поддержка</h1>
+        </div>
+
+        <p class="sup-text">
             Вся техническая поддержка производится с Божьей помощью! Но мы очень стараемся оперативно решать проблемы.<br>
             Выберите удобный способ связи:
         </p>
     </div>
 
-    <section class="grid-row-3">
-        <a href="https://t.me/JanPro59" target="_blank" class="card action-card-contact">
-            <div class="action-icon-wrap-contacts">
-                <img src="site/img/tg.svg" class="contact-card-icon" alt="Telegram">
+    <section class="sup-grid">
+
+        <a href="https://t.me/JanPro59" target="_blank" class="sup-card sup-btn">
+            <div class="sup-btn-icon-circle">
+                <img src="site/img/tg.svg" class="sup-btn-icon-img" alt="Telegram">
             </div>
-            <div class="card-content">
+            <div class="sup-btn-content">
                 <h3>Telegram</h3>
                 <p>Для связи<br>напишите сюда</p>
             </div>
         </a>
 
-        <a href="https://wa.me/79824699434" target="_blank" class="card action-card-contact">
-            <div class="action-icon-wrap-contacts">
-                <img src="site/img/whatsapp.png" class="contact-card-icon" alt="WhatsApp">
+        <a href="https://wa.me/79824699434" target="_blank" class="sup-card sup-btn">
+            <div class="sup-btn-icon-circle">
+                <img src="site/img/whatsapp.png" class="sup-btn-icon-img" alt="WhatsApp">
             </div>
-            <div class="card-content">
+            <div class="sup-btn-content">
                 <h3>WhatsApp</h3>
                 <p>Или сюда<br></p>
             </div>
         </a>
 
-        <a href="#" class="card action-card-contact disabled" onclick="return false;">
-            <div class="action-icon-wrap-contacts">
-                <img src="site/img/max.png" class="contact-card-icon" alt="Max">
+        <a href="#" class="sup-card sup-btn disabled" onclick="return false;">
+            <div class="sup-btn-icon-circle">
+                <img src="site/img/max.png" class="sup-btn-icon-img" alt="Max">
             </div>
-            <div class="card-content">
+            <div class="sup-btn-content">
                 <h3>MAX</h3>
                 <p>Сюда пока не пишите,<br>временно недоступно</p>
             </div>
         </a>
+
     </section>
 
     <div id="services-container" style="display: flex; flex-direction: column; gap: 20px;"></div>
-
     <div id="footer-container" style="margin-top: 20px;"></div>
 
 </div>
+
+<script>
+    document.querySelectorAll('.sup-card').forEach(card => {
+        card.onmousemove = e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        };
+    });
+</script>
 
 <script src="site/loader.js"></script>
 <script>
