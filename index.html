@@ -86,7 +86,7 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 25px;
             color: var(--text-muted); font-size: 1.05rem; line-height: 1.7;
-            padding-right: 20px; /* Чтобы текст не наезжал на кнопки, если экран узкий */
+            padding-right: 20px;
         }
         .red-text { color: var(--accent); }
 
@@ -104,7 +104,6 @@
         .custom-play-btn {
             position: absolute;
             bottom: 20px; right: 20px;
-
             width: 70px; height: 70px;
             background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 50%;
@@ -118,66 +117,79 @@
             transform: scale(1.1) rotate(5deg);
         }
 
-        /* --- КОНТЕЙНЕР ДЛЯ КНОПОК (НОВЫЙ) --- */
-        /* Держит кнопки вместе справа внизу */
+        /* --- КОНТЕЙНЕР ДЛЯ КНОПОК --- */
         .about-buttons-wrapper {
             position: absolute;
             bottom: 30px;
             right: 30px;
             z-index: 10;
             display: flex;
-            gap: 15px; /* Расстояние между кнопками */
+            gap: 15px;
         }
 
-        /* --- СТИЛЬНЫЕ КНОПКИ --- */
+        /* --- ОБНОВЛЕННЫЙ СТИЛЬ КНОПОК (PREMIUM GLASS) --- */
         .nav-btn {
             display: flex; align-items: center; gap: 12px;
-            padding: 14px 28px;
+            padding: 14px 24px;
 
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 50px;
+            /* Форма */
+            border-radius: 12px;
+
+            /* ФОН: Светлее и с легким градиентом, чтобы выделяться на темном фоне */
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%);
+
+            /* РАМКА: Более четкая */
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            /* Стекло */
+            backdrop-filter: blur(12px);
 
             color: #fff;
             font-weight: 700;
             font-size: 0.95rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             text-decoration: none;
 
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+            /* Тень для объема */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
 
-        /* Иконки внутри кнопок */
+        /* Иконки в покое белые (или слегка прозрачные), чтобы не пестрить */
         .btn-icon-play, .btn-icon-arrow {
+            color: #fff;
+            opacity: 0.9;
             font-size: 1.1rem;
-            color: var(--accent);
-            transition: transform 0.3s ease;
             line-height: 1;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        /* --- ХОВЕР ЭФФЕКТЫ --- */
+        /* --- ХОВЕР (АКТИВАЦИЯ) --- */
         .nav-btn:hover {
+            /* Заливаем красным */
+            background: var(--accent);
             border-color: var(--accent);
-            background: rgba(255, 0, 0, 0.15); /* Красная подсветка */
-            box-shadow:
-                    0 0 25px rgba(255, 0, 0, 0.3),
-                    inset 0 0 15px rgba(255, 0, 0, 0.1);
+
+            /* Поднимаем */
             transform: translateY(-4px);
+
+            /* Сильное свечение */
+            box-shadow:
+                    0 10px 30px rgba(255, 0, 0, 0.5), /* Красный ореол */
+                    0 0 10px rgba(255, 255, 255, 0.2) inset; /* Блик внутри */
         }
 
-        /* Анимация иконки PLAY (увеличивается и чуть вправо) */
+        /* Анимация иконок при наведении */
         .nav-btn:hover .btn-icon-play {
-            transform: translateX(3px) scale(1.2);
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+            opacity: 1;
+            transform: scale(1.3); /* Плей чуть увеличивается */
         }
 
-        /* Анимация иконки СТРЕЛКИ (едет вправо) */
         .nav-btn:hover .btn-icon-arrow {
-            transform: translateX(5px);
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+            opacity: 1;
+            transform: translateX(6px); /* Стрелка едет вправо */
         }
 
 
@@ -189,7 +201,6 @@
 
             .about-section { padding-bottom: 25px; }
 
-            /* На мобильном разгруппировываем контейнер */
             .about-buttons-wrapper {
                 position: static;
                 flex-direction: column;
@@ -200,7 +211,8 @@
             .nav-btn {
                 width: 100%;
                 justify-content: center;
-                background: rgba(255, 255, 255, 0.07);
+                /* На мобильном чуть темнее, чтобы не отвлекать */
+                background: rgba(255, 255, 255, 0.08);
             }
         }
     </style>
@@ -258,7 +270,7 @@
             </a>
 
             <a href="team.html" class="nav-btn">
-                <span>Командой</span>
+                <span>Команда</span>
                 <span class="btn-icon-arrow">➔</span>
             </a>
         </div>
