@@ -134,7 +134,9 @@
         .about-video:hover img { opacity: 0.6; transform: scale(1.05); }
 
         .custom-play-btn {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
             width: 70px; height: 70px;
             background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 255, 255, 0.5); border-radius: 50%;
@@ -144,17 +146,15 @@
         }
         .about-video:hover .custom-play-btn {
             background: var(--accent); border-color: var(--accent);
-            transform: translate(-50%, -50%) scale(1.1);
+            transform: scale(1.1);
         }
 
-        /* --- КНОПКИ (СИММЕТРИЧНЫЕ ОТСТУПЫ) --- */
+        /* --- КНОПКИ --- */
         .about-buttons-wrapper {
             display: flex;
             gap: 15px;
             width: 100%;
             justify-content: flex-end;
-
-            /* ДОБАВИЛ ОТСТУП СВЕРХУ, ЧТОБЫ УРАВНЯТЬ С НИЖНИМ */
             margin-top: 10px;
         }
 
@@ -209,28 +209,37 @@
             color: #fff; border-color: #fff;
         }
 
-        /* --- БЕГУЩАЯ СТРОКА --- */
+        /* --- БЕГУЩАЯ СТРОКА (ИСПРАВЛЕНО ДЛЯ ПЛАВНОСТИ) --- */
         .ticker-wrap {
             width: calc(100% + 50px);
             margin-left: -25px; margin-bottom: -25px;
-
-            /* УВЕЛИЧИЛ ОТСТУП СНИЗУ ДЛЯ БАЛАНСА */
             margin-top: 10px;
-
             background: rgba(0, 0, 0, 0.3);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             padding: 12px 0;
             overflow: hidden;
-            white-space: nowrap;
             position: relative;
         }
-        .ticker { display: inline-block; animation: marquee 20s linear infinite; }
+
+        .ticker {
+            display: flex; /* Flexbox убирает пробелы */
+            width: fit-content; /* Ширина по контенту */
+            animation: marquee 30s linear infinite; /* 30 секунд для плавности */
+        }
+
         .ticker-item {
-            display: inline-block; padding: 0 30px;
+            flex-shrink: 0; /* Запрещаем сжимать элементы */
+            padding: 0 30px;
             font-size: 0.9rem; font-weight: 700; color: #555;
             text-transform: uppercase; letter-spacing: 2px;
+            white-space: nowrap;
         }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* Анимация сдвигает ровно на 50%, где начинается дубль списка */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
 
         /* --- АДАПТИВНОСТЬ --- */
         @media (max-width: 900px) {
@@ -300,7 +309,7 @@
 
             <div class="about-video" onclick="loadVideo(this)" data-vk-oid="-76846822" data-vk-id="456239435">
                 <div class="video-cover">
-                    <img src="site/img/video-cover.jpg" alt="JanPro Intro">
+                    <img src="site/img/videos/video-cover.jpg" alt="JanPro Intro">
                     <div class="custom-play-btn">▶</div>
                 </div>
             </div>
@@ -332,13 +341,18 @@
                 <span class="ticker-item">Лайтверк</span>
                 <span class="ticker-item">Systeme Electric</span>
                 <span class="ticker-item">Профкарниз</span>
+                <span class="ticker-item">Arlight</span>
+                <span class="ticker-item">EKf</span>
+
                 <span class="ticker-item">ABB</span>
                 <span class="ticker-item">Wiren Board</span>
                 <span class="ticker-item">Loxone</span>
                 <span class="ticker-item">spruthub</span>
                 <span class="ticker-item">Mean Well</span>
-                <span class="ticker-item">Arlight</span>
+                <span class="ticker-item">Лайтверк</span>
                 <span class="ticker-item">Systeme Electric</span>
+                <span class="ticker-item">Профкарниз</span>
+                <span class="ticker-item">Arlight</span>
                 <span class="ticker-item">EKf</span>
             </div>
         </div>
