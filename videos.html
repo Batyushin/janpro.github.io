@@ -14,6 +14,7 @@
         /* --- СЛОИ --- */
         .bg-depth { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
         .container { position: relative; z-index: 1; }
+        body.no-scroll { overflow: hidden; }
 
         /* --- ЛЕНТА --- */
         .video-feed {
@@ -26,45 +27,39 @@
             padding: 0 !important;
             overflow: hidden;
             display: flex;
-            flex-direction: column; /* Элементы идут вертикально: Верхний ряд -> Спойлер */
+            flex-direction: column;
             background: rgba(15, 10, 10, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             transition: border-color 0.3s;
+            scroll-margin-top: 20px;
         }
-        .video-post.open {
+        .video-post.inline-open {
             border-color: rgba(255, 255, 255, 0.3);
         }
+        .video-post:target {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+        }
 
-        /* --- ВЕРХНИЙ РЯД (2 колонки) --- */
+        /* ВЕРХНИЙ РЯД */
         .post-top-row {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            align-items: stretch;
-            min-height: 320px;
+            display: flex; flex-direction: row; width: 100%;
+            align-items: stretch; min-height: 320px;
         }
 
         /* Левая колонка (Видео) */
         .video-col {
             flex: 0 0 55%;
-            position: relative;
-            background: #000;
-            min-height: 300px;
+            position: relative; background: #000; min-height: 300px;
         }
 
-        /* Правая колонка (Текст + Кнопка) */
+        /* Правая колонка (Текст) */
         .intro-col {
             flex: 1;
-            padding: 30px 30px 0 30px; /* Снизу 0, там кнопка */
-            display: flex;
-            flex-direction: column;
-
-            /* Выравнивание: Вверх и Влево */
-            justify-content: flex-start;
-            align-items: flex-start;
-            text-align: left;
-
+            padding: 30px 30px 0 30px;
+            display: flex; flex-direction: column;
+            justify-content: flex-start; align-items: flex-start; text-align: left;
             border-left: 1px solid rgba(255,255,255,0.1);
         }
 
@@ -94,94 +89,127 @@
         }
 
         /* --- ТЕКСТЫ --- */
-        .post-title {
-            font-size: 1.5rem; font-weight: 800; margin-bottom: 15px;
-            color: #fff; line-height: 1.25; margin-top: 0;
-            text-align: left;
-        }
-        .post-short-desc {
-            color: var(--text-muted); font-size: 1rem; line-height: 1.6; margin: 0;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        /* Распорка толкает кнопку вниз */
+        .post-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 15px; color: #fff; line-height: 1.25; margin-top: 0; text-align: left; }
+        .post-short-desc { color: var(--text-muted); font-size: 1rem; line-height: 1.6; margin: 0; margin-bottom: 20px; text-align: left; }
         .spacer { flex-grow: 1; }
 
-        /* --- КНОПКА (Внутри правой колонки) --- */
-        .toggle-bar {
+        /* --- ПАНЕЛЬ ДЕЙСТВИЙ --- */
+        .actions-bar {
             width: calc(100% + 60px);
-            margin-left: -30px;
-            margin-right: -30px;
-
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #aaa;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s ease;
-
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+            margin-left: -30px; margin-right: -30px;
             margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
         }
 
-        .toggle-bar:hover {
+        /* Кнопка "Читать" (Вернул исходный стиль) */
+        .toggle-part {
+            flex-grow: 1;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03); /* Прозрачный */
+            color: #aaa; font-size: 0.85rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; text-align: center;
+            transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .toggle-part:hover {
             background: rgba(255, 255, 255, 0.08);
             color: #fff;
         }
-
-        .toggle-bar.active {
-            background: rgba(255, 0, 0, 0.15);
+        .video-post.inline-open .toggle-part {
+            background: rgba(255, 0, 0, 0.15); /* Краснеет когда открыто */
             color: #fff;
             border-top-color: var(--accent);
         }
         .icon { font-size: 0.8em; transition: transform 0.3s ease; }
-        .toggle-bar.active .icon { transform: rotate(180deg); }
+        .video-post.inline-open .icon { transform: rotate(180deg); }
 
-        /* --- СКРЫТЫЙ КОНТЕНТ (ВНЕ КОЛОНОК - НА ВСЮ ШИРИНУ) --- */
-        .spoiler-full-width {
-            display: none;
-            width: 100%; /* На всю ширину карточки */
-            background: rgba(0, 0, 0, 0.3);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 30px 40px;
-            animation: slideDown 0.4s ease;
+        /* Кнопка "Поделиться" */
+        .share-part {
+            width: 60px;
+            display: flex; align-items: center; justify-content: center;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer; color: #aaa;
+            transition: all 0.3s ease;
         }
+        .share-part:hover { background: rgba(255, 255, 255, 0.1); color: var(--accent); }
+        .share-icon-svg { width: 20px; height: 20px; fill: currentColor; }
 
+        /* --- ИНЛАЙН СПОЙЛЕР --- */
         .spoiler-content {
-            font-size: 1rem; color: #ccc; line-height: 1.7; text-align: left;
+            display: none;
+            width: 100%; background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px 40px; animation: slideDown 0.4s ease;
+            text-align: left;
         }
-        .spoiler-content p { margin-bottom: 15px; }
-        .spoiler-content ul { padding-left: 20px; margin-bottom: 15px; }
-        .spoiler-content li { margin-bottom: 8px; }
-        .spoiler-content b { color: #fff; }
+        .video-post.inline-open .spoiler-content { display: block; }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Стили текста */
+        .text-body { font-size: 1rem; color: #ccc; line-height: 1.7; }
+        .text-body p { margin-bottom: 15px; }
+        .text-body ul { padding-left: 20px; margin-bottom: 15px; }
+        .text-body li { margin-bottom: 8px; }
+        .text-body h3 { color: #fff; margin-top: 20px; margin-bottom: 10px; font-size: 1.2rem; }
+        .text-body h4 { color: #fff; margin-top: 15px; margin-bottom: 5px; font-size: 1.1rem; font-weight: 700; }
+        .text-body hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0; }
+        .text-body blockquote {
+            border-left: 3px solid var(--accent);
+            margin: 20px 0; padding-left: 15px;
+            color: #fff; font-style: italic;
         }
+
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- МОДАЛКА (ВИРТУАЛЬНАЯ СТРАНИЦА) --- */
+        .modal-overlay {
+            position: fixed; inset: 0; z-index: 2000;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.4s ease;
+            overflow-y: auto; padding: 20px 0;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .modal-container {
+            width: 100%; max-width: 900px;
+            margin: 40px auto;
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            position: relative;
+            transform: translateY(50px); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            overflow: hidden;
+        }
+        .modal-overlay.active .modal-container { transform: translateY(0); }
+
+        .close-modal-btn {
+            position: absolute; top: 20px; right: 20px;
+            width: 40px; height: 40px;
+            background: rgba(0,0,0,0.6); border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff; font-size: 24px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 10; transition: 0.3s;
+        }
+        .close-modal-btn:hover { background: var(--accent); border-color: var(--accent); transform: rotate(90deg); }
+
+        .modal-video-area { width: 100%; aspect-ratio: 16 / 9; background: #000; }
+        .modal-text-area { padding: 40px; text-align: left; }
+        .modal-main-title { font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 20px; line-height: 1.2; }
 
         /* --- АДАПТИВНОСТЬ --- */
         @media (max-width: 900px) {
             .post-top-row { flex-direction: column; }
             .video-col { width: 100%; aspect-ratio: 16 / 9; min-height: auto; flex: none; }
-            .intro-col {
-                border-left: none;
-                border-top: 1px solid rgba(255,255,255,0.1);
-                padding: 25px 20px 0 20px;
-            }
-            .toggle-bar {
-                width: calc(100% + 40px);
-                margin-left: -20px;
-                margin-right: -20px;
-            }
-            .spoiler-full-width { padding: 20px; }
-            .post-title { font-size: 1.35rem; }
+            .intro-col { border-left: none; border-top: 1px solid rgba(255,255,255,0.1); padding: 25px 20px 0 20px; }
+            .actions-bar { width: calc(100% + 40px); margin-left: -20px; margin-right: -20px; }
+            .spoiler-content { padding: 20px; }
+            .modal-container { margin: 0; min-height: 100vh; border-radius: 0; }
+            .modal-text-area { padding: 20px; }
         }
     </style>
 </head>
@@ -189,43 +217,50 @@
 
 <div class="bg-depth"></div>
 
-<div class="container">
+<div class="modal-overlay" id="virtual-page-modal">
+    <div class="modal-container">
+        <div class="close-modal-btn" onclick="closeModal()">×</div>
+        <div class="modal-video-area" id="modal-video-placeholder"></div>
+        <div class="modal-text-area">
+            <h1 class="modal-main-title" id="modal-title-placeholder"></h1>
+            <div class="text-body" id="modal-content-placeholder"></div>
+        </div>
+    </div>
+</div>
 
+<div class="container">
     <div id="header-container"></div>
     <div id="menu-container"></div>
 
     <div class="video-feed">
 
-
-
-
-        <!-- Видео 1 -->
-
-        <div class="card video-post">
+        <!-- ВИДЕО ПОСТ 1 -->
+        <div class="card video-post" id="post-smart-home">
             <div class="post-top-row">
                 <div class="video-col">
                     <div class="video-wrapper" onclick="loadVideo(this)" data-src="https://vk.com/video_ext.php?oid=-76846822&id=456239435&hd=2&autoplay=1">
-                        <img src="site/img/video-cover.jpg" alt="Все, что нужно знать перед покупкой умного дома" class="video-placeholder">
+                        <img src="site/img/video-cover.jpg" alt="Обложка" class="video-placeholder">
                         <div class="play-btn-center">▶</div>
                     </div>
                 </div>
-
                 <div class="intro-col">
                     <h2 class="post-title">🏗️ Все, что нужно знать перед покупкой умного дома</h2>
-                    <p class="post-short-desc">
-                        В этом видео я рассказываю о всех аспектах при подготовке дизайн-проекта под умный дом, показываю, как правильно заполнить наш опросник, а так же рассказываю много чего интересного про умные дома и их возможности.
-                    </p>
-
+                    <p class="post-short-desc">В этом видео я рассказываю о всех аспектах при подготовке дизайн-проекта под умный дом, показываю, как правильно заполнить наш опросник.</p>
                     <div class="spacer"></div>
-
-                    <div class="toggle-bar" onclick="toggleSpoiler(this)">
-                        <span>Читать статью полностью</span>
-                        <span class="icon">▼</span>
+                    <div class="actions-bar">
+                        <div class="toggle-part" onclick="toggleInline('post-smart-home')">
+                            <span>Читать статью полностью</span>
+                            <span class="icon">▼</span>
+                        </div>
+                        <div class="share-part" onclick="sharePost('post-smart-home', this)" title="Скопировать ссылку">
+                            <svg class="share-icon-svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.66 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="spoiler-full-width">
-                <div class="spoiler-content">
+
+            <div class="spoiler-content">
+                <div class="text-body">
                     <h3>Гайд по проектированию умного дома: Освещение, Климат и Электрика</h3>
 
                     <p>Создание умного дома начинается не с покупки гаджетов, а с грамотного дизайн-проекта. Ошибки на этапе чертежей приводят к вскрытию стен и потолков после чистовой отделки. Ниже — подробный разбор ключевых узлов автоматизации, который сэкономит вам бюджет и нервы.</p>
@@ -298,43 +333,40 @@
                     <p><i>Без этой таблицы покупка оборудования для умного дома — лотерея с высоким риском ошибки.</i></p>
                 </div>
             </div>
+            <div style="display:none;" class="video-src-hidden">https://vk.com/video_ext.php?oid=-76846822&id=456239435&hd=2&autoplay=1</div>
         </div>
 
-        <!-- Видео 2 -->
-
-        <div class="card video-post">
+        <div class="card video-post" id="post-loxone">
             <div class="post-top-row">
                 <div class="video-col">
                     <div class="video-wrapper" onclick="loadVideo(this)" data-src="https://vk.com/video_ext.php?oid=-76846822&id=456239436&hd=2&autoplay=1">
-                        <img src="site/img/projects/p6.png" alt="Loxone Коттедж" class="video-placeholder">
+                        <img src="site/img/projects/p6.png" alt="Обложка" class="video-placeholder">
                         <div class="play-btn-center">▶</div>
                     </div>
                 </div>
                 <div class="intro-col">
                     <h2 class="post-title">🏡 Умный дом на Loxone: Коттедж 460 м²</h2>
-                    <p class="post-short-desc">
-                        Разбираем огромный шкаф автоматизации на 850 модулей. Управление светом, климатом, шторами и полная интеграция мультимедиа.
-                    </p>
-
+                    <p class="post-short-desc">Разбираем огромный шкаф автоматизации на 850 модулей. Управление светом, климатом, шторами и полная интеграция мультимедиа.</p>
                     <div class="spacer"></div>
-
-                    <div class="toggle-bar" onclick="toggleSpoiler(this)">
-                        <span>Технические детали</span>
-                        <span class="icon">▼</span>
+                    <div class="actions-bar">
+                        <div class="toggle-part" onclick="toggleInline('post-loxone')">
+                            <span>Читать статью полностью</span>
+                            <span class="icon">▼</span>
+                        </div>
+                        <div class="share-part" onclick="sharePost('post-loxone', this)"><svg class="share-icon-svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.66 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg></div>
                     </div>
                 </div>
             </div>
-
-            <div class="spoiler-full-width">
-                <div class="spoiler-content">
+            <div class="spoiler-content">
+                <div class="text-body">
                     <p>Этот проект является одним из самых сложных и интересных в нашем портфолио за последний год. Коттедж площадью 460 квадратных метров полностью управляется системой Loxone.</p>
-                    <p><b>Установленное оборудование:</b></p>
+                    <h4>Установленное оборудование:</h4>
                     <ul>
                         <li>Центральный контроллер: Loxone Miniserver.</li>
                         <li>Модули расширения: Relay Extension, Dimmer Extension.</li>
                         <li>Блоки питания: Mean Well промышленной серии.</li>
                     </ul>
-                    <p><b>Реализованный функционал:</b></p>
+                    <h4>Реализованный функционал:</h4>
                     <ol>
                         <li>Сценарии освещения по протоколам DALI и 0-10V.</li>
                         <li>Погодозависимая автоматика отопления.</li>
@@ -342,37 +374,34 @@
                     </ol>
                 </div>
             </div>
+            <div style="display:none;" class="video-src-hidden">https://vk.com/video_ext.php?oid=-76846822&id=456239436&hd=2&autoplay=1</div>
         </div>
 
-        <!-- Видео 3 -->
-
-        <div class="card video-post">
+        <div class="card video-post" id="post-shield">
             <div class="post-top-row">
                 <div class="video-col">
                     <div class="video-wrapper" onclick="loadVideo(this)" data-src="https://vk.com/video_ext.php?oid=-76846822&id=456239437&hd=2&autoplay=1">
-                        <img src="site/img/projects/p1.png" alt="Щит для квартиры" class="video-placeholder">
+                        <img src="site/img/projects/p1.png" alt="Обложка" class="video-placeholder">
                         <div class="play-btn-center">▶</div>
                     </div>
                 </div>
                 <div class="intro-col">
                     <h2 class="post-title">🏢 Идеальный щит для 3-к квартиры</h2>
-                    <p class="post-short-desc">
-                        Можно ли сделать качественно и недорого? Обзор типового решения на 72 модуля с импульсными реле и мастер-кнопкой.
-                    </p>
-
+                    <p class="post-short-desc">Можно ли сделать качественно и недорого? Обзор типового решения на 72 модуля с импульсными реле и мастер-кнопкой.</p>
                     <div class="spacer"></div>
-
-                    <div class="toggle-bar" onclick="toggleSpoiler(this)">
-                        <span>Что внутри щита?</span>
-                        <span class="icon">▼</span>
+                    <div class="actions-bar">
+                        <div class="toggle-part" onclick="toggleInline('post-shield')">
+                            <span>Читать статью полностью</span>
+                            <span class="icon">▼</span>
+                        </div>
+                        <div class="share-part" onclick="sharePost('post-shield', this)"><svg class="share-icon-svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.66 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg></div>
                     </div>
                 </div>
             </div>
-
-            <div class="spoiler-full-width">
-                <div class="spoiler-content">
+            <div class="spoiler-content">
+                <div class="text-body">
                     <p>В этом проекте мы реализовали "золотой стандарт" для современной городской квартиры.</p>
-                    <p><b>Конфигурация:</b></p>
+                    <h4>Конфигурация:</h4>
                     <ul>
                         <li>Реле напряжения (УЗМ) для защиты всей бытовой техники.</li>
                         <li>УЗО на все мокрые зоны (ванная, кухня).</li>
@@ -381,78 +410,77 @@
                     </ul>
                 </div>
             </div>
+            <div style="display:none;" class="video-src-hidden">https://vk.com/video_ext.php?oid=-76846822&id=456239437&hd=2&autoplay=1</div>
         </div>
-
-        <!-- Видео 4 -->
-
-        <div class="card video-post">
-            <div class="post-top-row">
-                <div class="video-col">
-                    <div class="video-wrapper" onclick="loadVideo(this)" data-src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1">
-                        <img src="site/img/wb_logo.png" style="object-fit: contain; background: #222;" alt="WirenBoard" class="video-placeholder">
-                        <div class="play-btn-center">▶</div>
-                    </div>
-                </div>
-                <div class="intro-col">
-                    <h2 class="post-title">🧠 WirenBoard 7: Основа автоматизации</h2>
-                    <p class="post-short-desc">
-                        Почему мы выбираем WirenBoard для большинства проектов? Обзор контроллера, модулей реле и возможностей интеграции с SprutHub.
-                    </p>
-
-                    <div class="spacer"></div>
-
-                    <div class="toggle-bar" onclick="toggleSpoiler(this)">
-                        <span>О контроллере</span>
-                        <span class="icon">▼</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="spoiler-full-width">
-                <div class="spoiler-content">
-                    <p><b>Wiren Board 7</b> — это универсальный контроллер на базе Linux, ставший стандартом де-факто в российских инсталляциях.</p>
-                    <ul>
-                        <li><b>Надежность:</b> Промышленное исполнение, работа от -40 до +70 °C.</li>
-                        <li><b>Гибкость:</b> Поддержка Modbus RTU, MQTT для подключения тысяч датчиков.</li>
-                        <li><b>Экосистема:</b> Родные модули расширения (реле, диммеры, входы).</li>
-                        <li><b>Софт:</b> Возможность запускать Home Assistant, SprutHub или писать скрипты на JS.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-
-
 
     </div>
 
     <div id="services-container" style="display: flex; flex-direction: column; gap: 20px;"></div>
-
     <div id="footer-container" style="margin-top: 50px;"></div>
-
 </div>
 
 <script src="site/loader.js"></script>
 <script>
-    if(typeof initPage === 'function') {
-        initPage('video');
+    if(typeof initPage === 'function') { initPage('video'); }
+
+    // 1. ИНЛАЙН РАСКРЫТИЕ (Для кликов на сайте)
+    function toggleInline(id) {
+        const post = document.getElementById(id);
+        post.classList.toggle('inline-open');
     }
 
-    // Обновленный скрипт: ищем .spoiler-full-width внутри .video-post
-    function toggleSpoiler(btn) {
-        const card = btn.closest('.video-post');
-        const content = card.querySelector('.spoiler-full-width');
+    // 2. ОТКРЫТИЕ МОДАЛКИ (Только для прямых ссылок)
+    function openModalFromHash(id) {
+        const post = document.getElementById(id);
+        if(!post) return;
 
-        if (content.style.display === 'block') {
-            content.style.display = 'none';
-            btn.classList.remove('active');
-            card.classList.remove('open');
-        } else {
-            content.style.display = 'block';
-            btn.classList.add('active');
-            card.classList.add('open');
+        const title = post.querySelector('.post-title').innerText;
+        const htmlContent = post.querySelector('.text-body').innerHTML;
+        const videoSrc = post.querySelector('.video-src-hidden').innerText;
+
+        document.getElementById('modal-title-placeholder').innerText = title;
+        document.getElementById('modal-content-placeholder').innerHTML = htmlContent;
+
+        const videoArea = document.getElementById('modal-video-placeholder');
+        videoArea.innerHTML = '';
+        const iframe = document.createElement('iframe');
+        iframe.setAttribute('src', videoSrc);
+        iframe.setAttribute('width', '100%');
+        iframe.setAttribute('height', '100%');
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'autoplay; fullscreen');
+        videoArea.appendChild(iframe);
+
+        const modal = document.getElementById('virtual-page-modal');
+        modal.classList.add('active');
+        document.body.classList.add('no-scroll');
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('virtual-page-modal');
+        modal.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+        setTimeout(() => { document.getElementById('modal-video-placeholder').innerHTML = ''; }, 300);
+        history.pushState(null, null, window.location.pathname);
+    }
+
+    function sharePost(id, btn) {
+        const url = window.location.origin + window.location.pathname + '#' + id;
+        navigator.clipboard.writeText(url).then(() => {
+            const original = btn.innerHTML;
+            btn.innerHTML = '<span style="color:#0f0; font-size:1.2rem;">✔</span>';
+            setTimeout(() => btn.innerHTML = original, 2000);
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        if (window.location.hash) {
+            const targetId = window.location.hash.substring(1);
+            if (document.getElementById(targetId)) {
+                openModalFromHash(targetId);
+            }
         }
-    }
+    });
 
     function loadVideo(wrapper) {
         const src = wrapper.getAttribute('data-src');
@@ -461,16 +489,7 @@
         iframe.setAttribute('width', '100%');
         iframe.setAttribute('height', '100%');
         iframe.setAttribute('frameborder', '0');
-        iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
-        iframe.setAttribute('allowfullscreen', '');
-
-        iframe.style.position = 'absolute';
-        iframe.style.top = '0';
-        iframe.style.left = '0';
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.zIndex = '10';
-
+        iframe.setAttribute('allow', 'autoplay; fullscreen');
         wrapper.innerHTML = '';
         wrapper.appendChild(iframe);
     }
