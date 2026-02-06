@@ -133,20 +133,36 @@
         .video-cover img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: 0.3s; }
         .about-video:hover img { opacity: 0.6; transform: scale(1.05); }
 
+        /* --- КНОПКА PLAY --- */
         .custom-play-btn {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
+            bottom: 20px; right: 20px;
             width: 70px; height: 70px;
-            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.5); border-radius: 50%;
+            /* Стеклянный фон */
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             font-size: 30px; color: #fff; padding-left: 4px;
-            transition: 0.3s; box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            /* Плавная анимация */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            /* Важно для вращения вокруг своей оси */
+            transform-origin: center center;
         }
+
         .about-video:hover .custom-play-btn {
-            background: var(--accent); border-color: var(--accent);
-            transform: scale(1.1);
+            /* Красный контур */
+            border-color: var(--accent);
+            /* Красная иконка */
+            color: var(--accent);
+            /* Фон остается стеклянным (не краснеет) */
+            background: rgba(255, 255, 255, 0.1);
+            /* Вращение на 120 градусов + увеличение */
+            transform: scale(1.1) rotate(120deg);
+            /* Красное свечение вокруг */
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
         }
 
         /* --- КНОПКИ --- */
@@ -209,7 +225,7 @@
             color: #fff; border-color: #fff;
         }
 
-        /* --- БЕГУЩАЯ СТРОКА (ИСПРАВЛЕНО ДЛЯ ПЛАВНОСТИ) --- */
+        /* --- БЕГУЩАЯ СТРОКА --- */
         .ticker-wrap {
             width: calc(100% + 50px);
             margin-left: -25px; margin-bottom: -25px;
@@ -235,7 +251,6 @@
             white-space: nowrap;
         }
 
-        /* Анимация сдвигает ровно на 50%, где начинается дубль списка */
         @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
