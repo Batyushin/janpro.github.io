@@ -12,13 +12,10 @@
     <script src="site/metrics.js"></script>
 
     <style>
+        /* --- БАЗОВЫЕ СТИЛИ --- */
         .contacts-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
+            display: flex; flex-direction: column; gap: 20px; width: 100%;
         }
-
         .grid-row-3 { display: grid; grid-template-columns: 1fr; gap: 15px; }
         .grid-row-2 { display: grid; grid-template-columns: 1fr; gap: 15px; }
 
@@ -31,23 +28,18 @@
         .action-card-contact {
             padding: 15px 18px !important;
             min-height: 105px !important;
-            display: flex !important;
-            flex-direction: row !important;
-            align-items: center !important;
-            justify-content: flex-start !important;
+            display: flex !important; flex-direction: row !important;
+            align-items: center !important; justify-content: flex-start !important;
             text-align: left !important;
         }
 
         .action-icon-wrap-contacts {
-            width: 54px; height: 54px;
-            border-radius: 50%;
+            width: 54px; height: 54px; border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex; align-items: center; justify-content: center;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             background: rgba(255, 255, 255, 0.05);
-            margin-right: 15px;
-            overflow: hidden;
-            flex-shrink: 0;
+            margin-right: 15px; overflow: hidden; flex-shrink: 0;
         }
 
         .contact-card-icon {
@@ -56,63 +48,27 @@
         }
 
         .action-card-contact:hover .action-icon-wrap-contacts {
-            border-color: #FF0000;
-            background: rgba(255, 0, 0, 0.2);
+            border-color: #FF0000; background: rgba(255, 0, 0, 0.2);
             box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
         }
-        .action-card-contact:hover .contact-card-icon {
-            transform: rotate(360deg) scale(1.1);
-        }
+        .action-card-contact:hover .contact-card-icon { transform: rotate(360deg) scale(1.1); }
 
-        /* Текстовые стили в кнопках */
-        .action-card-contact h3 {
-            font-size: 1.3rem !important;
-            margin: 0 0 4px 0 !important;
-            line-height: 1;
-            color: #fff;
-            font-weight: 900;
-        }
-        .action-card-contact p {
-            font-size: 1.05rem !important;
-            line-height: 1.3 !important;
-            margin: 0 !important;
-            opacity: 1;
-            color: #fff;
-        }
+        .action-card-contact h3 { font-size: 1.3rem !important; margin: 0 0 4px 0 !important; line-height: 1; color: #fff; font-weight: 900; }
+        .action-card-contact p { font-size: 1.05rem !important; line-height: 1.3 !important; margin: 0 !important; opacity: 1; color: #fff; }
 
-        /* --- СТИЛИ ДЛЯ НЕАКТИВНОЙ КНОПКИ (MAX) --- */
-        .action-card-contact.disabled {
-            opacity: 0.5;
-            cursor: default;
-            filter: grayscale(100%);
-        }
-
-        /* Отключаем эффекты при наведении для disabled */
-        .action-card-contact.disabled:hover {
-            transform: none !important;
-            background: rgba(15, 10, 10, 0.6) !important; /* Возвращаем дефолтный фон */
-        }
-
-        .action-card-contact.disabled:hover .action-icon-wrap-contacts {
-            border-color: rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
-            box-shadow: none;
-        }
-
-        .action-card-contact.disabled:hover .contact-card-icon {
-            transform: none; /* Не вращать */
-        }
-
+        .action-card-contact.disabled { opacity: 0.5; cursor: default; filter: grayscale(100%); }
+        .action-card-contact.disabled:hover { transform: none !important; background: rgba(15, 10, 10, 0.6) !important; }
+        .action-card-contact.disabled:hover .action-icon-wrap-contacts { border-color: rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.05); box-shadow: none; }
+        .action-card-contact.disabled:hover .contact-card-icon { transform: none; }
 
         /* Карточки данных */
         .data-card {
             padding: 25px !important;
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-            align-items: flex-start;
-            justify-content: flex-start !important; /* Поднимает содержимое вверх */
+            display: flex; flex-direction: column;
+            text-align: left; align-items: flex-start;
+            justify-content: flex-start !important;
             height: 100%;
+            position: relative; /* Для позиционирования кнопки копирования */
         }
         .data-card:hover { transform: none !important; }
 
@@ -123,22 +79,74 @@
         }
 
         .data-list { list-style: none; padding: 0; margin: 0; font-size: 0.85rem; color: #ccc; width: 100%; }
-        .data-list li {
-            margin-bottom: 10px;
-            display: flex;
-            flex-direction: column;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 5px;
-        }
-        .data-list li:last-child { border-bottom: none; }
-        .data-label { color: #666; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px; }
-        .data-value { color: #fff; font-weight: 500; font-size: 0.9rem; }
 
-        .qr-area { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; width: 100%; }
-        .qr-img {
-            max-width: 140px; width: 100%; border-radius: 10px; background: #fff;
-            padding: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-bottom: 10px;
+        .data-list li {
+            margin-bottom: 10px; display: flex; flex-direction: column;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 8px 12px; border-radius: 8px;
+            cursor: pointer; position: relative;
+            transition: background 0.2s ease;
         }
+        .data-list li:last-child { border-bottom: none; margin-bottom: 0; }
+        .data-list li:hover { background: rgba(255, 255, 255, 0.05); }
+        .data-list li:active { background: rgba(255, 255, 255, 0.1); }
+
+        .data-label { color: #666; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px; }
+        .value-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        .data-value { color: #fff; font-weight: 500; font-size: 0.9rem; word-break: break-word; }
+
+        .copy-icon { width: 16px; height: 16px; fill: #666; opacity: 0; transition: all 0.2s ease; flex-shrink: 0; }
+        .data-list li:hover .copy-icon { opacity: 1; }
+        .copy-icon.copied { fill: #00FF00 !important; transform: scale(1.2); opacity: 1; }
+        @media (max-width: 768px) { .copy-icon { opacity: 0.4; } }
+
+        /* --- КНОПКА "СКОПИРОВАТЬ ВСЁ" --- */
+        .copy-all-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.08);
+            border-top-left-radius: 16px; /* Закругляем только угол стыка */
+            border-bottom-right-radius: 20px; /* Чтобы совпадало с радиусом карточки (примерно) */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-left: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+
+        .copy-all-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            width: 50px; height: 50px; /* Эффект увеличения активной зоны */
+        }
+
+        .copy-all-icon {
+            width: 20px; height: 20px;
+            fill: #aaa;
+            transition: fill 0.3s ease, transform 0.3s ease;
+        }
+
+        .copy-all-btn:hover .copy-all-icon {
+            fill: #fff;
+        }
+
+        .copy-all-btn.copied {
+            background: rgba(0, 255, 0, 0.15);
+            border-color: rgba(0, 255, 0, 0.3);
+        }
+        .copy-all-btn.copied .copy-all-icon {
+            fill: #00FF00;
+            transform: scale(1.1);
+        }
+
+        /* QR */
+        .qr-area { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; width: 100%; }
+        .qr-img { max-width: 140px; width: 100%; border-radius: 10px; background: #fff; padding: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -186,25 +194,80 @@
         <div class="grid-row-2">
             <div class="card data-card">
                 <h3 class="block-title"><span>👤</span> Информация об компании</h3>
-                <ul class="data-list">
-                    <li><span class="data-label">ФИО</span><span class="data-value">Савченко Ян Константинович</span></li>
-                    <li><span class="data-label">ИНН / ОГРНИП</span><span class="data-value">5919035778 / 1255900014545</span></li>
-                    <li><span class="data-label">Почта</span><span class="data-value">jan.pro59@yandex.ru</span></li>
-                    <li><span class="data-label">Адрес</span><span class="data-value" style="font-size: 0.8rem;">618425, Пермский край, г. Березники, ул. Юбилейная д.129 кв.207</span></li>
+                <ul class="data-list" id="info-list">
+                    <li onclick="copyText(this)">
+                        <span class="data-label">ФИО</span>
+                        <div class="value-row">
+                            <span class="data-value">Савченко Ян Константинович</span>
+                            <svg class="copy-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                        </div>
+                    </li>
+                    <li onclick="copyText(this)">
+                        <span class="data-label">ИНН / ОГРНИП</span>
+                        <div class="value-row">
+                            <span class="data-value">5919035778 / 1255900014545</span>
+                            <svg class="copy-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                        </div>
+                    </li>
+                    <li onclick="copyText(this)">
+                        <span class="data-label">Почта</span>
+                        <div class="value-row">
+                            <span class="data-value">jan.pro59@yandex.ru</span>
+                            <svg class="copy-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                        </div>
+                    </li>
+                    <li onclick="copyText(this)">
+                        <span class="data-label">Адрес</span>
+                        <div class="value-row">
+                            <span class="data-value" style="font-size: 0.8rem;">618425, Пермский край, г. Березники, ул. Юбилейная д.129 кв.207</span>
+                            <svg class="copy-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                        </div>
+                    </li>
                 </ul>
             </div>
 
-            <div class="card data-card">
-                <h3 class="block-title"><span>🏦</span> Банковские реквизиты</h3>
-                <ul class="data-list">
-                    <li><span class="data-label">Расчётный счёт</span><span class="data-value">4070 2810 2200 0024 3044</span></li>
-                    <li><span class="data-label">Название банка</span><span class="data-value">ООО "Банк Точка" г. Москва</span></li>
-                    <li><span class="data-label">Корр. счёт / БИК</span><span class="data-value">3010 1810 7453 7452 5104 / 044525104</span></li>
-                    <li><span class="data-label">Валюта</span><span class="data-value">Российский рубль (RUB)</span></li>
+            <div class="card data-card" style="padding-bottom: 45px !important;"> <h3 class="block-title"><span>🏦</span> Банковские реквизиты</h3>
+                <ul class="data-list" id="bank-list">
+                    <li onclick="copyText(this)">
+                        <span class="data-label">Расчётный счёт</span>
+                        <div class="value-row">
+                            <span class="data-value">4070 2810 2200 0024 3044</span>
+                            <svg class="copy-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                        </div>
+                    </li>
+                    <li onclick="copyText(this)">
+                        <span class="data-label">Название банка</span>
+                        <div class="value-row">
+                            <span class="data-value">ООО "Банк Точка" г. Москва</span>
+                            <svg class="copy-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                        </div>
+                    </li>
+                    <li onclick="copyText(this)">
+                        <span class="data-label">Корр. счёт / БИК</span>
+                        <div class="value-row">
+                            <span class="data-value">3010 1810 7453 7452 5104 / 044525104</span>
+                            <svg class="copy-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                        </div>
+                    </li>
+                    <li onclick="copyText(this)">
+                        <span class="data-label">Валюта</span>
+                        <div class="value-row">
+                            <span class="data-value">Российский рубль (RUB)</span>
+                            <svg class="copy-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                        </div>
+                    </li>
                 </ul>
+
+                <div class="copy-all-btn" onclick="copyAllDetails(this)" title="Скопировать все реквизиты">
+                    <svg class="copy-all-icon" viewBox="0 0 24 24">
+                        <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                    </svg>
+                </div>
             </div>
         </div>
-<!--
+
+
+        <!--
         <div class="grid-row-2">
             <div class="card data-card">
                 <h3 class="block-title"><span>🏢</span> Оплата на ООО для юр. лиц</h3>
@@ -221,7 +284,8 @@
                 </div>
             </div>
         </div>
-/-->
+        /-->
+
     </div>
 
     <div id="services-container" style="display: flex; flex-direction: column; gap: 20px;"></div>
@@ -232,7 +296,71 @@
 
 <script src="site/loader.js"></script>
 <script>
-    initPage('contacts');
+    if(typeof initPage === 'function') {
+        initPage('contacts');
+    }
+
+    // --- КОПИРОВАНИЕ ОДНОЙ СТРОКИ ---
+    function copyText(element) {
+        const textToCopy = element.querySelector('.data-value').innerText;
+        const icon = element.querySelector('.copy-icon');
+        const iconPath = icon.querySelector('path');
+
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            icon.classList.add('copied');
+            const originalPath = iconPath.getAttribute('d');
+            // Меняем на галочку
+            iconPath.setAttribute('d', 'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z');
+
+            if (navigator.vibrate) navigator.vibrate(50);
+
+            setTimeout(() => {
+                icon.classList.remove('copied');
+                // Возвращаем иконку копирования
+                iconPath.setAttribute('d', 'M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z');
+            }, 2000);
+        }).catch(err => console.error('Ошибка копирования:', err));
+    }
+
+    // --- КОПИРОВАНИЕ ВСЕХ РЕКВИЗИТОВ ---
+    function copyAllDetails(btn) {
+        const infoList = document.getElementById('info-list');
+        const bankList = document.getElementById('bank-list');
+        const icon = btn.querySelector('.copy-all-icon');
+        const iconPath = icon.querySelector('path');
+
+        let fullText = "=== Информация о компании ===\n";
+
+        // Собираем инфо
+        infoList.querySelectorAll('li').forEach(li => {
+            const label = li.querySelector('.data-label').innerText;
+            const value = li.querySelector('.data-value').innerText;
+            fullText += `${label}: ${value}\n`;
+        });
+
+        fullText += "\n=== Банковские реквизиты ===\n";
+
+        // Собираем банк
+        bankList.querySelectorAll('li').forEach(li => {
+            const label = li.querySelector('.data-label').innerText;
+            const value = li.querySelector('.data-value').innerText;
+            fullText += `${label}: ${value}\n`;
+        });
+
+        navigator.clipboard.writeText(fullText).then(() => {
+            btn.classList.add('copied');
+            // Меняем на галочку
+            iconPath.setAttribute('d', 'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z');
+
+            if (navigator.vibrate) navigator.vibrate(50);
+
+            setTimeout(() => {
+                btn.classList.remove('copied');
+                // Возвращаем иконку листа
+                iconPath.setAttribute('d', 'M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z');
+            }, 2000);
+        }).catch(err => console.error('Ошибка массового копирования:', err));
+    }
 </script>
 
 </body>
