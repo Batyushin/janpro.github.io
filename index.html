@@ -15,7 +15,7 @@
         /* --- БАЗОВЫЕ ПЕРЕМЕННЫЕ --- */
         :root {
             --bg-base: #080808;
-            --card-bg: rgba(15, 15, 15, 0.5);
+            --card-bg: rgba(15, 15, 15, 0.6);
             --border-color: rgba(255, 255, 255, 0.12);
             --accent: #FF0000;
             --text-main: #ffffff;
@@ -32,6 +32,7 @@
             padding: 30px 15px;
             min-height: 100vh;
             margin: 0;
+            overflow-x: hidden;
         }
 
         a { text-decoration: none; color: inherit; display: block; }
@@ -54,25 +55,27 @@
             border-radius: var(--radius);
             padding: 25px;
             position: relative;
-            backdrop-filter: blur(10px) saturate(120%);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px) saturate(120%);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             overflow: hidden;
-            transition: all 0.3s ease; /* Плавность для самой карточки */
         }
 
         /* --- СЕКЦИЯ "КТО МЫ" --- */
         .about-section {
-            padding: 25px 25px 90px 25px; /* Отступ снизу под кнопки */
-            display: flex; flex-direction: column; gap: 20px;
+            padding: 30px;
+            display: flex; flex-direction: column;
+            gap: 15px;
         }
 
         .about-top {
-            display: flex; flex-direction: row; gap: 25px; min-height: 220px;
+            display: flex; flex-direction: row; gap: 30px; min-height: 240px;
         }
 
+        /* --- ЛЕВАЯ ЧАСТЬ --- */
         .about-intro {
             flex: 1; display: flex; flex-direction: column;
-            align-items: center; text-align: center; padding-top: 15px;
+            align-items: center; text-align: center;
+            padding-top: 10px;
         }
 
         .about-title-row {
@@ -80,120 +83,167 @@
             gap: 15px; margin-bottom: 15px;
         }
 
-        /* --- СТИЛИ ДЛЯ ИКОНКИ ЗАГОЛОВКА (ИСПРАВЛЕНО) --- */
         .title-icon-svg {
-            width: 100%;
-            height: 100%;
-            /* Начальное состояние - наклон */
+            width: 100%; height: 100%;
             transform: rotate(-5deg);
-            /* Плавный переход */
             transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
+        .about-section:hover .title-icon-svg { transform: rotate(0deg) scale(1.1); }
 
-        /* ХОВЕР НА КАРТОЧКУ "КТО МЫ" */
-        /* Когда наводим на .about-section, иконка внутри выравнивается */
-        .about-section:hover .title-icon-svg {
-            transform: rotate(0deg) scale(1.1); /* Выравниваем и чуть увеличиваем */
+        .about-intro h2 { font-size: 2.2rem; margin: 0; color: #fff; line-height: 1; }
+
+        .about-slogan {
+            font-size: 1.1rem; line-height: 1.6;
+            color: var(--text-muted); font-weight: 400;
+            margin-top: 10px; max-width: 95%;
+            margin-left: auto; margin-right: auto;
         }
 
+        /* --- СТАТИСТИКА --- */
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 15px; width: 100%; margin-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+        }
+        .stat-item { display: flex; flex-direction: column; gap: 2px; }
+        .stat-val { font-size: 1.2rem; font-weight: 900; color: #fff; }
+        .stat-label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
 
-        .about-intro h2 { font-size: 2rem; margin: 0; color: #fff; }
-        .about-slogan { font-size: 1.15rem; line-height: 1.5; color: var(--text-muted); font-weight: 500; }
-
+        /* --- ОПИСАНИЕ (ВЛЕВО) --- */
         .about-description {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 25px;
-            color: var(--text-muted); font-size: 1.05rem; line-height: 1.7;
-            padding-right: 20px;
+            color: #ddd; font-size: 1rem; line-height: 1.7;
+            background: rgba(255,255,255,0.03);
+            padding: 20px; border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: left;
         }
-        .red-text { color: var(--accent); }
+        .red-text { color: var(--accent); font-weight: 700; }
 
-        /* --- ВИДЕО ВНУТРИ "КТО МЫ" --- */
+        /* --- ВИДЕО --- */
         .about-video {
-            flex: 1; border-radius: 16px; overflow: hidden;
+            flex: 0 0 45%;
+            border-radius: 16px; overflow: hidden;
             border: 1px solid var(--border-color);
-            min-height: 220px; cursor: pointer; position: relative; transition: 0.3s;
+            position: relative; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        .about-video:hover { border-color: var(--accent); transform: translateY(-2px); }
-        .video-cover { width: 100%; height: 100%; position: relative; }
-        .video-cover img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+        .about-video:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .video-cover { width: 100%; height: 100%; }
+        .video-cover img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: 0.3s; }
+        .about-video:hover img { opacity: 0.6; transform: scale(1.05); }
 
-        /* КНОПКА PLAY (В УГЛУ) */
         .custom-play-btn {
-            position: absolute;
-            bottom: 20px; right: 20px;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 70px; height: 70px;
             background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.5); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 35px; color: #fff; padding-left: 5px;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            font-size: 30px; color: #fff; padding-left: 4px;
+            transition: 0.3s; box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
         .about-video:hover .custom-play-btn {
-            background: rgba(255, 0, 0, 0.8); border-color: var(--accent);
-            transform: scale(1.1) rotate(5deg);
+            background: var(--accent); border-color: var(--accent);
+            transform: translate(-50%, -50%) scale(1.1);
         }
 
-        /* --- КОНТЕЙНЕР ДЛЯ КНОПОК --- */
+        /* --- КНОПКИ (СИММЕТРИЧНЫЕ ОТСТУПЫ) --- */
         .about-buttons-wrapper {
-            position: absolute;
-            bottom: 30px;
-            right: 30px;
-            z-index: 10;
             display: flex;
             gap: 15px;
+            width: 100%;
+            justify-content: flex-end;
+
+            /* ДОБАВИЛ ОТСТУП СВЕРХУ, ЧТОБЫ УРАВНЯТЬ С НИЖНИМ */
+            margin-top: 10px;
         }
 
-        /* --- СТИЛЬ КНОПОК (PREMIUM GLASS) --- */
         .nav-btn {
-            display: flex; align-items: center; gap: 12px;
-            padding: 14px 24px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 12px 24px;
             border-radius: 12px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(12px);
-            color: #fff;
-            font-weight: 700; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.8px;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
+            transition: all 0.3s ease; text-align: center;
+            flex: none;
         }
 
         .btn-icon-play, .btn-icon-arrow {
-            color: #fff; opacity: 0.9; font-size: 1.1rem; line-height: 1;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            display: inline-block;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            line-height: 1;
         }
 
-        /* ХОВЕР (АКТИВАЦИЯ) */
-        .nav-btn:hover {
+        .nav-btn:hover { transform: translateY(-3px); }
+
+        @keyframes playPulse {
+            0% { text-shadow: 0 0 0 rgba(255,255,255,0.7); }
+            50% { text-shadow: 0 0 10px rgba(255,255,255,1); transform: scale(1.2); }
+            100% { text-shadow: 0 0 0 rgba(255,255,255,0.7); }
+        }
+
+        .nav-btn:hover .btn-icon-play {
+            animation: playPulse 1.5s infinite;
+        }
+
+        .nav-btn:hover .btn-icon-arrow {
+            transform: translateX(5px);
+        }
+
+        .btn-primary {
+            background: rgba(255, 0, 0, 0.15);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: #fff;
+        }
+        .btn-primary:hover {
             background: var(--accent); border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.5), 0 0 10px rgba(255, 255, 255, 0.2) inset;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
         }
-        .nav-btn:hover .btn-icon-play { opacity: 1; transform: scale(1.3); }
-        .nav-btn:hover .btn-icon-arrow { opacity: 1; transform: translateX(6px); }
 
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ccc;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff; border-color: #fff;
+        }
+
+        /* --- БЕГУЩАЯ СТРОКА --- */
+        .ticker-wrap {
+            width: calc(100% + 50px);
+            margin-left: -25px; margin-bottom: -25px;
+
+            /* УВЕЛИЧИЛ ОТСТУП СНИЗУ ДЛЯ БАЛАНСА */
+            margin-top: 10px;
+
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+        .ticker { display: inline-block; animation: marquee 20s linear infinite; }
+        .ticker-item {
+            display: inline-block; padding: 0 30px;
+            font-size: 0.9rem; font-weight: 700; color: #555;
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* --- АДАПТИВНОСТЬ --- */
         @media (max-width: 900px) {
-            .about-top { flex-direction: column; }
-            .about-intro { text-align: center; }
-            .about-video { min-height: 250px; }
-
-            .about-section { padding-bottom: 25px; }
+            .about-top { flex-direction: column-reverse; }
+            .about-video { height: 200px; width: 100%; flex: none; }
+            .about-intro { text-align: center; align-items: center; }
+            .stats-grid { text-align: center; }
 
             .about-buttons-wrapper {
-                position: static;
                 flex-direction: column;
-                width: 100%;
-                margin-top: 20px;
-            }
-
-            .nav-btn {
-                width: 100%;
                 justify-content: center;
-                background: rgba(255, 255, 255, 0.08);
             }
+            .nav-btn { width: 100%; }
         }
     </style>
 </head>
@@ -206,10 +256,11 @@
     <div id="menu-container"></div>
 
     <div class="card about-section">
+
         <div class="about-top">
             <div class="about-intro">
                 <div class="about-title-row">
-                    <div style="width: 44px; height: 44px; display:flex; align-items:center; justify-content:center;">
+                    <div style="width: 44px; height: 44px;">
                         <svg class="title-icon-svg" viewBox="0 0 24 24" fill="none">
                             <defs>
                                 <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -226,33 +277,70 @@
                     </div>
                     <h2>Кто мы?</h2>
                 </div>
+
                 <p class="about-slogan">
-                    Позвольте себе стать "Великим Нехочухой", а мы добавим в вашу жизнь безопасности, комфорта и щепотку лени.
+                    Электрощиты нового времени. Позвольте себе стать "Великим Нехочухой", а мы добавим в вашу жизнь безопасности, комфорта и щепотку лени.
                 </p>
+
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-val">7+</span>
+                        <span class="stat-label">Лет опыта</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-val">500+</span>
+                        <span class="stat-label">Проектов</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-val">5 лет</span>
+                        <span class="stat-label">Гарантия</span>
+                    </div>
+                </div>
             </div>
 
             <div class="about-video" onclick="loadVideo(this)" data-vk-oid="-76846822" data-vk-id="456239435">
                 <div class="video-cover">
-                    <img src="site/img/video-cover.jpg" alt="Video Preview">
+                    <img src="site/img/video-cover.jpg" alt="JanPro Intro">
                     <div class="custom-play-btn">▶</div>
                 </div>
             </div>
         </div>
 
         <div class="about-description">
-            <p>Мы - команда профессионалов <b>JanPro<span class="red-text">.ru</span></b>, много лет занимающаяся любимым делом. Прошли путь от электромонтажников до компании, производящей уникальные электрощиты для квартир и частных домов, а так же щиты с системами "Умный дом".</p>
+            <p>Мы - команда профессионалов <b>JanPro<span class="red-text">.ru</span></b>, много лет занимающаяся любимым делом. Прошли путь от электромонтажников до компании, производящей уникальные электрощиты для квартир и частных домов, а так же щиты с системами "Умный дом" на базе WirenBoard и Loxone, а также беспроводные системы на Zigbee.</p>
         </div>
 
         <div class="about-buttons-wrapper">
-            <a href="videos.html" class="nav-btn">
+            <a href="videos.html" class="nav-btn btn-primary">
                 <span class="btn-icon-play">►</span>
-                <span>Что нужно знать, перед ...</span>
+                <span>Что нужно знать перед стартом</span>
             </a>
 
-            <a href="team.html" class="nav-btn">
-                <span>Команда</span>
+            <a href="team.html" class="nav-btn btn-secondary">
+                <span>Наша команда</span>
                 <span class="btn-icon-arrow">➔</span>
             </a>
+        </div>
+
+        <div class="ticker-wrap">
+            <div class="ticker">
+                <span class="ticker-item">ABB</span>
+                <span class="ticker-item">Wiren Board</span>
+                <span class="ticker-item">Loxone</span>
+                <span class="ticker-item">SprutHub</span>
+                <span class="ticker-item">Mean Well</span>
+                <span class="ticker-item">Keaz</span>
+                <span class="ticker-item">Systeme Electric</span>
+                <span class="ticker-item">Phoenix Contact</span>
+                <span class="ticker-item">ABB</span>
+                <span class="ticker-item">Wiren Board</span>
+                <span class="ticker-item">Loxone</span>
+                <span class="ticker-item">SprutHub</span>
+                <span class="ticker-item">Mean Well</span>
+                <span class="ticker-item">Keaz</span>
+                <span class="ticker-item">Systeme Electric</span>
+                <span class="ticker-item">Phoenix Contact</span>
+            </div>
         </div>
     </div>
 
@@ -265,7 +353,6 @@
 <script src="site/loader.js"></script>
 
 <script>
-    // Загрузка видео ВК
     function loadVideo(element) {
         const oid = element.getAttribute('data-vk-oid');
         const id = element.getAttribute('data-vk-id');
@@ -275,7 +362,7 @@
         iframe.setAttribute('width', '100%');
         iframe.setAttribute('height', '100%');
         iframe.setAttribute('frameborder', '0');
-        iframe.setAttribute('allow', 'autoplay *; fullscreen *; encrypted-media *; picture-in-picture *; gyroscope; accelerometer; clipboard-write;');
+        iframe.setAttribute('allow', 'autoplay *; fullscreen *; encrypted-media *; picture-in-picture *;');
         iframe.setAttribute('allowfullscreen', '');
 
         element.innerHTML = '';
