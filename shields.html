@@ -31,7 +31,7 @@
             .projects-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
-        /* --- Дисклеймер (Локально) --- */
+        /* --- Дисклеймер --- */
         .disclaimer-card {
             text-align: center;
             margin-bottom: 20px;
@@ -39,10 +39,9 @@
             font-size: 1rem; color: #c0c0c0; line-height: 1.5;
         }
 
-        /* --- Карточка Щита (Локально) --- */
-        /* Основной визуал берется из .card в global css */
+        /* --- Карточка Щита --- */
         .project-card {
-            padding: 0 !important; /* Фото в край */
+            padding: 0 !important;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -59,7 +58,7 @@
         .project-img-wrap {
             position: relative;
             width: 100%;
-            height: 320px; /* Унифицированная высота */
+            height: 320px;
             overflow: hidden;
             cursor: pointer;
             border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -83,6 +82,7 @@
             width: 60px; height: 60px; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255,255,255,0.3);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             opacity: 0; transition: all 0.3s ease; color: #fff; font-size: 1.5rem; backdrop-filter: blur(4px); z-index: 3;
+            pointer-events: none; /* Важно, чтобы не перекрывала клики/наведения */
         }
         .project-img-wrap:hover .zoom-icon {
             opacity: 1; transform: translate(-50%, -50%) scale(1);
@@ -115,7 +115,7 @@
             content: '•'; color: var(--accent); position: absolute; left: 0; font-size: 1.2em; line-height: 1;
         }
 
-        /* Доп инфо (для дорогих щитов) */
+        /* Доп инфо */
         .extra-info {
             font-size: 0.85rem; color: #ddd; background: rgba(255,255,255,0.05);
             padding: 10px; border-radius: 8px; margin-bottom: 15px; font-style: italic;
@@ -141,6 +141,58 @@
         .lightbox.active { display: flex; animation: fadeIn 0.3s; }
         .lightbox-img { max-width: 95%; max-height: 90vh; border-radius: 8px; box-shadow: 0 0 50px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1); }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* 🔥 НОВЫЕ СТИЛИ ДЛЯ КАРУСЕЛИ (Точки в стиле iPhone) */
+        .carousel-wrap {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .carousel-slides {
+            display: flex;
+            height: 100%;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Очень плавная анимация */
+        }
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* Навигация точками */
+        .carousel-dots {
+            position: absolute;
+            bottom: 12px; /* Прижаты к низу поверх картинки */
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 8px; /* Расстояние между точками */
+            z-index: 10;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* Невидимая область вокруг точки, чтобы по ней было легче попасть мышкой */
+        .dot::after {
+            content: '';
+            position: absolute;
+            top: -10px; bottom: -10px; left: -10px; right: -10px;
+        }
+
+        .dot.active {
+            background: #ffffff; /* Активная точка становится яркой */
+            transform: scale(1.2); /* И чуть больше */
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
     </style>
 </head>
 <body>
@@ -499,11 +551,39 @@
             </div>
         </div>
 
-        <div class="card project-card">
-            <div class="project-img-wrap" onclick="openLightbox('site/img/shields/s15.jpg')">
-                <img src="site/img/shields/s15.jpg" class="project-img" alt="Щит 15">
+        <div class="card project-card" id="project-15-carousel">
+            <div class="project-img-wrap">
+                <div class="carousel-wrap">
+                    <div class="carousel-slides" id="carousel-15-slides" onclick="openLightboxFromCarousel(this)">
+                        <div class="carousel-slide">
+                            <img src="site/img/shields/15/1.jpeg" class="project-img" alt="Щит 15 - Фото 1">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="site/img/shields/15/2.jpeg" class="project-img" alt="Щит 15 - Фото 2">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="site/img/shields/15/3.jpeg" class="project-img" alt="Щит 15 - Фото 3">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="site/img/shields/15/4.jpeg" class="project-img" alt="Щит 15 - Фото 4">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="site/img/shields/15/5.jpeg" class="project-img" alt="Щит 15 - Фото 5">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-dots">
+                    <div class="dot active" onmouseenter="goToSlide(0)" onclick="goToSlide(0)"></div>
+                    <div class="dot" onmouseenter="goToSlide(1)" onclick="goToSlide(1)"></div>
+                    <div class="dot" onmouseenter="goToSlide(2)" onclick="goToSlide(2)"></div>
+                    <div class="dot" onmouseenter="goToSlide(3)" onclick="goToSlide(3)"></div>
+                    <div class="dot" onmouseenter="goToSlide(4)" onclick="goToSlide(4)"></div>
+                </div>
+
                 <div class="zoom-icon">🔍</div>
             </div>
+
             <div class="project-content">
                 <div>
                     <h3 class="project-title">Дом 450 м² (Luxury Loxone)</h3>
@@ -525,7 +605,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <div id="services-container" style="display: flex; flex-direction: column; gap: 20px; margin-top: 20px;"></div>
@@ -555,6 +634,31 @@
     function closeLightbox() {
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
+    }
+
+    /* 🔥 СКРИПТ ДЛЯ КАРУСЕЛИ (Точки) 🔥 */
+    let currentSlideIndex = 0;
+
+    function goToSlide(index) {
+        currentSlideIndex = index;
+        const slidesContainer = document.getElementById('carousel-15-slides');
+        const dots = document.querySelectorAll('#project-15-carousel .dot');
+
+        // Сдвигаем слайды (каждый слайд 100% ширины)
+        const offset = -currentSlideIndex * 100;
+        slidesContainer.style.transform = `translateX(${offset}%)`;
+
+        // Обновляем визуальный статус активной точки
+        dots.forEach(dot => dot.classList.remove('active'));
+        dots[index].classList.add('active');
+    }
+
+    // Если кликнуть по самой фотке в карусели, откроется лайтбокс с той фоткой, которую мы сейчас смотрим
+    function openLightboxFromCarousel(container) {
+        const currentImg = container.children[currentSlideIndex].querySelector('img');
+        if (currentImg) {
+            openLightbox(currentImg.src);
+        }
     }
 </script>
 
