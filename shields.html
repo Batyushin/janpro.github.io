@@ -31,7 +31,7 @@
             .projects-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
-        /* --- Дисклеймер --- */
+        /* --- Дисклеймер (Локально) --- */
         .disclaimer-card {
             text-align: center;
             margin-bottom: 20px;
@@ -39,9 +39,9 @@
             font-size: 1rem; color: #c0c0c0; line-height: 1.5;
         }
 
-        /* --- Карточка Щита --- */
+        /* --- Карточка Щита (Локально) --- */
         .project-card {
-            padding: 0 !important;
+            padding: 0 !important; /* Фото в край */
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -58,7 +58,7 @@
         .project-img-wrap {
             position: relative;
             width: 100%;
-            height: 320px;
+            height: 320px; /* Унифицированная высота */
             overflow: hidden;
             cursor: pointer;
             border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -115,7 +115,7 @@
             content: '•'; color: var(--accent); position: absolute; left: 0; font-size: 1.2em; line-height: 1;
         }
 
-        /* Доп инфо */
+        /* Доп инфо (для дорогих щитов) */
         .extra-info {
             font-size: 0.85rem; color: #ddd; background: rgba(255,255,255,0.05);
             padding: 10px; border-radius: 8px; margin-bottom: 15px; font-style: italic;
@@ -140,6 +140,7 @@
         .lightbox { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; }
         .lightbox.active { display: flex; animation: fadeIn 0.3s; }
 
+        /* Исправление масштаба фото в лайтбоксе */
         .lightbox-img {
             max-width: 90%;
             max-height: 90vh;
@@ -147,7 +148,7 @@
             box-shadow: 0 0 50px rgba(0,0,0,0.8);
             border: 1px solid rgba(255,255,255,0.1);
             object-fit: contain;
-            cursor: zoom-out; /* Курсор при наведении на картинку */
+            cursor: zoom-out;
         }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
@@ -172,7 +173,7 @@
         .lightbox-next { right: 20px; }
 
 
-        /* --- КАРУСЕЛЬ (15-я карточка) --- */
+        /* --- КАРУСЕЛЬ --- */
         .carousel-wrap {
             position: relative;
             width: 100%;
@@ -188,7 +189,7 @@
             height: 100%;
             position: relative;
         }
-        /* Точки */
+        /* Точки навигации */
         .carousel-dots {
             position: absolute;
             bottom: 12px;
@@ -549,11 +550,37 @@
             </div>
         </div>
 
-        <div class="card project-card">
-            <div class="project-img-wrap" onclick="openLightbox(['site/img/shields/s14.jpg'], 0)">
-                <img src="site/img/shields/s14.jpg" class="project-img" alt="Щит 14">
+        <div class="card project-card" id="project-14-carousel">
+            <div class="project-img-wrap">
+                <div class="carousel-wrap">
+                    <div class="carousel-slides" onclick="openLightboxFromCarousel('project-14-carousel')">
+                        <div class="carousel-slide"><img src="site/img/shields/14/1.jpg" class="project-img" alt="Щит 14 - Фото 1"></div>
+                        <div class="carousel-slide"><img src="site/img/shields/14/2.jpeg" class="project-img" alt="Щит 14 - Фото 2"></div>
+                        <div class="carousel-slide"><img src="site/img/shields/14/3.jpeg" class="project-img" alt="Щит 14 - Фото 3"></div>
+                        <div class="carousel-slide"><img src="site/img/shields/14/4.jpeg" class="project-img" alt="Щит 14 - Фото 4"></div>
+                        <div class="carousel-slide"><img src="site/img/shields/14/5.jpeg" class="project-img" alt="Щит 14 - Фото 5"></div>
+                        <div class="carousel-slide"><img src="site/img/shields/14/6.jpeg" class="project-img" alt="Щит 14 - Фото 6"></div>
+                        <div class="carousel-slide"><img src="site/img/shields/14/7.jpeg" class="project-img" alt="Щит 14 - Фото 7"></div>
+                        <div class="carousel-slide"><img src="site/img/shields/14/8.jpeg" class="project-img" alt="Щит 14 - Фото 8"></div>
+                        <div class="carousel-slide"><img src="site/img/shields/14/9.jpeg" class="project-img" alt="Щит 14 - Фото 9"></div>
+                    </div>
+                </div>
+
+                <div class="carousel-dots">
+                    <div class="dot active" onmouseenter="goToSlide(0, 'project-14-carousel')" onclick="goToSlide(0, 'project-14-carousel')"></div>
+                    <div class="dot" onmouseenter="goToSlide(1, 'project-14-carousel')" onclick="goToSlide(1, 'project-14-carousel')"></div>
+                    <div class="dot" onmouseenter="goToSlide(2, 'project-14-carousel')" onclick="goToSlide(2, 'project-14-carousel')"></div>
+                    <div class="dot" onmouseenter="goToSlide(3, 'project-14-carousel')" onclick="goToSlide(3, 'project-14-carousel')"></div>
+                    <div class="dot" onmouseenter="goToSlide(4, 'project-14-carousel')" onclick="goToSlide(4, 'project-14-carousel')"></div>
+                    <div class="dot" onmouseenter="goToSlide(5, 'project-14-carousel')" onclick="goToSlide(5, 'project-14-carousel')"></div>
+                    <div class="dot" onmouseenter="goToSlide(6, 'project-14-carousel')" onclick="goToSlide(6, 'project-14-carousel')"></div>
+                    <div class="dot" onmouseenter="goToSlide(7, 'project-14-carousel')" onclick="goToSlide(7, 'project-14-carousel')"></div>
+                    <div class="dot" onmouseenter="goToSlide(8, 'project-14-carousel')" onclick="goToSlide(8, 'project-14-carousel')"></div>
+                </div>
+
                 <div class="zoom-icon">🔍</div>
             </div>
+
             <div class="project-content">
                 <div>
                     <h3 class="project-title">Кв. 180 м² (Premium Loxone)</h3>
@@ -579,31 +606,21 @@
         <div class="card project-card" id="project-15-carousel">
             <div class="project-img-wrap">
                 <div class="carousel-wrap">
-                    <div class="carousel-slides" id="carousel-15-slides" onclick="openLightboxFromCarousel()">
-                        <div class="carousel-slide">
-                            <img src="site/img/shields/15/1.jpeg" class="project-img" alt="Щит 15 - Фото 1">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="site/img/shields/15/2.jpeg" class="project-img" alt="Щит 15 - Фото 2">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="site/img/shields/15/3.jpeg" class="project-img" alt="Щит 15 - Фото 3">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="site/img/shields/15/4.jpeg" class="project-img" alt="Щит 15 - Фото 4">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="site/img/shields/15/5.jpeg" class="project-img" alt="Щит 15 - Фото 5">
-                        </div>
+                    <div class="carousel-slides" onclick="openLightboxFromCarousel('project-15-carousel')">
+                        <div class="carousel-slide"><img src="site/img/shields/15/1.jpeg" class="project-img" alt="Щит 15 - Фото 1"></div>
+                        <div class="carousel-slide"><img src="site/img/shields/15/2.jpeg" class="project-img" alt="Щит 15 - Фото 2"></div>
+                        <div class="carousel-slide"><img src="site/img/shields/15/3.jpeg" class="project-img" alt="Щит 15 - Фото 3"></div>
+                        <div class="carousel-slide"><img src="site/img/shields/15/4.jpeg" class="project-img" alt="Щит 15 - Фото 4"></div>
+                        <div class="carousel-slide"><img src="site/img/shields/15/5.jpeg" class="project-img" alt="Щит 15 - Фото 5"></div>
                     </div>
                 </div>
 
                 <div class="carousel-dots">
-                    <div class="dot active" onmouseenter="goToSlide(0)" onclick="goToSlide(0)"></div>
-                    <div class="dot" onmouseenter="goToSlide(1)" onclick="goToSlide(1)"></div>
-                    <div class="dot" onmouseenter="goToSlide(2)" onclick="goToSlide(2)"></div>
-                    <div class="dot" onmouseenter="goToSlide(3)" onclick="goToSlide(3)"></div>
-                    <div class="dot" onmouseenter="goToSlide(4)" onclick="goToSlide(4)"></div>
+                    <div class="dot active" onmouseenter="goToSlide(0, 'project-15-carousel')" onclick="goToSlide(0, 'project-15-carousel')"></div>
+                    <div class="dot" onmouseenter="goToSlide(1, 'project-15-carousel')" onclick="goToSlide(1, 'project-15-carousel')"></div>
+                    <div class="dot" onmouseenter="goToSlide(2, 'project-15-carousel')" onclick="goToSlide(2, 'project-15-carousel')"></div>
+                    <div class="dot" onmouseenter="goToSlide(3, 'project-15-carousel')" onclick="goToSlide(3, 'project-15-carousel')"></div>
+                    <div class="dot" onmouseenter="goToSlide(4, 'project-15-carousel')" onclick="goToSlide(4, 'project-15-carousel')"></div>
                 </div>
 
                 <div class="zoom-icon">🔍</div>
@@ -654,16 +671,17 @@
     const prevBtn = document.querySelector('.lightbox-prev');
     const nextBtn = document.querySelector('.lightbox-next');
 
-    // Переменные для хранения текущего списка изображений и индекса
     let currentLightboxImages = [];
     let currentLightboxIndex = 0;
 
-    // 🔥 Функция открытия
+    // Хранилище текущих индексов для каруселей
+    const carouselsState = {};
+
     function openLightbox(imagesSrcArray, startIndex) {
         currentLightboxImages = imagesSrcArray;
         currentLightboxIndex = startIndex;
 
-        // Показываем или скрываем стрелки в зависимости от количества картинок
+        // Показываем стрелки, только если картинок больше одной
         if (currentLightboxImages.length > 1) {
             prevBtn.style.display = 'block';
             nextBtn.style.display = 'block';
@@ -678,9 +696,7 @@
     }
 
     function closeLightbox(e) {
-        // Закрываем по клику на фон ИЛИ на картинку (если e не передан, то закрываем принудительно)
-        if (e && e.target.closest('.lightbox-nav')) return; // Если клик на стрелки - не закрывать
-
+        if (e && e.target.closest('.lightbox-nav')) return;
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
     }
@@ -710,31 +726,31 @@
         if (e.key === 'ArrowLeft' && currentLightboxImages.length > 1) prevImage();
     });
 
+    /* 🔥 УНИВЕРСАЛЬНЫЙ СКРИПТ ДЛЯ ВСЕХ КАРУСЕЛЕЙ 🔥 */
 
-    /* 🔥 СКРИПТ ДЛЯ КАРУСЕЛИ (Точки) 🔥 */
-    let currentSlideIndex = 0;
-    const carouselImagesSrc = [
-        'site/img/shields/15/1.jpeg',
-        'site/img/shields/15/2.jpeg',
-        'site/img/shields/15/3.jpeg',
-        'site/img/shields/15/4.jpeg',
-        'site/img/shields/15/5.jpeg'
-    ];
+    function goToSlide(index, cardId) {
+        // Запоминаем индекс для конкретной карточки
+        carouselsState[cardId] = index;
 
-    function goToSlide(index) {
-        currentSlideIndex = index;
-        const slidesContainer = document.getElementById('carousel-15-slides');
-        const dots = document.querySelectorAll('#project-15-carousel .dot');
+        const card = document.getElementById(cardId);
+        const slidesContainer = card.querySelector('.carousel-slides');
+        const dots = card.querySelectorAll('.dot');
 
-        const offset = -currentSlideIndex * 100;
+        const offset = -index * 100;
         slidesContainer.style.transform = `translateX(${offset}%)`;
 
         dots.forEach(dot => dot.classList.remove('active'));
         dots[index].classList.add('active');
     }
 
-    function openLightboxFromCarousel() {
-        openLightbox(carouselImagesSrc, currentSlideIndex);
+    function openLightboxFromCarousel(cardId) {
+        const card = document.getElementById(cardId);
+        // Собираем все картинки из этой карусели
+        const images = Array.from(card.querySelectorAll('.carousel-slide img')).map(img => img.src);
+        // Берем текущий индекс (или 0, если еще не листали)
+        const currentIndex = carouselsState[cardId] || 0;
+
+        openLightbox(images, currentIndex);
     }
 </script>
 
