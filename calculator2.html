@@ -874,15 +874,15 @@
             };
 
             if (sysType === 'zigbee') {
-                sysBase = 40000;
-                p.light=2000; p.dim=3500; p.socket=2500; p.curtain=4000; p.leak=15000;
-                p.switch=0; p.climate=2000; p.presence=2500;
-                p.lock=25000; p.intercom=15000; p.panel=10000;
+                sysBase = 26000;
+                p.light=1200; p.dim=2200; p.socket=4000; p.curtain=3000; p.leak=40000;
+                p.switch=0; p.climate=3000; p.presence=4000;
+                p.lock=30000; p.intercom=20000; p.panel=20000;
             } else if (sysType === 'wirenboard') {
-                sysBase = 120000;
-                p.light=6000; p.dim=9000; p.socket=6000; p.curtain=8000; p.leak=30000;
-                p.switch=0; p.climate=6000; p.presence=7000;
-                p.lock=40000; p.intercom=40000; p.panel=35000;
+                sysBase = 50000;
+                p.light=10000; p.dim=10000; p.socket=19000; p.curtain=4000; p.leak=22000;
+                p.switch=0; p.climate=12000; p.presence=4000;
+                p.lock=30000; p.intercom=20000; p.panel=20000;
             } else if (sysType === 'loxone') {
                 sysBase = 250000;
                 p.light=12000; p.dim=18000; p.socket=12000; p.curtain=15000; p.leak=50000;
