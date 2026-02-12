@@ -812,21 +812,20 @@
         const is3Ph = (voltage === '3phase');
 
         if(form.querySelector('input[name="opt_vacation"]:checked')) total += is3Ph ? 4000 : 1500;
-        if(form.querySelector('input[name="opt_systemwater"]:checked')) total += is3Ph ? 3000 : 1500;
+        if(form.querySelector('input[name="opt_systemwater"]:checked')) total += is3Ph ? 500 : 500;
 
         if(sysType === 'classic') {
-            if(form.querySelector('input[name="opt_master"]:checked')) total += is3Ph ? 6000 : 4000;
+            if(form.querySelector('input[name="opt_master"]:checked')) total += is3Ph ? 6000 : 3000;
             if(form.querySelector('input[name="opt_fan"]:checked')) total += 3000;
+            if(form.querySelector('input[name="opt_electricstove"]:checked')) total += is3Ph ? 4000 : 3000;
+            if(form.querySelector('input[name="opt_waterheater1"]:checked')) total += is3Ph ? 4000 : 3000;
+            if(form.querySelector('input[name="opt_waterheater2"]:checked')) total += is3Ph ? 4000 : 3000;
+            if(form.querySelector('input[name="opt_antifieruzo"]:checked'))  total += is3Ph ? 5000 : 3000;
         }
         if(is3Ph && form.querySelector('input[name="opt_priority"]:checked')) total += 13000;
 
         // Фикс. цены доп. опций
-        if(form.querySelector('input[name="opt_fire"]:checked')) total += 3000;
-        if(form.querySelector('input[name="opt_electricstove"]:checked')) total += 3000;
-        if(form.querySelector('input[name="opt_waterheater1"]:checked')) total += 3000;
-        if(form.querySelector('input[name="opt_waterheater2"]:checked')) total += 3000;
-        if(form.querySelector('input[name="opt_antifieruzo"]:checked')) total += 8000;
-
+        if(form.querySelector('input[name="opt_fire"]:checked')) total += 4000;
 
         // 3.4. Опции дома
         if(form.querySelector('input[name="h_gen"]:checked')) total += 12000;
