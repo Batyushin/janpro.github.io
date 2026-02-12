@@ -58,7 +58,13 @@
 
         .section-title { font-size: 1.05rem; font-weight: 700; color: #fff; }
 
-        .options-grid { display: grid; grid-template-columns: 1fr; gap: 10px; width: 100%; }
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            width: 100%;
+            align-items: stretch;
+        }
 
         @media (min-width: 900px) {
             .calc-section { flex-direction: row; align-items: flex-start; }
@@ -78,7 +84,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 14px; padding: 12px 15px;
             display: flex; align-items: center; gap: 12px;
-            transition: all 0.3s ease; height: 100%; min-height: 60px; box-sizing: border-box;
+            transition: all 0.3s ease; height: 100%; min-height: 64px; box-sizing: border-box;
         }
 
         .option-label:hover .option-card { background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.3); transform: translateY(-2px); }
@@ -109,9 +115,16 @@
         .option-input:checked + .option-card .option-sub { color: #ddd; }
 
         /* SELECTS */
-        .styled-select-wrapper { position: relative; width: 100%; display: block; }
+        .styled-select-wrapper {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 100%;
+        }
         .styled-select-wrapper.disabled { opacity: 0.3; pointer-events: none; }
-        .styled-select-wrapper.hidden { display: none; } /* Скрытие радиаторов */
+        .styled-select-wrapper.hidden { display: none; }
 
         .styled-select {
             width: 100%; background: rgba(255, 255, 255, 0.05);
@@ -120,11 +133,12 @@
             font-size: 0.95rem; font-family: 'Roboto', sans-serif;
             appearance: none; -webkit-appearance: none; -moz-appearance: none;
             cursor: pointer; transition: 0.3s;
+            min-height: 46px;
         }
         .styled-select:focus { outline: none; border-color: var(--accent); background: rgba(255, 255, 255, 0.1); }
         .styled-select option { background: #1a1a1a; color: #fff; padding: 10px; }
         .styled-select-wrapper::after {
-            content: '▼'; position: absolute; right: 15px; top: 0; bottom: 0; margin: auto;
+            content: '▼'; position: absolute; right: 15px; bottom: 15px;
             height: 1em; line-height: 1; color: var(--accent); font-size: 0.8rem; pointer-events: none;
         }
 
@@ -313,6 +327,7 @@
             <div class="calc-section checkbox-mode">
                 <div class="section-header"><div class="section-number">6</div><div class="section-title">Опции щита</div></div>
                 <div class="options-grid">
+
                     <label class="option-label classic-only">
                         <input type="checkbox" name="opt_vacation" value="yes" class="option-input">
                         <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Рубильник «Отпуск»</span><span class="option-sub">Выкл. всё лишнее</span></div></div>
@@ -355,7 +370,7 @@
 
                     <label class="option-label classic-only">
                         <input type="checkbox" name="opt_systemwater" value="yes" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Система защиты от протечки</span></div></div>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Защита от протечек</span><span class="option-sub">Нептун / Гидролок</span></div></div>
                     </label>
 
                     <label class="option-label" id="priorityRelayBlock">
@@ -486,12 +501,18 @@
                         <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Релейный свет</label>
                         <select name="sh_light" class="styled-select">
                             <option value="0">Нет</option>
-                            <option value="3">1-3 группы</option>
-                            <option value="6">4-6 групп</option>
-                            <option value="9">7-9 групп</option>
-                            <option value="12">10-12 групп</option>
-                            <option value="18">13-18 групп</option>
-                            <option value="24">19-24 группы</option>
+                            <option value="6">6 групп</option>
+                            <option value="12">12 групп</option>
+                            <option value="18">18 групп</option>
+                            <option value="24">24 группы</option>
+                            <option value="30">30 групп</option>
+                            <option value="36">36 групп</option>
+                            <option value="42">42 группы</option>
+                            <option value="48">48 групп</option>
+                            <option value="54">54 группы</option>
+                            <option value="60">60 групп</option>
+                            <option value="66">66 групп</option>
+                            <option value="72">72 группы</option>
                         </select>
                     </div>
 
@@ -529,6 +550,36 @@
                         </select>
                     </div>
 
+                    <div class="styled-select-wrapper hidden" id="shSwitchesWrapper">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Умные выключатели (Loxone)</label>
+                        <select name="sh_switches" class="styled-select">
+                            <option value="0">Нет</option>
+                            <script>
+                                for(let i=1; i<=20; i++) document.write(`<option value="${i}">${i} шт</option>`);
+                            </script>
+                        </select>
+                    </div>
+
+                    <div class="styled-select-wrapper">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Датчики климата</label>
+                        <select name="sh_climate_sensors" class="styled-select">
+                            <option value="0">Нет</option>
+                            <script>
+                                for(let i=1; i<=20; i++) document.write(`<option value="${i}">${i} шт</option>`);
+                            </script>
+                        </select>
+                    </div>
+
+                    <div class="styled-select-wrapper">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Датчики присутствия</label>
+                        <select name="sh_presence_sensors" class="styled-select">
+                            <option value="0">Нет</option>
+                            <script>
+                                for(let i=1; i<=20; i++) document.write(`<option value="${i}">${i} шт</option>`);
+                            </script>
+                        </select>
+                    </div>
+
                     <label class="option-label checkbox-mode">
                         <input type="checkbox" name="sh_leak" value="yes" class="option-input">
                         <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Защита от протечек</span><span class="option-sub">Краны + Датчики</span></div></div>
@@ -541,6 +592,21 @@
                     <label class="option-label checkbox-mode">
                         <input type="checkbox" name="sh_master_local" value="yes" class="option-input">
                         <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Локальный мастер</span><span class="option-sub">На комнату</span></div></div>
+                    </label>
+
+                    <label class="option-label checkbox-mode">
+                        <input type="checkbox" name="sh_lock" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Умный замок</span><span class="option-sub">Входная дверь</span></div></div>
+                    </label>
+
+                    <label class="option-label checkbox-mode">
+                        <input type="checkbox" name="sh_intercom" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Домофония</span><span class="option-sub">Интеграция</span></div></div>
+                    </label>
+
+                    <label class="option-label checkbox-mode">
+                        <input type="checkbox" name="sh_touchpanel" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Настенная панель</span><span class="option-sub">Touch Screen</span></div></div>
                     </label>
                 </div>
             </div>
@@ -580,10 +646,9 @@
         // ============================================================
         // 1. КОНСТАНТЫ И БАЗОВЫЕ ЦЕНЫ
         // ============================================================
-
         let baseModulePrice = 3000; // Базовая цена оборудования за 1 модуль
-        const workAssembly = 400; // Цена сборки за модуль
-        const workProject = 400; // Цена проекта за модуль
+        const workAssembly = 400;   // Цена сборки за модуль
+        const workProject = 400;    // Цена проекта за модуль
 
         // ============================================================
         // 2. ЛОГИКА ИНТЕРФЕЙСА (ВИДИМОСТЬ)
@@ -603,20 +668,29 @@
         const sysType = form.querySelector('input[name="system_type"]:checked').value;
         const smartSection = document.getElementById('smartOptionsSection');
         const classicOnlyOptions = document.querySelectorAll('.classic-only');
-        const radWrapper = document.getElementById('radWrapper'); // Радиаторы
+        const radWrapper = document.getElementById('radWrapper');
+        const shSwitchesWrapper = document.getElementById('shSwitchesWrapper');
 
         if (sysType === 'classic') {
             smartSection.classList.add('hidden');
-            radWrapper.classList.add('hidden'); // Скрываем радиаторы в классике
-            form.querySelector('select[name="sh_radiator"]').value = "0"; // Сбрасываем выбор
+            radWrapper.classList.add('hidden'); // Скрываем радиаторы
+            form.querySelector('select[name="sh_radiator"]').value = "0";
             classicOnlyOptions.forEach(el => el.classList.remove('hidden'));
         } else {
             smartSection.classList.remove('hidden');
-            radWrapper.classList.remove('hidden'); // Показываем радиаторы в умном доме
+            radWrapper.classList.remove('hidden'); // Показываем радиаторы
             classicOnlyOptions.forEach(el => {
                 el.classList.add('hidden');
                 el.querySelector('input').checked = false;
             });
+        }
+
+        // Показываем выключатели только для Loxone
+        if (sysType === 'loxone') {
+            shSwitchesWrapper.classList.remove('hidden');
+        } else {
+            shSwitchesWrapper.classList.add('hidden');
+            form.querySelector('select[name="sh_switches"]').value = "0";
         }
 
         // 2.3. Ввод 3 фазы / 1 фаза
@@ -633,7 +707,7 @@
             priorityBlock.style.opacity = '0.5';
         }
 
-        // 2.4. LED Диммирование (доступно только если выбрано кол-во > 0)
+        // 2.4. LED Диммирование
         const ledCountVal = parseInt(form.querySelector('select[name="led_count"]').value);
         const ledDimWrapper = document.getElementById('ledDimWrapper');
         if (ledCountVal === 0) {
@@ -649,33 +723,31 @@
 
         let total = 0;
 
-        // 3.1. Коэффициент бюджета (влияет ТОЛЬКО на стоимость оборудования модуля)
+        // 3.1. Коэффициент бюджета (ТОЛЬКО на модульное оборудование)
         const budget = form.querySelector('input[name="budget"]:checked').value;
-        let multiplier = 1.5; // Средний (Optima)
+        let multiplier = 1.5;
         if (budget === 'low') multiplier = 1;
         if (budget === 'high') multiplier = 2;
 
         let finalModulePrice = baseModulePrice * multiplier;
-
-        // Полная цена за 1 модуль щита (оборудование + сборка + проект)
         let totalRatePerModule = finalModulePrice + workAssembly + workProject;
 
 
-        // 3.2. Расчет размера щита (в модулях) от ПЛОЩАДИ
+        // 3.2. Расчет размера щита (модули)
         const area = form.querySelector('select[name="area"]').value;
         let modulesCount = 0;
 
         if (voltage === '3phase') {
-            // Матрица для 3 фаз (размер в модулях)
+            // Матрица 3 фазы
             if(area === '50') modulesCount = 36;
             else if(area === '100') modulesCount = 72;
             else if(area === '160') modulesCount = 120;
             else if(area === '250') modulesCount = 168;
             else if(area === '500') modulesCount = 280;
             else if(area === '1000') modulesCount = 400;
-            else modulesCount = 1000; // >1000м
+            else modulesCount = 1000;
         } else {
-            // Матрица для 1 фазы (примерно 2/3 от трехфазной или стандарт)
+            // Матрица 1 фаза
             if(area === '50') modulesCount = 24;
             else if(area === '100') modulesCount = 36;
             else if(area === '160') modulesCount = 48;
@@ -685,37 +757,23 @@
             else modulesCount = 96;
         }
 
-        // Базовая стоимость самого щита
+        // Базовая стоимость щита
         total += modulesCount * totalRatePerModule;
 
 
-        // 3.3. Стоимость ОПЦИЙ (зависит от фазности 1ф/3ф)
+        // 3.3. Стоимость ОПЦИЙ (1ф / 3ф)
         const is3Ph = (voltage === '3phase');
 
-        // Отпуск
-        if(form.querySelector('input[name="opt_vacation"]:checked')) {
-            total += is3Ph ? 3000 : 1500;
-        }
-        // Система защиты от протечек
-        if(form.querySelector('input[name="opt_systemwater"]:checked')) {
-            total += is3Ph ? 3000 : 1500; // Для 1ф не было указано, ставим 1500 по аналогии с отпуском
-        }
+        if(form.querySelector('input[name="opt_vacation"]:checked')) total += is3Ph ? 3000 : 1500;
+        if(form.querySelector('input[name="opt_systemwater"]:checked')) total += is3Ph ? 3000 : 1500;
 
-        // Классика: Мастер-кнопка и Реле времени
         if(sysType === 'classic') {
-            if(form.querySelector('input[name="opt_master"]:checked')) {
-                total += is3Ph ? 6000 : 4000;
-            }
-            if(form.querySelector('input[name="opt_fan"]:checked')) {
-                total += 3000; // Цена одинаковая
-            }
+            if(form.querySelector('input[name="opt_master"]:checked')) total += is3Ph ? 6000 : 4000;
+            if(form.querySelector('input[name="opt_fan"]:checked')) total += 3000;
         }
-        // Реле приоритета (только 3ф)
-        if(is3Ph && form.querySelector('input[name="opt_priority"]:checked')) {
-            total += 13000;
-        }
+        if(is3Ph && form.querySelector('input[name="opt_priority"]:checked')) total += 13000;
 
-        // Новые чекбоксы (цены примерные, так как не были указаны явно в списке, кроме дома)
+        // Фикс. цены доп. опций
         if(form.querySelector('input[name="opt_fire"]:checked')) total += 3000;
         if(form.querySelector('input[name="opt_electricstove"]:checked')) total += 3000;
         if(form.querySelector('input[name="opt_waterheater1"]:checked')) total += 3000;
@@ -723,13 +781,12 @@
         if(form.querySelector('input[name="opt_antifieruzo"]:checked')) total += 8000;
 
 
-        // 3.4. Опции дома (обычно для 3ф)
+        // 3.4. Опции дома
         if(form.querySelector('input[name="h_gen"]:checked')) total += 12000;
         if(form.querySelector('input[name="h_boiler"]:checked')) total += 3000;
         if(form.querySelector('input[name="h_street"]:checked')) total += 3000;
         if(form.querySelector('input[name="h_sauna"]:checked')) total += 7000;
         if(form.querySelector('input[name="h_garage"]:checked')) total += 3000;
-        // Доп. опции дома
         if(form.querySelector('input[name="h_banya"]:checked')) total += 3000;
         if(form.querySelector('input[name="h_stab"]:checked')) total += 5000;
         if(form.querySelector('input[name="h_ibp"]:checked')) total += 5000;
@@ -737,70 +794,83 @@
 
         // 3.5. LED Подсветка
         const ledDim = form.querySelector('select[name="led_dim"]').value;
-
         if (ledCountVal > 0) {
             if (ledDim === 'no') {
-                // Без диммирования: 4 модуля работы + 7000 оборудование
-                // Работа = 4 * (сборка + проект) = 4 * 800 = 3200
-                // Итог за 1 группу = 3200 + 7000 = 10200
                 let costPerLedGroup = (4 * (workAssembly + workProject)) + 7000;
                 total += ledCountVal * costPerLedGroup;
             } else {
-                // С диммированием: фиксированная цена 13000 за группу
                 total += ledCountVal * 13000;
             }
         }
 
         // 3.6. Климат
-        // Теплый пол (1000р)
         const shFloor = parseInt(form.querySelector('select[name="sh_floor"]').value);
         total += shFloor * 1000;
-
-        // Кондиционеры (1000р)
         const acCount = parseInt(form.querySelector('select[name="ac_count"]').value);
         total += acCount * 1000;
 
-        // Радиаторы (Только в умном доме, 1000р)
         if (sysType !== 'classic') {
             const shRadiator = parseInt(form.querySelector('select[name="sh_radiator"]').value);
             total += shRadiator * 1000;
         }
-
-        // Принудительная вентиляция (чекбокс)
         if(form.querySelector('input[name="h_vent"]:checked')) total += 3000;
 
 
-        // 3.7. Умный Дом (База + Точки)
+        // 3.7. Умный Дом (Цены зависят от типа системы)
         if (sysType !== 'classic') {
             let sysBase = 0;
-            // Цены за точку
-            let pLight=0, pDim=0, pSocket=0, pCurtain=0, pLeak=0;
+            // Объект цен для разных систем
+            let p = {
+                light: 0, dim: 0, socket: 0, curtain: 0, leak: 0,
+                switch: 0, climate: 0, presence: 0,
+                lock: 0, intercom: 0, panel: 0
+            };
 
             if (sysType === 'zigbee') {
-                sysBase = 40000; pLight=2000; pDim=3500; pSocket=2500; pCurtain=4000; pLeak=15000;
+                sysBase = 40000;
+                p.light=2000; p.dim=3500; p.socket=2500; p.curtain=4000; p.leak=15000;
+                p.switch=0; p.climate=2000; p.presence=2500;
+                p.lock=25000; p.intercom=15000; p.panel=10000;
             } else if (sysType === 'wirenboard') {
-                sysBase = 120000; pLight=6000; pDim=9000; pSocket=6000; pCurtain=8000; pLeak=30000;
+                sysBase = 120000;
+                p.light=6000; p.dim=9000; p.socket=6000; p.curtain=8000; p.leak=30000;
+                p.switch=0; p.climate=6000; p.presence=7000;
+                p.lock=40000; p.intercom=40000; p.panel=35000;
             } else if (sysType === 'loxone') {
-                sysBase = 250000; pLight=12000; pDim=18000; pSocket=12000; pCurtain=15000; pLeak=50000;
+                sysBase = 250000;
+                p.light=12000; p.dim=18000; p.socket=12000; p.curtain=15000; p.leak=50000;
+                p.switch=15000; p.climate=12000; p.presence=15000;
+                p.lock=60000; p.intercom=120000; p.panel=60000;
             }
 
-            // Добавляем базу контроллера
+            // База
             total += sysBase;
 
-            // Добавляем стоимость точек
-            total += parseInt(form.querySelector('select[name="sh_light"]').value) * pLight;
-            total += parseInt(form.querySelector('select[name="sh_light_dim"]').value) * pDim;
-            total += parseInt(form.querySelector('select[name="sh_socket"]').value) * pSocket;
-            total += parseInt(form.querySelector('select[name="sh_curtain"]').value) * pCurtain;
+            // Точки
+            total += parseInt(form.querySelector('select[name="sh_light"]').value) * p.light;
+            total += parseInt(form.querySelector('select[name="sh_light_dim"]').value) * p.dim;
+            total += parseInt(form.querySelector('select[name="sh_socket"]').value) * p.socket;
+            total += parseInt(form.querySelector('select[name="sh_curtain"]').value) * p.curtain;
 
-            if(form.querySelector('input[name="sh_leak"]:checked')) total += pLeak;
+            // Датчики и выключатели
+            if (sysType === 'loxone') {
+                total += parseInt(form.querySelector('select[name="sh_switches"]').value) * p.switch;
+            }
+            total += parseInt(form.querySelector('select[name="sh_climate_sensors"]').value) * p.climate;
+            total += parseInt(form.querySelector('select[name="sh_presence_sensors"]').value) * p.presence;
+
+            // Опции УД
+            if(form.querySelector('input[name="sh_leak"]:checked')) total += p.leak;
             if(form.querySelector('input[name="sh_master_full"]:checked')) total += 5000;
             if(form.querySelector('input[name="sh_master_local"]:checked')) total += 5000;
+            if(form.querySelector('input[name="sh_lock"]:checked')) total += p.lock;
+            if(form.querySelector('input[name="sh_intercom"]:checked')) total += p.intercom;
+            if(form.querySelector('input[name="sh_touchpanel"]:checked')) total += p.panel;
         }
 
 
         // 4. ФИНАЛ
-        //total = Math.ceil(total / 1000) * 1000; // Округляем до тысяч
+        // total = Math.ceil(total / 1000) * 1000; // Округление отключено
         totalEl.textContent = new Intl.NumberFormat('ru-RU').format(total) + ' ₽';
         updateLinks(total, form);
     };
