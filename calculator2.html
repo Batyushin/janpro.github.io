@@ -175,6 +175,7 @@
             font-size: 0.75rem; color: #777; margin: 10px 0 0 0; line-height: 1.3;
         }
 
+        /* --- МОБИЛЬНАЯ ВЕРСИЯ --- */
         @media (max-width: 600px) {
             .total-sticky {
                 padding: 10px 15px;
@@ -368,9 +369,9 @@
                         <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Противопожарное УЗО</span><span class="option-sub">Селективное</span></div></div>
                     </label>
 
-                    <label class="option-label classic-only">
+                    <label class="option-label">
                         <input type="checkbox" name="opt_systemwater" value="yes" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Защита от протечек</span><span class="option-sub">Нептун / Гидролок</span></div></div>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Система защиты от протечки</span><span class="option-sub">Автомат питания</span></div></div>
                     </label>
 
                     <label class="option-label" id="priorityRelayBlock">
@@ -531,7 +532,7 @@
                         <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Отключаемые розетки</label>
                         <select name="sh_socket" class="styled-select">
                             <option value="0">Нет</option>
-                            <option value="1">1 группа (Всё сразу)</option>
+                            <option value="1">1 группа</option>
                             <option value="3">2-3 группы</option>
                             <option value="6">4-6 групп</option>
                             <option value="9">7-9 групп</option>
@@ -557,6 +558,14 @@
                             <script>
                                 for(let i=1; i<=20; i++) document.write(`<option value="${i}">${i} шт</option>`);
                             </script>
+                        </select>
+                    </div>
+
+                    <div class="styled-select-wrapper hidden" id="shAudioWrapper">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Зоны акустики (Loxone)</label>
+                        <select name="sh_audio" class="styled-select">
+                            <option value="0">Нет</option>
+                            <option value="2">2 зоны</option><option value="4">4 зоны</option><option value="6">6 зон</option><option value="8">8 зон</option><option value="10">10 зон</option><option value="12">12 зон</option><option value="14">14 зон</option><option value="16">16 зон</option><option value="18">18 зон</option><option value="20">20 зон</option>
                         </select>
                     </div>
 
@@ -639,6 +648,9 @@
 
 <script src="site/loader.js"></script>
 <script>
+    // --- ЦЕНА ЗА ЗОНУ АКУСТИКИ (Loxone) ---
+    const PRICE_AUDIO_ZONE = 25000;
+
     window.calculate = function() {
         const form = document.getElementById('calcForm');
         const totalEl = document.getElementById('totalPrice');
@@ -670,6 +682,7 @@
         const classicOnlyOptions = document.querySelectorAll('.classic-only');
         const radWrapper = document.getElementById('radWrapper');
         const shSwitchesWrapper = document.getElementById('shSwitchesWrapper');
+        const shAudioWrapper = document.getElementById('shAudioWrapper');
 
         if (sysType === 'classic') {
             smartSection.classList.add('hidden');
@@ -679,18 +692,23 @@
         } else {
             smartSection.classList.remove('hidden');
             radWrapper.classList.remove('hidden'); // Показываем радиаторы
+            // В умном доме скрываем только то, что помечено classic-only (мастер и реле времени)
+            // Но мы убрали этот класс у Отпуска и Протечек, так что они останутся
             classicOnlyOptions.forEach(el => {
                 el.classList.add('hidden');
                 el.querySelector('input').checked = false;
             });
         }
 
-        // Показываем выключатели только для Loxone
+        // Показываем выключатели и аудио только для Loxone
         if (sysType === 'loxone') {
             shSwitchesWrapper.classList.remove('hidden');
+            shAudioWrapper.classList.remove('hidden');
         } else {
             shSwitchesWrapper.classList.add('hidden');
             form.querySelector('select[name="sh_switches"]').value = "0";
+            shAudioWrapper.classList.add('hidden');
+            form.querySelector('select[name="sh_audio"]').value = "0";
         }
 
         // 2.3. Ввод 3 фазы / 1 фаза
@@ -855,14 +873,19 @@
             // Датчики и выключатели
             if (sysType === 'loxone') {
                 total += parseInt(form.querySelector('select[name="sh_switches"]').value) * p.switch;
+                // Акустика
+                total += parseInt(form.querySelector('select[name="sh_audio"]').value) * PRICE_AUDIO_ZONE;
             }
             total += parseInt(form.querySelector('select[name="sh_climate_sensors"]').value) * p.climate;
             total += parseInt(form.querySelector('select[name="sh_presence_sensors"]').value) * p.presence;
 
             // Опции УД
             if(form.querySelector('input[name="sh_leak"]:checked')) total += p.leak;
-            if(form.querySelector('input[name="sh_master_full"]:checked')) total += 5000;
-            if(form.querySelector('input[name="sh_master_local"]:checked')) total += 5000;
+
+            // Мастер-кнопки БЕСПЛАТНЫ в УД (как просили)
+            if(form.querySelector('input[name="sh_master_full"]:checked')) total += 0;
+            if(form.querySelector('input[name="sh_master_local"]:checked')) total += 0;
+
             if(form.querySelector('input[name="sh_lock"]:checked')) total += p.lock;
             if(form.querySelector('input[name="sh_intercom"]:checked')) total += p.intercom;
             if(form.querySelector('input[name="sh_touchpanel"]:checked')) total += p.panel;
