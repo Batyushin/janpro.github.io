@@ -247,11 +247,11 @@
             </div>
 
             <div class="calc-section">
-                <div class="section-header"><div class="section-number">3</div><div class="section-title">Умный дом</div></div>
+                <div class="section-header"><div class="section-number">3</div><div class="section-title">Тип электрического щита</div></div>
                 <div class="options-grid">
                     <label class="option-label">
                         <input type="radio" name="system_type" value="classic" class="option-input" checked>
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Классика</span><span class="option-sub">Обычный щит</span></div></div>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Классический</span><span class="option-sub">Обычный щит</span></div></div>
                     </label>
                     <label class="option-label">
                         <input type="radio" name="system_type" value="zigbee" class="option-input">
@@ -263,7 +263,7 @@
                     </label>
                     <label class="option-label">
                         <input type="radio" name="system_type" value="loxone" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Loxone</span><span class="option-sub">Luxury (Австрия)</span></div></div>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Loxone</span><span class="option-sub">Проводной (Премиум)</span></div></div>
                     </label>
                 </div>
             </div>
@@ -273,11 +273,11 @@
                 <div class="options-grid">
                     <label class="option-label">
                         <input type="radio" name="voltage" value="1phase" class="option-input" checked>
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">1 Фаза (230В)</span><span class="option-sub">Квартира</span></div></div>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">1 Фаза (220В)</span></div></div>
                     </label>
                     <label class="option-label">
                         <input type="radio" name="voltage" value="3phase" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">3 Фазы (400В)</span><span class="option-sub">Дом / Мощная кв.</span></div></div>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">3 Фазы (380В)</span></div></div>
                     </label>
                 </div>
             </div>
@@ -285,7 +285,7 @@
             <div class="calc-section">
                 <div class="section-header"><div class="section-number">5</div><div class="section-title">Объект</div></div>
                 <div style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
-                    <div class="options-grid two-cols">
+                    <div class="options-grid">
                         <label class="option-label">
                             <input type="radio" name="obj_type" value="apartment" class="option-input" checked>
                             <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Квартира</span></div></div>
@@ -321,18 +321,38 @@
                     </label>
 
                     <label class="option-label">
-                        <input type="checkbox" name="opt_unswitched" value="yes" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Неотключаемые группы</span><span class="option-sub">Холодильник, Роутер</span></div></div>
+                        <input type="checkbox" name="opt_fire" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Пожаротушения щита</span><span class="option-sub">Огнетушитель</span></div></div>
                     </label>
 
                     <label class="option-label classic-only">
                         <input type="checkbox" name="opt_master" value="yes" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Мастер-кнопка</span><span class="option-sub">На контакторе</span></div></div>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Мастер-выключатель</span><span class="option-sub">На контакторе</span></div></div>
                     </label>
 
                     <label class="option-label classic-only">
                         <input type="checkbox" name="opt_fan" value="yes" class="option-input">
                         <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Реле времени</span><span class="option-sub">На вентиляторы СУ</span></div></div>
+                    </label>
+
+                    <label class="option-label classic-only">
+                        <input type="checkbox" name="opt_electricstove" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Электриплита</span><span class="option-sub">Варочная поверхность</span></div></div>
+                    </label>
+
+                    <label class="option-label classic-only">
+                        <input type="checkbox" name="opt_waterheater1" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Проточный водонагреватель</span></div></div>
+                    </label>
+
+                    <label class="option-label classic-only">
+                        <input type="checkbox" name="opt_waterheater2" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Накопительный водонагреватель</span></div></div>
+                    </label>
+
+                    <label class="option-label classic-only">
+                        <input type="checkbox" name="opt_antifieruzo" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Противопожарное УЗО</span><span class="option-sub">Селективное</span></div></div>
                     </label>
 
                     <label class="option-label" id="priorityRelayBlock">
@@ -363,7 +383,19 @@
                     </label>
                     <label class="option-label">
                         <input type="checkbox" name="h_garage" value="yes" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Гараж / Баня</span><span class="option-sub">Отд. строения</span></div></div>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Гараж</span><span class="option-sub">Отд. строения</span></div></div>
+                    </label>
+                    <label class="option-label">
+                        <input type="checkbox" name="h_banya" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Баня</span><span class="option-sub">Отд. строения</span></div></div>
+                    </label>
+                    <label class="option-label">
+                        <input type="checkbox" name="h_stab" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Стабилизатор напряжения</span></div></div>
+                    </label>
+                    <label class="option-label">
+                        <input type="checkbox" name="h_ibp" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">ИБП</span><span class="option-sub">Источник беспер. питания</span></div></div>
                     </label>
                 </div>
             </div>
@@ -656,7 +688,19 @@
         if(form.querySelector('input[name="opt_vacation"]:checked')) {
             total += is3Ph ? 3000 : 1500;
         }
-        if(form.querySelector('input[name="opt_unswitched"]:checked')) {
+        if(form.querySelector('input[name="opt_fire"]:checked')) {
+            total += is3Ph ? 3000 : 1500;
+        }
+        if(form.querySelector('input[name="opt_waterheater1"]:checked')) {
+            total += is3Ph ? 3000 : 1500;
+        }
+        if(form.querySelector('input[name="opt_waterheater2"]:checked')) {
+            total += is3Ph ? 3000 : 1500;
+        }
+        if(form.querySelector('input[name="opt_antifieruzo"]:checked')) {
+            total += is3Ph ? 3000 : 1500;
+        }
+        if(form.querySelector('input[name="opt_electricstove"]:checked')) {
             total += is3Ph ? 3000 : 1500;
         }
         if(sysType === 'classic') {
@@ -677,7 +721,9 @@
         if(form.querySelector('input[name="h_street"]:checked')) total += 3000;
         if(form.querySelector('input[name="h_sauna"]:checked')) total += 7000;
         if(form.querySelector('input[name="h_garage"]:checked')) total += 3000;
-
+        if(form.querySelector('input[name="h_banya"]:checked')) total += 3000;
+        if(form.querySelector('input[name="h_stab"]:checked')) total += 3000;
+        if(form.querySelector('input[name="h_ibp"]:checked')) total += 3000;
 
         // 3.5. LED Подсветка
         // Считаем только если выбрано кол-во > 0
