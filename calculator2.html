@@ -320,11 +320,11 @@
                     </label>
                     <label class="option-label">
                         <input type="radio" name="system_type" value="wirenboard" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">WirenBoard</span><span class="option-sub">Проводной (Pro)</span></div></div>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">WirenBoard</span><span class="option-sub">Проводной (Business)</span></div></div>
                     </label>
                     <label class="option-label">
                         <input type="radio" name="system_type" value="loxone" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Loxone</span><span class="option-sub">Проводной (Премиум)</span></div></div>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Loxone</span><span class="option-sub">Проводной (Premium)</span></div></div>
                     </label>
                 </div>
             </div>
@@ -468,22 +468,15 @@
             <div class="calc-section">
                 <div class="section-header"><div class="section-number">8</div><div class="section-title">LED Подсветка</div></div>
                 <div class="options-grid">
-                    <div class="styled-select-wrapper" id="ledCountWrapper">
+                    <div class="styled-select-wrapper no-arrow" id="ledCountWrapper">
                         <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Кол-во контуров (лент)</label>
-                        <select name="led_count" class="styled-select">
-                            <option value="0">Нет подсветок</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10+</option>
-                        </select>
+                        <div class="stepper">
+                            <button type="button" class="stepper-btn" onclick="stepVal('led_count', -1)">−</button>
+                            <input type="number" name="led_count" class="stepper-input" value="0" min="0" max="20" onchange="calculate()">
+                            <button type="button" class="stepper-btn" onclick="stepVal('led_count', 1)">+</button>
+                        </div>
                     </div>
+
                     <div class="styled-select-wrapper" id="ledDimWrapper">
                         <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Диммирование</label>
                         <select name="led_dim" class="styled-select">
@@ -497,29 +490,24 @@
             <div class="calc-section" id="climateSection">
                 <div class="section-header"><div class="section-number">9</div><div class="section-title">Климат</div></div>
                 <div class="options-grid">
-                    <div class="styled-select-wrapper">
+                    <div class="styled-select-wrapper no-arrow">
                         <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Теплый пол (контуров)</label>
-                        <select name="sh_floor" class="styled-select">
-                            <option value="0">Нет</option>
-                            <option value="1">1 зона</option>
-                            <option value="2">2 зоны</option>
-                            <option value="3">3 зоны</option>
-                            <option value="4">4 зоны</option>
-                            <option value="5">5+ зон</option>
-                        </select>
+                        <div class="stepper">
+                            <button type="button" class="stepper-btn" onclick="stepVal('sh_floor', -1)">−</button>
+                            <input type="number" name="sh_floor" class="stepper-input" value="0" min="0" max="20" onchange="calculate()">
+                            <button type="button" class="stepper-btn" onclick="stepVal('sh_floor', 1)">+</button>
+                        </div>
                     </div>
-                    <div class="styled-select-wrapper" id="radWrapper">
+
+                    <div class="styled-select-wrapper no-arrow" id="radWrapper">
                         <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Радиаторы (шт)</label>
-                        <select name="sh_radiator" class="styled-select">
-                            <option value="0">Нет</option>
-                            <option value="1">1 шт</option>
-                            <option value="2">2 шт</option>
-                            <option value="3">3 шт</option>
-                            <option value="4">4 шт</option>
-                            <option value="5">5 шт</option>
-                            <option value="6">6+ шт</option>
-                        </select>
+                        <div class="stepper">
+                            <button type="button" class="stepper-btn" onclick="stepVal('sh_radiator', -1)">−</button>
+                            <input type="number" name="sh_radiator" class="stepper-input" value="0" min="0" max="20" onchange="calculate()">
+                            <button type="button" class="stepper-btn" onclick="stepVal('sh_radiator', 1)">+</button>
+                        </div>
                     </div>
+
                     <div class="styled-select-wrapper">
                         <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Кондиционеры (шт)</label>
                         <select name="ac_count" class="styled-select">
@@ -727,7 +715,7 @@
         if (sysType === 'classic') {
             smartSection.classList.add('hidden');
             radWrapper.classList.add('hidden'); // Скрываем радиаторы
-            form.querySelector('select[name="sh_radiator"]').value = "0";
+            document.querySelector('input[name="sh_radiator"]').value = "0"; // Сброс
             classicOnlyOptions.forEach(el => el.classList.remove('hidden'));
         } else {
             smartSection.classList.remove('hidden');
@@ -766,7 +754,8 @@
         }
 
         // 2.4. LED Диммирование
-        const ledCountVal = parseInt(form.querySelector('select[name="led_count"]').value);
+        // Считываем значение из input (т.к. мы сделали его счетчиком), а не select
+        const ledCountVal = parseInt(document.querySelector('input[name="led_count"]').value) || 0;
         const ledDimWrapper = document.getElementById('ledDimWrapper');
         if (ledCountVal === 0) {
             ledDimWrapper.classList.add('disabled');
@@ -862,14 +851,15 @@
         }
 
         // 3.6. Климат
-        const shFloor = parseInt(form.querySelector('select[name="sh_floor"]').value);
-        total += shFloor * 1000;
+        // Теплые полы (счетчик)
+        total += (parseInt(document.querySelector('input[name="sh_floor"]').value) || 0) * 1000;
+
         const acCount = parseInt(form.querySelector('select[name="ac_count"]').value);
         total += acCount * 1000;
 
         if (sysType !== 'classic') {
-            const shRadiator = parseInt(form.querySelector('select[name="sh_radiator"]').value);
-            total += shRadiator * 1000;
+            // Радиаторы (счетчик)
+            total += (parseInt(document.querySelector('input[name="sh_radiator"]').value) || 0) * 1000;
         }
         if(form.querySelector('input[name="h_vent"]:checked')) total += 3000;
 
@@ -984,9 +974,9 @@
         msg += `🏠 Объект: ${getVal('input[name="obj_type"]')} (${getVal('select[name="area"]')})\n`;
         msg += `⚙️ Опции: ${getChecks('.calc-section:not(.hidden)')}\n`;
 
-        const ledC = form.querySelector('select[name="led_count"]').value;
-        if(ledC !== '0') {
-            msg += `💡 LED: ${ledC} контуров (${getVal('select[name="led_dim"]')})\n`;
+        const ledCVal = parseInt(document.querySelector('input[name="led_count"]').value) || 0;
+        if(ledCVal > 0) {
+            msg += `💡 LED: ${ledCVal} контуров (${getVal('select[name="led_dim"]')})\n`;
         }
 
         msg += `\n💵 Предварительный расчет: ${new Intl.NumberFormat('ru-RU').format(price)} ₽`;
