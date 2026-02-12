@@ -111,7 +111,7 @@
         /* SELECTS */
         .styled-select-wrapper { position: relative; width: 100%; display: block; }
         .styled-select-wrapper.disabled { opacity: 0.3; pointer-events: none; }
-        .styled-select-wrapper.hidden { display: none; } /* Для скрытия радиаторов */
+        .styled-select-wrapper.hidden { display: none; } /* Скрытие радиаторов */
 
         .styled-select {
             width: 100%; background: rgba(255, 255, 255, 0.05);
@@ -284,30 +284,28 @@
 
             <div class="calc-section">
                 <div class="section-header"><div class="section-number">5</div><div class="section-title">Объект</div></div>
-                <div style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
-                    <div class="options-grid">
-                        <label class="option-label">
-                            <input type="radio" name="obj_type" value="apartment" class="option-input" checked>
-                            <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Квартира</span></div></div>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="obj_type" value="house" class="option-input">
-                            <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Частный дом</span></div></div>
-                        </label>
-                    </div>
 
-                    <div class="options-grid">
-                        <div class="styled-select-wrapper">
-                            <select name="area" class="styled-select">
-                                <option value="50">До 50 м²</option>
-                                <option value="100" selected>50 - 100 м²</option>
-                                <option value="160">100 - 160 м²</option>
-                                <option value="250">160 - 250 м²</option>
-                                <option value="500">250 - 500 м²</option>
-                                <option value="1000">500 - 1000 м²</option>
-                                <option value="max">Более 1000 м²</option>
-                            </select>
-                        </div>
+                <div class="options-grid">
+                    <label class="option-label">
+                        <input type="radio" name="obj_type" value="apartment" class="option-input" checked>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Квартира</span></div></div>
+                    </label>
+
+                    <label class="option-label">
+                        <input type="radio" name="obj_type" value="house" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Частный дом</span></div></div>
+                    </label>
+
+                    <div class="styled-select-wrapper">
+                        <select name="area" class="styled-select" style="height: 100%;">
+                            <option value="50">До 50 м²</option>
+                            <option value="100" selected>50 - 100 м²</option>
+                            <option value="160">100 - 160 м²</option>
+                            <option value="250">160 - 250 м²</option>
+                            <option value="500">250 - 500 м²</option>
+                            <option value="1000">500 - 1000 м²</option>
+                            <option value="max">Более 1000 м²</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -322,7 +320,7 @@
 
                     <label class="option-label">
                         <input type="checkbox" name="opt_fire" value="yes" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Пожаротушения щита</span><span class="option-sub">Огнетушитель</span></div></div>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Пожаротушение</span><span class="option-sub">Огнетушитель</span></div></div>
                     </label>
 
                     <label class="option-label classic-only">
@@ -335,24 +333,29 @@
                         <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Реле времени</span><span class="option-sub">На вентиляторы СУ</span></div></div>
                     </label>
 
-                    <label class="option-label classic-only">
+                    <label class="option-label">
                         <input type="checkbox" name="opt_electricstove" value="yes" class="option-input">
                         <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Электриплита</span><span class="option-sub">Варочная поверхность</span></div></div>
                     </label>
 
-                    <label class="option-label classic-only">
+                    <label class="option-label">
                         <input type="checkbox" name="opt_waterheater1" value="yes" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Проточный водонагреватель</span></div></div>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Проточ. водонагреватель</span></div></div>
                     </label>
 
-                    <label class="option-label classic-only">
+                    <label class="option-label">
                         <input type="checkbox" name="opt_waterheater2" value="yes" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Накопительный водонагреватель</span></div></div>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Бойлер (накопительный)</span></div></div>
                     </label>
 
-                    <label class="option-label classic-only">
+                    <label class="option-label">
                         <input type="checkbox" name="opt_antifieruzo" value="yes" class="option-input">
                         <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Противопожарное УЗО</span><span class="option-sub">Селективное</span></div></div>
+                    </label>
+
+                    <label class="option-label classic-only">
+                        <input type="checkbox" name="opt_systemwater" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Система защиты от протечки</span></div></div>
                     </label>
 
                     <label class="option-label" id="priorityRelayBlock">
@@ -466,6 +469,13 @@
                             <option value="5">5+ шт</option>
                         </select>
                     </div>
+                    <label class="option-label checkbox-mode">
+                        <input type="checkbox" name="h_vent" value="yes" class="option-input">
+                        <div class="option-card">
+                            <div class="option-marker"></div>
+                            <div class="option-content"><span class="option-text">Вентиляция</span><span class="option-sub">Принудительная</span></div>
+                        </div>
+                    </label>
                 </div>
             </div>
 
@@ -571,9 +581,9 @@
         // 1. КОНСТАНТЫ И БАЗОВЫЕ ЦЕНЫ
         // ============================================================
 
-        let modulePrice = 3000; // Базовая цена модуля оборудования (включает среднее по больнице)
-        const uslugaSborka = 400; // Стоимость сборки за 1 модуль (работа)
-        const uslugaProekt = 400; // Стоимость проекта за 1 модуль (работа)
+        let baseModulePrice = 3000; // Базовая цена оборудования за 1 модуль
+        const workAssembly = 400; // Цена сборки за модуль
+        const workProject = 400; // Цена проекта за модуль
 
         // ============================================================
         // 2. ЛОГИКА ИНТЕРФЕЙСА (ВИДИМОСТЬ)
@@ -597,12 +607,12 @@
 
         if (sysType === 'classic') {
             smartSection.classList.add('hidden');
-            radWrapper.classList.add('hidden'); // Скрываем радиаторы
-            form.querySelector('select[name="sh_radiator"]').value = "0"; // Сбрасываем радиаторы
+            radWrapper.classList.add('hidden'); // Скрываем радиаторы в классике
+            form.querySelector('select[name="sh_radiator"]').value = "0"; // Сбрасываем выбор
             classicOnlyOptions.forEach(el => el.classList.remove('hidden'));
         } else {
             smartSection.classList.remove('hidden');
-            radWrapper.classList.remove('hidden'); // Показываем радиаторы
+            radWrapper.classList.remove('hidden'); // Показываем радиаторы в умном доме
             classicOnlyOptions.forEach(el => {
                 el.classList.add('hidden');
                 el.querySelector('input').checked = false;
@@ -639,21 +649,20 @@
 
         let total = 0;
 
-        // 3.1. Применяем коэффициент бюджета к СТОИМОСТИ МОДУЛЯ
+        // 3.1. Коэффициент бюджета (влияет ТОЛЬКО на стоимость оборудования модуля)
         const budget = form.querySelector('input[name="budget"]:checked').value;
         let multiplier = 1.5; // Средний (Optima)
         if (budget === 'low') multiplier = 1;
         if (budget === 'high') multiplier = 2;
 
-        let finalModulePrice = modulePrice * multiplier;
-        // Полная цена за 1 условный модуль щита (оборудование + работа)
-        let totalRatePerModule = finalModulePrice + uslugaSborka + uslugaProekt;
+        let finalModulePrice = baseModulePrice * multiplier;
+
+        // Полная цена за 1 модуль щита (оборудование + сборка + проект)
+        let totalRatePerModule = finalModulePrice + workAssembly + workProject;
 
 
-        // 3.2. Расчет базового размера щита (в модулях или деньгах) от ПЛОЩАДИ
-        // Для 3 фаз используется специальная матрица модулей
+        // 3.2. Расчет размера щита (в модулях) от ПЛОЩАДИ
         const area = form.querySelector('select[name="area"]').value;
-        let baseShieldCost = 0;
         let modulesCount = 0;
 
         if (voltage === '3phase') {
@@ -666,7 +675,7 @@
             else if(area === '1000') modulesCount = 400;
             else modulesCount = 1000; // >1000м
         } else {
-            // Матрица для 1 фазы (чуть меньше, примерная оценка)
+            // Матрица для 1 фазы (примерно 2/3 от трехфазной или стандарт)
             if(area === '50') modulesCount = 24;
             else if(area === '100') modulesCount = 36;
             else if(area === '160') modulesCount = 48;
@@ -676,57 +685,57 @@
             else modulesCount = 96;
         }
 
-        // Базовая стоимость самого "железа" щита и работ по нему
-        baseShieldCost = modulesCount * totalRatePerModule;
-        total += baseShieldCost;
+        // Базовая стоимость самого щита
+        total += modulesCount * totalRatePerModule;
 
 
-        // 3.3. Добавляем стоимость опций (Классика)
-        // Цены зависят от фазности ввода (1ф / 3ф)
+        // 3.3. Стоимость ОПЦИЙ (зависит от фазности 1ф/3ф)
         const is3Ph = (voltage === '3phase');
 
+        // Отпуск
         if(form.querySelector('input[name="opt_vacation"]:checked')) {
             total += is3Ph ? 3000 : 1500;
         }
-        if(form.querySelector('input[name="opt_fire"]:checked')) {
-            total += is3Ph ? 3000 : 1500;
+        // Система защиты от протечек
+        if(form.querySelector('input[name="opt_systemwater"]:checked')) {
+            total += is3Ph ? 3000 : 1500; // Для 1ф не было указано, ставим 1500 по аналогии с отпуском
         }
-        if(form.querySelector('input[name="opt_waterheater1"]:checked')) {
-            total += is3Ph ? 3000 : 1500;
-        }
-        if(form.querySelector('input[name="opt_waterheater2"]:checked')) {
-            total += is3Ph ? 3000 : 1500;
-        }
-        if(form.querySelector('input[name="opt_antifieruzo"]:checked')) {
-            total += is3Ph ? 3000 : 1500;
-        }
-        if(form.querySelector('input[name="opt_electricstove"]:checked')) {
-            total += is3Ph ? 3000 : 1500;
-        }
+
+        // Классика: Мастер-кнопка и Реле времени
         if(sysType === 'classic') {
             if(form.querySelector('input[name="opt_master"]:checked')) {
                 total += is3Ph ? 6000 : 4000;
             }
             if(form.querySelector('input[name="opt_fan"]:checked')) {
-                total += 3000; // Одинаково
+                total += 3000; // Цена одинаковая
             }
         }
-        if(form.querySelector('input[name="opt_priority"]:checked') && is3Ph) {
+        // Реле приоритета (только 3ф)
+        if(is3Ph && form.querySelector('input[name="opt_priority"]:checked')) {
             total += 13000;
         }
 
-        // 3.4. Опции дома
+        // Новые чекбоксы (цены примерные, так как не были указаны явно в списке, кроме дома)
+        if(form.querySelector('input[name="opt_fire"]:checked')) total += 3000;
+        if(form.querySelector('input[name="opt_electricstove"]:checked')) total += 3000;
+        if(form.querySelector('input[name="opt_waterheater1"]:checked')) total += 3000;
+        if(form.querySelector('input[name="opt_waterheater2"]:checked')) total += 3000;
+        if(form.querySelector('input[name="opt_antifieruzo"]:checked')) total += 8000;
+
+
+        // 3.4. Опции дома (обычно для 3ф)
         if(form.querySelector('input[name="h_gen"]:checked')) total += 12000;
         if(form.querySelector('input[name="h_boiler"]:checked')) total += 3000;
         if(form.querySelector('input[name="h_street"]:checked')) total += 3000;
         if(form.querySelector('input[name="h_sauna"]:checked')) total += 7000;
         if(form.querySelector('input[name="h_garage"]:checked')) total += 3000;
+        // Доп. опции дома
         if(form.querySelector('input[name="h_banya"]:checked')) total += 3000;
-        if(form.querySelector('input[name="h_stab"]:checked')) total += 3000;
-        if(form.querySelector('input[name="h_ibp"]:checked')) total += 3000;
+        if(form.querySelector('input[name="h_stab"]:checked')) total += 5000;
+        if(form.querySelector('input[name="h_ibp"]:checked')) total += 5000;
+
 
         // 3.5. LED Подсветка
-        // Считаем только если выбрано кол-во > 0
         const ledDim = form.querySelector('select[name="led_dim"]').value;
 
         if (ledCountVal > 0) {
@@ -734,7 +743,7 @@
                 // Без диммирования: 4 модуля работы + 7000 оборудование
                 // Работа = 4 * (сборка + проект) = 4 * 800 = 3200
                 // Итог за 1 группу = 3200 + 7000 = 10200
-                let costPerLedGroup = (4 * (uslugaSborka + uslugaProekt)) + 7000;
+                let costPerLedGroup = (4 * (workAssembly + workProject)) + 7000;
                 total += ledCountVal * costPerLedGroup;
             } else {
                 // С диммированием: фиксированная цена 13000 за группу
@@ -743,29 +752,55 @@
         }
 
         // 3.6. Климат
-        // Теплый пол
+        // Теплый пол (1000р)
         const shFloor = parseInt(form.querySelector('select[name="sh_floor"]').value);
         total += shFloor * 1000;
 
-        // Кондиционеры
+        // Кондиционеры (1000р)
         const acCount = parseInt(form.querySelector('select[name="ac_count"]').value);
         total += acCount * 1000;
 
-        // Радиаторы (только если не классика, скрытие обработано выше)
+        // Радиаторы (Только в умном доме, 1000р)
         if (sysType !== 'classic') {
             const shRadiator = parseInt(form.querySelector('select[name="sh_radiator"]').value);
-            total += shRadiator * 1000; // Предполагаем такую же цену 1000р
+            total += shRadiator * 1000;
         }
 
-        // 3.7. База Умного Дома
-        // Добавляем стоимость контроллеров поверх базы щита
-        if (sysType === 'zigbee') total += 40000;
-        if (sysType === 'wirenboard') total += 120000;
-        if (sysType === 'loxone') total += 250000;
+        // Принудительная вентиляция (чекбокс)
+        if(form.querySelector('input[name="h_vent"]:checked')) total += 3000;
+
+
+        // 3.7. Умный Дом (База + Точки)
+        if (sysType !== 'classic') {
+            let sysBase = 0;
+            // Цены за точку
+            let pLight=0, pDim=0, pSocket=0, pCurtain=0, pLeak=0;
+
+            if (sysType === 'zigbee') {
+                sysBase = 40000; pLight=2000; pDim=3500; pSocket=2500; pCurtain=4000; pLeak=15000;
+            } else if (sysType === 'wirenboard') {
+                sysBase = 120000; pLight=6000; pDim=9000; pSocket=6000; pCurtain=8000; pLeak=30000;
+            } else if (sysType === 'loxone') {
+                sysBase = 250000; pLight=12000; pDim=18000; pSocket=12000; pCurtain=15000; pLeak=50000;
+            }
+
+            // Добавляем базу контроллера
+            total += sysBase;
+
+            // Добавляем стоимость точек
+            total += parseInt(form.querySelector('select[name="sh_light"]').value) * pLight;
+            total += parseInt(form.querySelector('select[name="sh_light_dim"]').value) * pDim;
+            total += parseInt(form.querySelector('select[name="sh_socket"]').value) * pSocket;
+            total += parseInt(form.querySelector('select[name="sh_curtain"]').value) * pCurtain;
+
+            if(form.querySelector('input[name="sh_leak"]:checked')) total += pLeak;
+            if(form.querySelector('input[name="sh_master_full"]:checked')) total += 5000;
+            if(form.querySelector('input[name="sh_master_local"]:checked')) total += 5000;
+        }
 
 
         // 4. ФИНАЛ
-        //total = Math.ceil(total / 1000) * 1000; // Округляем до тысяч если нужно
+        //total = Math.ceil(total / 1000) * 1000; // Округляем до тысяч
         totalEl.textContent = new Intl.NumberFormat('ru-RU').format(total) + ' ₽';
         updateLinks(total, form);
     };
@@ -800,7 +835,6 @@
         msg += `🏠 Объект: ${getVal('input[name="obj_type"]')} (${getVal('select[name="area"]')})\n`;
         msg += `⚙️ Опции: ${getChecks('.calc-section:not(.hidden)')}\n`;
 
-        // Добавляем инфо по LED если выбрано
         const ledC = form.querySelector('select[name="led_count"]').value;
         if(ledC !== '0') {
             msg += `💡 LED: ${ledC} контуров (${getVal('select[name="led_dim"]')})\n`;
