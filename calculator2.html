@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор щита | JanPro.ru</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site/styles.css">
+    <link rel="icon" type="image/x-icon" href="site/favicon.ico" />
+    <script src="site/metrics.js"></script>
+
+    <style>
+        /* --- СЛОИ --- */
+        .bg-depth { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .container { position: relative; z-index: 1; }
+
+        /* --- ЛОКАЛЬНЫЕ СТИЛИ --- */
+        .calc-card-wrapper {
+            padding: 25px;
+            display: flex; flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        /* ЗАГОЛОВОК */
+        .calc-header {
+            text-align: center; margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;
+        }
+        .calc-title-row { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 5px; }
+
+        .calc-title-icon {
+            width: 36px; height: 36px; opacity: 0.9;
+            transform: rotate(-15deg);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .calc-card-wrapper:hover .calc-title-icon { transform: rotate(0deg) scale(1.1); }
+
+        .calc-title { margin: 0; font-size: 1.8rem; font-weight: 900; color: #fff; }
+        .calc-subtitle { margin: 0; color: #c0c0c0; font-size: 0.95rem; }
+
+        /* СЕКЦИИ */
+        .calc-section {
+            padding: 20px 0; display: flex; flex-direction: column; gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .calc-section:last-child { border-bottom: none; padding-bottom: 0; }
+        .calc-section.hidden { display: none; }
+
+        .section-header { display: flex; align-items: center; gap: 12px; min-width: 200px; }
+
+        .section-number {
+            display: flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px; border: 2px solid var(--accent); border-radius: 50%;
+            color: #fff; font-size: 0.9rem; font-weight: 900; background: rgba(255, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+
+        .section-title { font-size: 1.05rem; font-weight: 700; color: #fff; }
+
+        .options-grid { display: grid; grid-template-columns: 1fr; gap: 10px; width: 100%; }
+
+        @media (min-width: 900px) {
+            .calc-section { flex-direction: row; align-items: flex-start; }
+            .section-header { padding-top: 8px; }
+            .options-grid { grid-template-columns: repeat(3, 1fr); }
+            .options-grid.small-grid { grid-template-columns: repeat(4, 1fr); }
+            .options-grid.two-cols { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* КАРТОЧКИ ВЫБОРА */
+        .option-label { cursor: pointer; position: relative; display: block; width: 100%; height: 100%; }
+        .option-label.hidden { display: none; }
+        .option-input { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px; padding: 12px 15px;
+            display: flex; align-items: center; gap: 12px;
+            transition: all 0.3s ease; height: 100%; min-height: 60px; box-sizing: border-box;
+        }
+
+        .option-label:hover .option-card { background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.3); transform: translateY(-2px); }
+
+        .option-marker {
+            width: 18px; height: 18px; border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.3); flex-shrink: 0; position: relative;
+            background: rgba(0,0,0,0.3); transition: all 0.3s ease;
+        }
+        .option-marker::after {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
+            width: 10px; height: 10px; background: #fff; border-radius: 50%; transition: transform 0.2s;
+        }
+        .checkbox-mode .option-marker { border-radius: 5px; }
+        .checkbox-mode .option-marker::after { border-radius: 2px; }
+
+        .option-input:checked + .option-card {
+            background: rgba(255, 0, 0, 0.15); border-color: var(--accent);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.1);
+        }
+        .option-input:checked + .option-card .option-marker { border-color: var(--accent); background: var(--accent); }
+        .option-input:checked + .option-card .option-marker::after { transform: translate(-50%, -50%) scale(1); }
+        .option-input:disabled + .option-card { opacity: 0.4; cursor: not-allowed; filter: grayscale(1); }
+
+        .option-content { display: flex; flex-direction: column; }
+        .option-text { color: #fff; font-weight: 700; font-size: 0.95rem; line-height: 1.1; }
+        .option-sub { font-size: 0.8rem; color: #aaa; margin-top: 3px; }
+        .option-input:checked + .option-card .option-sub { color: #ddd; }
+
+        /* SELECTS */
+        .styled-select-wrapper { position: relative; width: 100%; display: block; }
+        .styled-select-wrapper.disabled { opacity: 0.3; pointer-events: none; }
+        .styled-select-wrapper.hidden { display: none; } /* Для скрытия радиаторов */
+
+        .styled-select {
+            width: 100%; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1); color: #fff;
+            padding: 12px 15px; border-radius: 12px;
+            font-size: 0.95rem; font-family: 'Roboto', sans-serif;
+            appearance: none; -webkit-appearance: none; -moz-appearance: none;
+            cursor: pointer; transition: 0.3s;
+        }
+        .styled-select:focus { outline: none; border-color: var(--accent); background: rgba(255, 255, 255, 0.1); }
+        .styled-select option { background: #1a1a1a; color: #fff; padding: 10px; }
+        .styled-select-wrapper::after {
+            content: '▼'; position: absolute; right: 15px; top: 0; bottom: 0; margin: auto;
+            height: 1em; line-height: 1; color: var(--accent); font-size: 0.8rem; pointer-events: none;
+        }
+
+        /* ИТОГОВЫЙ БЛОК */
+        .total-sticky {
+            position: sticky; bottom: 10px; z-index: 100;
+            margin-top: 20px;
+            padding: 15px 25px;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            border: 1px solid var(--accent) !important;
+        }
+
+        .total-label { font-size: 0.85rem; color: #c0c0c0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+
+        .total-price {
+            font-size: 2.2rem; font-weight: 900; color: #fff;
+            margin: 0 0 10px 0; text-shadow: 0 0 20px rgba(255,0,0,0.3); line-height: 1;
+        }
+
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 400px; }
+
+        .calc-social-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 10px; border-radius: 12px; color: #fff; font-weight: 700; font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: 0.3s; text-decoration: none;
+        }
+        .calc-social-btn:hover {
+            background: rgba(40, 10, 10, 0.8); border-color: var(--accent); transform: translateY(-2px);
+        }
+        .calc-social-btn img { width: 20px; height: 20px; }
+
+        .disclaimer-text {
+            font-size: 0.75rem; color: #777; margin: 10px 0 0 0; line-height: 1.3;
+        }
+
+        @media (max-width: 600px) {
+            .total-sticky {
+                padding: 10px 15px;
+                flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0;
+            }
+            .total-info-col { text-align: left; flex-grow: 1; }
+            .total-price { font-size: 1.5rem; margin: 0; }
+            .total-label { font-size: 0.6rem; margin-bottom: 0; }
+            .social-grid { width: auto; display: flex; gap: 8px; }
+            .calc-social-btn { padding: 0; width: 42px; height: 42px; border-radius: 10px; }
+            .calc-social-btn span { display: none; }
+            .calc-social-btn img { width: 24px; height: 24px; margin: 0; }
+            .disclaimer-text { width: 100%; font-size: 0.6rem; margin: 5px 0 0 0; text-align: center; opacity: 0.7; }
+            .calc-card-wrapper { padding: 15px; }
+            .section-number { margin-right: 5px; width: 24px; height: 24px; font-size: 0.8rem; }
+            .calc-title { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-depth"></div>
+<div class="container">
+
+    <div id="header-container"></div>
+    <div id="menu-container"></div>
+
+    <div class="card calc-card-wrapper">
+        <div class="calc-header">
+            <div class="calc-title-row">
+                <svg class="calc-title-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="appleSilverGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#FFFFFF" />
+                            <stop offset="100%" style="stop-color:#C0C8D8" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="4" y="2" width="16" height="20" rx="4" fill="url(#appleSilverGrad1)"/>
+                    <rect x="7" y="6" width="10" height="3" rx="1.5" fill="#080808" opacity="0.3"/>
+                    <circle cx="8.5" cy="13.5" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="12" cy="13.5" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="15.5" cy="13.5" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="8.5" cy="17" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="12" cy="17" r="1.5" fill="#080808" opacity="0.4"/>
+                    <circle cx="15.5" cy="17" r="1.5" fill="#080808" opacity="0.4"/>
+                </svg>
+                <h2 class="calc-title">Онлайн-калькулятор</h2>
+            </div>
+            <p class="calc-subtitle">Ответьте на вопросы для точного расчета</p>
+        </div>
+
+        <form id="calcForm" onchange="calculate()">
+
+            <div class="calc-section">
+                <div class="section-header"><div class="section-number">1</div><div class="section-title">Электрика</div></div>
+                <div class="options-grid">
+                    <label class="option-label">
+                        <input type="radio" name="budget" value="low" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Базовый</span><span class="option-sub">DEKraft</span></div></div>
+                    </label>
+                    <label class="option-label">
+                        <input type="radio" name="budget" value="mid" class="option-input" checked>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Оптимальный</span><span class="option-sub">Sity9Set / EKF</span></div></div>
+                    </label>
+                    <label class="option-label">
+                        <input type="radio" name="budget" value="high" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Премиум</span><span class="option-sub">Systeme 9</span></div></div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="calc-section">
+                <div class="section-header"><div class="section-number">2</div><div class="section-title">Параметры щита</div></div>
+                <div class="options-grid">
+                    <label class="option-label">
+                        <input type="radio" name="case_type" value="in" class="option-input" checked>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Встраиваемый</span><span class="option-sub">В нишу</span></div></div>
+                    </label>
+                    <label class="option-label">
+                        <input type="radio" name="case_type" value="out" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Накладной</span><span class="option-sub">На стену</span></div></div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="calc-section">
+                <div class="section-header"><div class="section-number">3</div><div class="section-title">Умный дом</div></div>
+                <div class="options-grid">
+                    <label class="option-label">
+                        <input type="radio" name="system_type" value="classic" class="option-input" checked>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Классика</span><span class="option-sub">Обычный щит</span></div></div>
+                    </label>
+                    <label class="option-label">
+                        <input type="radio" name="system_type" value="zigbee" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Умный (Zigbee)</span><span class="option-sub">Беспроводной</span></div></div>
+                    </label>
+                    <label class="option-label">
+                        <input type="radio" name="system_type" value="wirenboard" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">WirenBoard</span><span class="option-sub">Проводной (Pro)</span></div></div>
+                    </label>
+                    <label class="option-label">
+                        <input type="radio" name="system_type" value="loxone" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Loxone</span><span class="option-sub">Luxury (Австрия)</span></div></div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="calc-section">
+                <div class="section-header"><div class="section-number">4</div><div class="section-title">Ввод</div></div>
+                <div class="options-grid">
+                    <label class="option-label">
+                        <input type="radio" name="voltage" value="1phase" class="option-input" checked>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">1 Фаза (230В)</span><span class="option-sub">Квартира</span></div></div>
+                    </label>
+                    <label class="option-label">
+                        <input type="radio" name="voltage" value="3phase" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">3 Фазы (400В)</span><span class="option-sub">Дом / Мощная кв.</span></div></div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="calc-section">
+                <div class="section-header"><div class="section-number">5</div><div class="section-title">Объект</div></div>
+                <div style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
+                    <div class="options-grid two-cols">
+                        <label class="option-label">
+                            <input type="radio" name="obj_type" value="apartment" class="option-input" checked>
+                            <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Квартира</span></div></div>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="obj_type" value="house" class="option-input">
+                            <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Частный дом</span></div></div>
+                        </label>
+                    </div>
+
+                    <div class="options-grid">
+                        <div class="styled-select-wrapper">
+                            <select name="area" class="styled-select">
+                                <option value="50">До 50 м²</option>
+                                <option value="100" selected>50 - 100 м²</option>
+                                <option value="160">100 - 160 м²</option>
+                                <option value="250">160 - 250 м²</option>
+                                <option value="500">250 - 500 м²</option>
+                                <option value="1000">500 - 1000 м²</option>
+                                <option value="max">Более 1000 м²</option>
+                            </select>
+                        </div>
+                        <div class="styled-select-wrapper">
+                            <select name="rooms_count" class="styled-select">
+                                <option value="1">1 комната</option>
+                                <option value="2">2 комнаты</option>
+                                <option value="3" selected>3 комнаты</option>
+                                <option value="4">4 комнаты</option>
+                                <option value="5">5 комнат</option>
+                                <option value="6">6 комнат</option>
+                                <option value="7">7 комнат</option>
+                                <option value="8">8 комнат</option>
+                                <option value="9">9 комнат</option>
+                                <option value="10">10 комнат</option>
+                                <option value="11">10+ комнат</option>
+                            </select>
+                        </div>
+                        <div class="styled-select-wrapper">
+                            <select name="wc_count" class="styled-select">
+                                <option value="1" selected>1 санузел</option>
+                                <option value="2">2 санузла</option>
+                                <option value="3">3 санузла</option>
+                                <option value="4">4 санузла</option>
+                                <option value="5">5+ санузлов</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calc-section checkbox-mode">
+                <div class="section-header"><div class="section-number">6</div><div class="section-title">Опции щита</div></div>
+                <div class="options-grid">
+                    <label class="option-label classic-only">
+                        <input type="checkbox" name="opt_vacation" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Рубильник «Отпуск»</span><span class="option-sub">Выкл. всё лишнее</span></div></div>
+                    </label>
+
+                    <label class="option-label">
+                        <input type="checkbox" name="opt_unswitched" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Неотключаемые группы</span><span class="option-sub">Холодильник, Роутер</span></div></div>
+                    </label>
+
+                    <label class="option-label classic-only">
+                        <input type="checkbox" name="opt_master" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Мастер-кнопка</span><span class="option-sub">На контакторе</span></div></div>
+                    </label>
+
+                    <label class="option-label classic-only">
+                        <input type="checkbox" name="opt_fan" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Реле времени</span><span class="option-sub">На вентиляторы СУ</span></div></div>
+                    </label>
+
+                    <label class="option-label" id="priorityRelayBlock">
+                        <input type="checkbox" name="opt_priority" value="yes" class="option-input" disabled>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Реле приоритета</span><span class="option-sub">Только для 3 фаз</span></div></div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="calc-section checkbox-mode hidden" id="houseOptionsSection">
+                <div class="section-header"><div class="section-number">7</div><div class="section-title">Опции дома</div></div>
+                <div class="options-grid">
+                    <label class="option-label">
+                        <input type="checkbox" name="h_gen" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Ввод генератора</span><span class="option-sub">Ручной / АВР</span></div></div>
+                    </label>
+                    <label class="option-label">
+                        <input type="checkbox" name="h_boiler" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Резервный котел</span><span class="option-sub">Электрический</span></div></div>
+                    </label>
+                    <label class="option-label">
+                        <input type="checkbox" name="h_street" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Щит улицы</span><span class="option-sub">Вывод кабеля</span></div></div>
+                    </label>
+                    <label class="option-label">
+                        <input type="checkbox" name="h_sauna" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Электросауна</span><span class="option-sub">Печь / Пульт</span></div></div>
+                    </label>
+                    <label class="option-label">
+                        <input type="checkbox" name="h_garage" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Гараж / Баня</span><span class="option-sub">Отд. строения</span></div></div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="calc-section">
+                <div class="section-header"><div class="section-number">8</div><div class="section-title">LED Подсветка</div></div>
+                <div class="options-grid">
+                    <div class="styled-select-wrapper" id="ledCountWrapper">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Кол-во контуров (лент)</label>
+                        <select name="led_count" class="styled-select">
+                            <option value="0">Нет подсветок</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10+</option>
+                        </select>
+                    </div>
+                    <div class="styled-select-wrapper" id="ledDimWrapper">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Диммирование</label>
+                        <select name="led_dim" class="styled-select">
+                            <option value="no">Нет (вкл/выкл)</option>
+                            <option value="yes">Да (нужно диммирование)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calc-section" id="climateSection">
+                <div class="section-header"><div class="section-number">9</div><div class="section-title">Климат</div></div>
+                <div class="options-grid">
+                    <div class="styled-select-wrapper">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Теплый пол (контуров)</label>
+                        <select name="sh_floor" class="styled-select">
+                            <option value="0">Нет</option>
+                            <option value="1">1 зона</option>
+                            <option value="2">2 зоны</option>
+                            <option value="3">3 зоны</option>
+                            <option value="4">4 зоны</option>
+                            <option value="5">5+ зон</option>
+                        </select>
+                    </div>
+                    <div class="styled-select-wrapper" id="radWrapper">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Радиаторы (шт)</label>
+                        <select name="sh_radiator" class="styled-select">
+                            <option value="0">Нет</option>
+                            <option value="1">1 шт</option>
+                            <option value="2">2 шт</option>
+                            <option value="3">3 шт</option>
+                            <option value="4">4 шт</option>
+                            <option value="5">5 шт</option>
+                            <option value="6">6+ шт</option>
+                        </select>
+                    </div>
+                    <div class="styled-select-wrapper">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Кондиционеры (шт)</label>
+                        <select name="ac_count" class="styled-select">
+                            <option value="0">Нет</option>
+                            <option value="1">1 шт</option>
+                            <option value="2">2 шт</option>
+                            <option value="3">3 шт</option>
+                            <option value="4">4 шт</option>
+                            <option value="5">5+ шт</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calc-section hidden" id="smartOptionsSection">
+                <div class="section-header"><div class="section-number">10</div><div class="section-title">Параметры Умного дома</div></div>
+                <div class="options-grid">
+                    <div class="styled-select-wrapper">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Релейный свет</label>
+                        <select name="sh_light" class="styled-select">
+                            <option value="0">Нет</option>
+                            <option value="3">1-3 группы</option>
+                            <option value="6">4-6 групп</option>
+                            <option value="9">7-9 групп</option>
+                            <option value="12">10-12 групп</option>
+                            <option value="18">13-18 групп</option>
+                            <option value="24">19-24 группы</option>
+                        </select>
+                    </div>
+
+                    <div class="styled-select-wrapper">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Диммируемый свет</label>
+                        <select name="sh_light_dim" class="styled-select">
+                            <option value="0">Нет</option>
+                            <option value="3">1-3 группы</option>
+                            <option value="6">4-6 групп</option>
+                            <option value="9">7-9 групп</option>
+                            <option value="12">10-12 групп</option>
+                        </select>
+                    </div>
+
+                    <div class="styled-select-wrapper">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Отключаемые розетки</label>
+                        <select name="sh_socket" class="styled-select">
+                            <option value="0">Нет</option>
+                            <option value="1">1 группа (Всё сразу)</option>
+                            <option value="3">2-3 группы</option>
+                            <option value="6">4-6 групп</option>
+                            <option value="9">7-9 групп</option>
+                            <option value="12">10-12 групп</option>
+                        </select>
+                    </div>
+                    <div class="styled-select-wrapper">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Электрокарнизы</label>
+                        <select name="sh_curtain" class="styled-select">
+                            <option value="0">Нет</option>
+                            <option value="1">1 шт</option>
+                            <option value="2">2 шт</option>
+                            <option value="4">3-4 шт</option>
+                            <option value="6">5-6 шт</option>
+                            <option value="8">более 6 шт</option>
+                        </select>
+                    </div>
+
+                    <label class="option-label checkbox-mode">
+                        <input type="checkbox" name="sh_leak" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Защита от протечек</span><span class="option-sub">Краны + Датчики</span></div></div>
+                    </label>
+
+                    <label class="option-label checkbox-mode">
+                        <input type="checkbox" name="sh_master_full" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Мастер-кнопка</span><span class="option-sub">Программно</span></div></div>
+                    </label>
+                    <label class="option-label checkbox-mode">
+                        <input type="checkbox" name="sh_master_local" value="yes" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Локальный мастер</span><span class="option-sub">На комнату</span></div></div>
+                    </label>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="card total-sticky" id="totalBlock">
+        <div class="total-info-col">
+            <div class="total-label">Примерная стоимость</div>
+            <div class="total-price" id="totalPrice">0 ₽</div>
+        </div>
+
+        <div class="social-grid">
+            <a href="#" id="tgLink" target="_blank" class="calc-social-btn">
+                <img src="site/img/tg.svg" alt="TG"> <span>Telegram</span>
+            </a>
+            <a href="#" id="waLink" target="_blank" class="calc-social-btn">
+                <img src="site/img/whatsapp.png" alt="WA"> <span>WhatsApp</span>
+            </a>
+        </div>
+        <p class="disclaimer-text">
+            *Цена ориентировочная. Включает проектирование, сборку и комплектующие.
+        </p>
+    </div>
+
+    <div id="services-container" style="display: flex; flex-direction: column; gap: 20px; margin-top: 20px;"></div>
+    <div id="footer-container"></div>
+</div>
+
+<script src="site/loader.js"></script>
+<script>
+    window.calculate = function() {
+        const form = document.getElementById('calcForm');
+        const totalEl = document.getElementById('totalPrice');
+
+        // ============================================================
+        // 1. КОНСТАНТЫ И БАЗОВЫЕ ЦЕНЫ
+        // ============================================================
+
+        let modulePrice = 3000; // Базовая цена модуля оборудования (включает среднее по больнице)
+        const uslugaSborka = 400; // Стоимость сборки за 1 модуль (работа)
+        const uslugaProekt = 400; // Стоимость проекта за 1 модуль (работа)
+
+        // ============================================================
+        // 2. ЛОГИКА ИНТЕРФЕЙСА (ВИДИМОСТЬ)
+        // ============================================================
+
+        // 2.1. Дом / Квартира
+        const objType = form.querySelector('input[name="obj_type"]:checked').value;
+        const houseSection = document.getElementById('houseOptionsSection');
+        if (objType === 'house') {
+            houseSection.classList.remove('hidden');
+        } else {
+            houseSection.classList.add('hidden');
+            houseSection.querySelectorAll('input').forEach(el => el.checked = false);
+        }
+
+        // 2.2. Классика / Умный дом
+        const sysType = form.querySelector('input[name="system_type"]:checked').value;
+        const smartSection = document.getElementById('smartOptionsSection');
+        const classicOnlyOptions = document.querySelectorAll('.classic-only');
+        const radWrapper = document.getElementById('radWrapper'); // Радиаторы
+
+        if (sysType === 'classic') {
+            smartSection.classList.add('hidden');
+            radWrapper.classList.add('hidden'); // Скрываем радиаторы
+            form.querySelector('select[name="sh_radiator"]').value = "0"; // Сбрасываем радиаторы
+            classicOnlyOptions.forEach(el => el.classList.remove('hidden'));
+        } else {
+            smartSection.classList.remove('hidden');
+            radWrapper.classList.remove('hidden'); // Показываем радиаторы
+            classicOnlyOptions.forEach(el => {
+                el.classList.add('hidden');
+                el.querySelector('input').checked = false;
+            });
+        }
+
+        // 2.3. Ввод 3 фазы / 1 фаза
+        const voltage = form.querySelector('input[name="voltage"]:checked').value;
+        const priorityBlock = document.getElementById('priorityRelayBlock');
+        const priorityInput = priorityBlock.querySelector('input');
+
+        if (voltage === '3phase') {
+            priorityInput.disabled = false;
+            priorityBlock.style.opacity = '1';
+        } else {
+            priorityInput.disabled = true;
+            priorityInput.checked = false;
+            priorityBlock.style.opacity = '0.5';
+        }
+
+        // 2.4. LED Диммирование (доступно только если выбрано кол-во > 0)
+        const ledCountVal = parseInt(form.querySelector('select[name="led_count"]').value);
+        const ledDimWrapper = document.getElementById('ledDimWrapper');
+        if (ledCountVal === 0) {
+            ledDimWrapper.classList.add('disabled');
+        } else {
+            ledDimWrapper.classList.remove('disabled');
+        }
+
+
+        // ============================================================
+        // 3. РАСЧЕТ СТОИМОСТИ
+        // ============================================================
+
+        let total = 0;
+
+        // 3.1. Применяем коэффициент бюджета к СТОИМОСТИ МОДУЛЯ
+        const budget = form.querySelector('input[name="budget"]:checked').value;
+        let multiplier = 1.5; // Средний (Optima)
+        if (budget === 'low') multiplier = 1;
+        if (budget === 'high') multiplier = 2;
+
+        let finalModulePrice = modulePrice * multiplier;
+        // Полная цена за 1 условный модуль щита (оборудование + работа)
+        let totalRatePerModule = finalModulePrice + uslugaSborka + uslugaProekt;
+
+
+        // 3.2. Расчет базового размера щита (в модулях или деньгах) от ПЛОЩАДИ
+        // Для 3 фаз используется специальная матрица модулей
+        const area = form.querySelector('select[name="area"]').value;
+        let baseShieldCost = 0;
+        let modulesCount = 0;
+
+        if (voltage === '3phase') {
+            // Матрица для 3 фаз (размер в модулях)
+            if(area === '50') modulesCount = 36;
+            else if(area === '100') modulesCount = 72;
+            else if(area === '160') modulesCount = 120;
+            else if(area === '250') modulesCount = 168;
+            else if(area === '500') modulesCount = 280;
+            else if(area === '1000') modulesCount = 400;
+            else modulesCount = 1000; // >1000м
+        } else {
+            // Матрица для 1 фазы (чуть меньше, примерная оценка)
+            if(area === '50') modulesCount = 24;
+            else if(area === '100') modulesCount = 36;
+            else if(area === '160') modulesCount = 48;
+            else if(area === '250') modulesCount = 54;
+            else if(area === '500') modulesCount = 72;
+            else if(area === '1000') modulesCount = 96;
+            else modulesCount = 96;
+        }
+
+        // Базовая стоимость самого "железа" щита и работ по нему
+        baseShieldCost = modulesCount * totalRatePerModule;
+        total += baseShieldCost;
+
+
+        // 3.3. Добавляем стоимость опций (Классика)
+        // Цены зависят от фазности ввода (1ф / 3ф)
+        const is3Ph = (voltage === '3phase');
+
+        if(form.querySelector('input[name="opt_vacation"]:checked')) {
+            total += is3Ph ? 3000 : 1500;
+        }
+        if(form.querySelector('input[name="opt_unswitched"]:checked')) {
+            total += is3Ph ? 3000 : 1500;
+        }
+        if(sysType === 'classic') {
+            if(form.querySelector('input[name="opt_master"]:checked')) {
+                total += is3Ph ? 6000 : 4000;
+            }
+            if(form.querySelector('input[name="opt_fan"]:checked')) {
+                total += 3000; // Одинаково
+            }
+        }
+        if(form.querySelector('input[name="opt_priority"]:checked') && is3Ph) {
+            total += 13000;
+        }
+
+        // 3.4. Опции дома (обычно актуальны для 3ф, цены фиксированы)
+        if(form.querySelector('input[name="h_gen"]:checked')) total += 12000;
+        if(form.querySelector('input[name="h_boiler"]:checked')) total += 3000;
+        if(form.querySelector('input[name="h_street"]:checked')) total += 3000;
+        if(form.querySelector('input[name="h_sauna"]:checked')) total += 7000;
+        if(form.querySelector('input[name="h_garage"]:checked')) total += 3000;
+
+
+        // 3.5. LED Подсветка
+        // Считаем только если выбрано кол-во > 0
+        const ledDim = form.querySelector('select[name="led_dim"]').value;
+
+        if (ledCountVal > 0) {
+            if (ledDim === 'no') {
+                // Без диммирования: 4 модуля работы + 7000 оборудование
+                // Работа = 4 * (сборка + проект) = 4 * 800 = 3200
+                // Итог за 1 группу = 3200 + 7000 = 10200
+                let costPerLedGroup = (4 * (uslugaSborka + uslugaProekt)) + 7000;
+                total += ledCountVal * costPerLedGroup;
+            } else {
+                // С диммированием: фиксированная цена 13000 за группу
+                total += ledCountVal * 13000;
+            }
+        }
+
+        // 3.6. Климат
+        // Теплый пол
+        const shFloor = parseInt(form.querySelector('select[name="sh_floor"]').value);
+        total += shFloor * 1000;
+
+        // Кондиционеры
+        const acCount = parseInt(form.querySelector('select[name="ac_count"]').value);
+        total += acCount * 1000;
+
+        // Радиаторы (только если не классика, скрытие обработано выше)
+        if (sysType !== 'classic') {
+            const shRadiator = parseInt(form.querySelector('select[name="sh_radiator"]').value);
+            total += shRadiator * 1000; // Предполагаем такую же цену 1000р
+        }
+
+        // 3.7. База Умного Дома
+        // Добавляем стоимость контроллеров поверх базы щита
+        if (sysType === 'zigbee') total += 40000;
+        if (sysType === 'wirenboard') total += 120000;
+        if (sysType === 'loxone') total += 250000;
+
+
+        // 4. ФИНАЛ
+        total = Math.ceil(total / 1000) * 1000; // Округляем до тысяч
+        totalEl.textContent = new Intl.NumberFormat('ru-RU').format(total) + ' ₽';
+        updateLinks(total, form);
+    };
+
+    function updateLinks(price, form) {
+        const getVal = (sel) => {
+            const el = form.querySelector(sel);
+            if (!el) return '-';
+            if (el.tagName === 'SELECT') return el.options[el.selectedIndex].text;
+            if (el.type === 'radio') {
+                const checked = form.querySelector(sel + ':checked');
+                return checked ? checked.closest('.option-label').querySelector('.option-text').innerText : '-';
+            }
+            return '-';
+        };
+        const getChecks = (containerSel) => {
+            const els = document.querySelectorAll(containerSel + ' input:checked');
+            const visibleEls = Array.from(els).filter(el => !el.closest('.option-label').classList.contains('hidden'));
+            if (visibleEls.length === 0) return 'Нет';
+            return visibleEls.map(el => el.closest('.option-label').querySelector('.option-text').innerText).join(', ');
+        };
+
+        const sysType = form.querySelector('input[name="system_type"]:checked').value;
+        let msg = `Привет! 🛠 Заявка на расчет щита от JanPro.ru:\n`;
+        msg += `💰 Электрика: ${getVal('input[name="budget"]')}\n`;
+        msg += `📦 Тип щита: ${getVal('input[name="case_type"]')} / ${getVal('input[name="system_type"]')}\n`;
+
+        if(sysType !== 'classic') {
+            msg += `🧠 Умный дом: Свет: ${getVal('select[name="sh_light"]')}, Димм: ${getVal('select[name="sh_light_dim"]')}, Розетки: ${getVal('select[name="sh_socket"]')}, Шторы: ${getVal('select[name="sh_curtain"]')}, Протечки: ${form.querySelector('input[name="sh_leak"]:checked') ? 'Да' : 'Нет'}\n`;
+        }
+        msg += `⚡ Ввод: ${getVal('input[name="voltage"]')} \n`;
+        msg += `🏠 Объект: ${getVal('input[name="obj_type"]')} (${getVal('select[name="area"]')})\n`;
+        msg += `⚙️ Опции: ${getChecks('.calc-section:not(.hidden)')}\n`;
+
+        // Добавляем инфо по LED если выбрано
+        const ledC = form.querySelector('select[name="led_count"]').value;
+        if(ledC !== '0') {
+            msg += `💡 LED: ${ledC} контуров (${getVal('select[name="led_dim"]')})\n`;
+        }
+
+        msg += `\n💵 Предварительный расчет: ${new Intl.NumberFormat('ru-RU').format(price)} ₽`;
+
+        const encoded = encodeURIComponent(msg);
+        document.getElementById('waLink').href = `https://wa.me/79824699434?text=${encoded}`;
+        document.getElementById('tgLink').href = `https://t.me/JanPro59?text=${encoded}`;
+    }
+
+    if(typeof initPage === 'function') {
+        initPage('calculator');
+    }
+    document.addEventListener("DOMContentLoaded", calculate);
+
+</script>
+
+</body>
+</html>
