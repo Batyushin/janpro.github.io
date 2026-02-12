@@ -308,30 +308,6 @@
                                 <option value="max">Более 1000 м²</option>
                             </select>
                         </div>
-                        <div class="styled-select-wrapper">
-                            <select name="rooms_count" class="styled-select">
-                                <option value="1">1 комната</option>
-                                <option value="2">2 комнаты</option>
-                                <option value="3" selected>3 комнаты</option>
-                                <option value="4">4 комнаты</option>
-                                <option value="5">5 комнат</option>
-                                <option value="6">6 комнат</option>
-                                <option value="7">7 комнат</option>
-                                <option value="8">8 комнат</option>
-                                <option value="9">9 комнат</option>
-                                <option value="10">10 комнат</option>
-                                <option value="11">10+ комнат</option>
-                            </select>
-                        </div>
-                        <div class="styled-select-wrapper">
-                            <select name="wc_count" class="styled-select">
-                                <option value="1" selected>1 санузел</option>
-                                <option value="2">2 санузла</option>
-                                <option value="3">3 санузла</option>
-                                <option value="4">4 санузла</option>
-                                <option value="5">5+ санузлов</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -695,7 +671,7 @@
             total += 13000;
         }
 
-        // 3.4. Опции дома (обычно актуальны для 3ф, цены фиксированы)
+        // 3.4. Опции дома
         if(form.querySelector('input[name="h_gen"]:checked')) total += 12000;
         if(form.querySelector('input[name="h_boiler"]:checked')) total += 3000;
         if(form.querySelector('input[name="h_street"]:checked')) total += 3000;
@@ -743,7 +719,7 @@
 
 
         // 4. ФИНАЛ
-        total = Math.ceil(total / 1000) * 1000; // Округляем до тысяч
+        //total = Math.ceil(total / 1000) * 1000; // Округляем до тысяч если нужно
         totalEl.textContent = new Intl.NumberFormat('ru-RU').format(total) + ' ₽';
         updateLinks(total, form);
     };
