@@ -686,7 +686,7 @@
         // ============================================================
         // 1. КОНСТАНТЫ И БАЗОВЫЕ ЦЕНЫ
         // ============================================================
-        let baseModulePrice = 3000; // Базовая цена оборудования за 1 модуль
+        let baseModulePrice = 1200; // Базовая цена оборудования за 1 модуль
         const workAssembly = 400;   // Цена сборки за модуль
         const workProject = 400;    // Цена проекта за модуль
 
@@ -774,7 +774,7 @@
         const budget = form.querySelector('input[name="budget"]:checked').value;
         let multiplier = 1.5;
         if (budget === 'low') multiplier = 1;
-        if (budget === 'high') multiplier = 2;
+        if (budget === 'high') multiplier = 2.1;
 
         let finalModulePrice = baseModulePrice * multiplier;
         let totalRatePerModule = finalModulePrice + workAssembly + workProject;
@@ -786,22 +786,22 @@
 
         if (voltage === '3phase') {
             // Матрица 3 фазы
-            if(area === '50') modulesCount = 36;
+            if(area === '50') modulesCount = 53;
             else if(area === '100') modulesCount = 72;
-            else if(area === '160') modulesCount = 120;
+            else if(area === '160') modulesCount = 96;
             else if(area === '250') modulesCount = 168;
             else if(area === '500') modulesCount = 280;
             else if(area === '1000') modulesCount = 400;
             else modulesCount = 1000;
         } else {
             // Матрица 1 фаза
-            if(area === '50') modulesCount = 24;
-            else if(area === '100') modulesCount = 36;
-            else if(area === '160') modulesCount = 48;
-            else if(area === '250') modulesCount = 54;
-            else if(area === '500') modulesCount = 72;
-            else if(area === '1000') modulesCount = 96;
-            else modulesCount = 96;
+            if(area === '50') modulesCount = 36;
+            else if(area === '100') modulesCount = 54;
+            else if(area === '160') modulesCount = 96;
+            else if(area === '250') modulesCount = 168;
+            else if(area === '500') modulesCount = 240;
+            else if(area === '1000') modulesCount = 400;
+            else modulesCount = 1000;
         }
 
         // Базовая стоимость щита
@@ -811,7 +811,7 @@
         // 3.3. Стоимость ОПЦИЙ (1ф / 3ф)
         const is3Ph = (voltage === '3phase');
 
-        if(form.querySelector('input[name="opt_vacation"]:checked')) total += is3Ph ? 3000 : 1500;
+        if(form.querySelector('input[name="opt_vacation"]:checked')) total += is3Ph ? 4000 : 1500;
         if(form.querySelector('input[name="opt_systemwater"]:checked')) total += is3Ph ? 3000 : 1500;
 
         if(sysType === 'classic') {
