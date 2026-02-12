@@ -565,11 +565,9 @@
                         <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Отключаемые розетки</label>
                         <select name="sh_socket" class="styled-select">
                             <option value="0">Нет</option>
-                            <option value="1">1 группа</option>
-                            <option value="3">2-3 группы</option>
-                            <option value="6">4-6 групп</option>
-                            <option value="9">7-9 групп</option>
-                            <option value="12">10-12 групп</option>
+                            <script>
+                                for(let i=3; i<=21; i+=3) document.write(`<option value="${i}">${i} групп</option>`);
+                            </script>
                         </select>
                     </div>
 
@@ -676,9 +674,6 @@
 
 <script src="site/loader.js"></script>
 <script>
-    // --- ЦЕНА ЗА ЗОНУ АКУСТИКИ (Loxone) ---
-    const PRICE_AUDIO_ZONE = 25000;
-
     window.calculate = function() {
         const form = document.getElementById('calcForm');
         const totalEl = document.getElementById('totalPrice');
@@ -754,7 +749,6 @@
         }
 
         // 2.4. LED Диммирование
-        // Считываем значение из input (т.к. мы сделали его счетчиком), а не select
         const ledCountVal = parseInt(document.querySelector('input[name="led_count"]').value) || 0;
         const ledDimWrapper = document.getElementById('ledDimWrapper');
         if (ledCountVal === 0) {
@@ -870,24 +864,25 @@
             let p = {
                 light: 0, dim: 0, socket: 0, curtain: 0, leak: 0,
                 switch: 0, climate: 0, presence: 0,
-                lock: 0, intercom: 0, panel: 0
+                lock: 0, intercom: 0, panel: 0, audio: 0
             };
 
             if (sysType === 'zigbee') {
-                sysBase = 40000;
-                p.light=2000; p.dim=3500; p.socket=2500; p.curtain=4000; p.leak=15000;
-                p.switch=0; p.climate=2000; p.presence=2500;
-                p.lock=25000; p.intercom=15000; p.panel=10000;
+                sysBase = 26000;
+                p.light=1200; p.dim=2200; p.socket=4000; p.curtain=3000; p.leak=40000;
+                p.smart_switch=0; p.climate=3000; p.presence=4000;
+                p.lock=30000; p.intercom=20000; p.panel=20000; p.audio=0;
             } else if (sysType === 'wirenboard') {
-                sysBase = 120000;
-                p.light=6000; p.dim=9000; p.socket=6000; p.curtain=8000; p.leak=30000;
-                p.switch=0; p.climate=6000; p.presence=7000;
-                p.lock=40000; p.intercom=40000; p.panel=35000;
+                sysBase = 50000;
+                p.light=2900; p.dim=5400; p.socket=3200; p.curtain=6400; p.leak=22000;
+                p.smart_switch=0; p.climate=12000; p.presence=4000;
+                p.lock=30000; p.intercom=20000; p.panel=20000; p.audio=0;
             } else if (sysType === 'loxone') {
-                sysBase = 250000;
-                p.light=12000; p.dim=18000; p.socket=12000; p.curtain=15000; p.leak=50000;
-                p.switch=15000; p.climate=12000; p.presence=15000;
-                p.lock=60000; p.intercom=120000; p.panel=60000;
+                sysBase = 120000;
+                p.light=10500; p.dim=31500; p.socket=13000; p.curtain=20000; p.leak=30000;
+                p.smart_switch=40000; p.audio=25000;
+                p.climate=15000; p.presence=21000;
+                p.lock=30000; p.intercom=200000; p.panel=150000;
             }
 
             // База
@@ -904,9 +899,10 @@
 
             // Датчики и выключатели (Счетчики)
             if (sysType === 'loxone') {
-                total += (parseInt(document.querySelector('input[name="sh_switches"]').value) || 0) * p.switch;
-                // 🔥 Акустика (Select) 🔥
-                total += parseInt(form.querySelector('select[name="sh_audio"]').value) * PRICE_AUDIO_ZONE;
+                // Смарт выключатели
+                total += (parseInt(document.querySelector('input[name="sh_switches"]').value) || 0) * p.smart_switch;
+                // Аудио (Select)
+                total += parseInt(form.querySelector('select[name="sh_audio"]').value) * p.audio;
             }
 
             total += (parseInt(document.querySelector('input[name="sh_climate_sensors"]').value) || 0) * p.climate;
@@ -924,8 +920,36 @@
             if(form.querySelector('input[name="sh_touchpanel"]:checked')) total += p.panel;
         }
 
+        // ============================================================
+        // 4. ВЫЧИТАНИЕ "ВКЛЮЧЕННЫХ" ОПЦИЙ ИЗ БАЗЫ
+        // ============================================================
 
-        // 4. ФИНАЛ
+        let deduction = 0;
+
+        deduction += is3Ph ? 4000 : 1500; // Отпуск
+        deduction += 4000; // Пожар
+        deduction += 3000; // Плита
+        deduction += 3000; // Вода1
+        deduction += 3000; // Вода2
+        deduction += 8000; // УЗО
+        deduction += is3Ph ? 500 : 500; // Протечки
+
+        if (sysType === 'classic') {
+            deduction += (is3Ph ? 6000 : 3000); // Мастер
+            deduction += 3000; // Реле времени
+        }
+        if (is3Ph) {
+            deduction += 13000; // Приоритет
+        }
+
+        // Применяем вычет
+        total -= deduction;
+
+        // Защита от отрицательной цены
+        if (total < 0) total = 10000;
+
+
+        // 5. ФИНАЛ
         // total = Math.ceil(total / 1000) * 1000; // Округление отключено
         totalEl.textContent = new Intl.NumberFormat('ru-RU').format(total) + ' ₽';
         updateLinks(total, form);
