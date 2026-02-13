@@ -493,18 +493,9 @@
                     <div class="styled-select-wrapper no-arrow">
                         <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Теплый пол (контуров)</label>
                         <div class="stepper">
-                            <button type="button" class="stepper-btn" onclick="stepVal('sh_floor', -1)">−</button>
-                            <input type="number" name="sh_floor" class="stepper-input" value="0" min="0" max="20" onchange="calculate()">
-                            <button type="button" class="stepper-btn" onclick="stepVal('sh_floor', 1)">+</button>
-                        </div>
-                    </div>
-
-                    <div class="styled-select-wrapper no-arrow" id="radWrapper">
-                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Радиаторы (шт)</label>
-                        <div class="stepper">
-                            <button type="button" class="stepper-btn" onclick="stepVal('sh_radiator', -1)">−</button>
-                            <input type="number" name="sh_radiator" class="stepper-input" value="0" min="0" max="20" onchange="calculate()">
-                            <button type="button" class="stepper-btn" onclick="stepVal('sh_radiator', 1)">+</button>
+                            <button type="button" class="stepper-btn" onclick="stepVal('sh_floor_base', -1)">−</button>
+                            <input type="number" name="sh_floor_base" class="stepper-input" value="0" min="0" max="20" onchange="calculate()">
+                            <button type="button" class="stepper-btn" onclick="stepVal('sh_floor_base', 1)">+</button>
                         </div>
                     </div>
 
@@ -577,6 +568,24 @@
                             <button type="button" class="stepper-btn" onclick="stepVal('sh_curtain', -1)">−</button>
                             <input type="number" name="sh_curtain" class="stepper-input" value="0" min="0" max="20" onchange="calculate()">
                             <button type="button" class="stepper-btn" onclick="stepVal('sh_curtain', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="styled-select-wrapper no-arrow">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Упр. климат: Радиаторы</label>
+                        <div class="stepper">
+                            <button type="button" class="stepper-btn" onclick="stepVal('sh_radiator', -1)">−</button>
+                            <input type="number" name="sh_radiator" class="stepper-input" value="0" min="0" max="20" onchange="calculate()">
+                            <button type="button" class="stepper-btn" onclick="stepVal('sh_radiator', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="styled-select-wrapper no-arrow">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Упр. климат: Теплый пол</label>
+                        <div class="stepper">
+                            <button type="button" class="stepper-btn" onclick="stepVal('sh_floor_smart', -1)">−</button>
+                            <input type="number" name="sh_floor_smart" class="stepper-input" value="0" min="0" max="20" onchange="calculate()">
+                            <button type="button" class="stepper-btn" onclick="stepVal('sh_floor_smart', 1)">+</button>
                         </div>
                     </div>
 
@@ -674,6 +683,10 @@
 
 <script src="site/loader.js"></script>
 <script>
+    // --- ЦЕНА ЗА ЗОНУ АКУСТИКИ (Loxone) ---
+    // Это цена за 1 зону (обычно это 2 канала/стереопара)
+    const PRICE_AUDIO_ZONE = 25000;
+
     window.calculate = function() {
         const form = document.getElementById('calcForm');
         const totalEl = document.getElementById('totalPrice');
@@ -703,20 +716,17 @@
         const sysType = form.querySelector('input[name="system_type"]:checked').value;
         const smartSection = document.getElementById('smartOptionsSection');
         const classicOnlyOptions = document.querySelectorAll('.classic-only');
-        const radWrapper = document.getElementById('radWrapper');
         const shSwitchesWrapper = document.getElementById('shSwitchesWrapper');
         const shAudioWrapper = document.getElementById('shAudioWrapper');
 
         if (sysType === 'classic') {
             smartSection.classList.add('hidden');
-            radWrapper.classList.add('hidden'); // Скрываем радиаторы
-            document.querySelector('input[name="sh_radiator"]').value = "0"; // Сброс
+            // Обнуляем умный климат при переходе в классику
+            document.querySelector('input[name="sh_radiator"]').value = "0";
+            document.querySelector('input[name="sh_floor_smart"]').value = "0";
             classicOnlyOptions.forEach(el => el.classList.remove('hidden'));
         } else {
             smartSection.classList.remove('hidden');
-            radWrapper.classList.remove('hidden'); // Показываем радиаторы
-            // В умном доме скрываем только то, что помечено classic-only (мастер и реле времени)
-            // Но мы убрали этот класс у Отпуска и Протечек, так что они останутся
             classicOnlyOptions.forEach(el => {
                 el.classList.add('hidden');
                 el.querySelector('input').checked = false;
@@ -798,7 +808,6 @@
             else modulesCount = 1000;
         }
 
-        // Базовая стоимость щита
         total += modulesCount * totalRatePerModule;
 
 
@@ -843,28 +852,24 @@
             }
         }
 
-        // 3.6. Климат
-        // Теплые полы (счетчик)
-        total += (parseInt(document.querySelector('input[name="sh_floor"]').value) || 0) * 1000;
+        // 3.6. Климат (Базовый)
+        // Теплые полы (автомат) считаются для всех
+        total += (parseInt(document.querySelector('input[name="sh_floor_base"]').value) || 0) * 1000;
 
         const acCount = parseInt(form.querySelector('select[name="ac_count"]').value);
         total += acCount * 1000;
 
-        if (sysType !== 'classic') {
-            // Радиаторы (счетчик)
-            total += (parseInt(document.querySelector('input[name="sh_radiator"]').value) || 0) * 1000;
-        }
         if(form.querySelector('input[name="h_vent"]:checked')) total += 1000;
 
 
         // 3.7. Умный Дом (Цены зависят от типа системы)
         if (sysType !== 'classic') {
             let sysBase = 0;
-            // Объект цен для разных систем
             let p = {
                 light: 0, dim: 0, socket: 0, curtain: 0, leak: 0,
-                switch: 0, climate: 0, presence: 0,
-                lock: 0, intercom: 0, panel: 0, audio: 0
+                smart_switch: 0, climate: 0, presence: 0,
+                lock: 0, intercom: 0, panel: 0, audio: 0,
+                floor: 0, radiator: 0
             };
 
             if (sysType === 'zigbee') {
@@ -872,36 +877,46 @@
                 p.light=1200; p.dim=2200; p.socket=4000; p.curtain=3000; p.leak=40000;
                 p.smart_switch=0; p.climate=3000; p.presence=4000;
                 p.lock=30000; p.intercom=20000; p.panel=20000; p.audio=0;
+                p.floor = 9000; p.radiator = 3000;
             } else if (sysType === 'wirenboard') {
                 sysBase = 50000;
                 p.light=2900; p.dim=5400; p.socket=3200; p.curtain=6400; p.leak=22000;
                 p.smart_switch=0; p.climate=12000; p.presence=4000;
                 p.lock=30000; p.intercom=20000; p.panel=20000; p.audio=0;
+                p.floor = 5000; p.radiator = 5000;
             } else if (sysType === 'loxone') {
                 sysBase = 120000;
-                p.light=10500; p.dim=31500; p.socket=13000; p.curtain=20000; p.leak=30000;
-                p.smart_switch=40000; p.audio=25000;
+                p.light=12000; p.dim=18000; p.socket=12000; p.curtain=20000; p.leak=30000;
+                p.smart_switch=15000;
+                p.audio=25000;
                 p.climate=15000; p.presence=21000;
-                p.lock=30000; p.intercom=200000; p.panel=150000;
+                p.lock=60000; p.intercom=120000; p.panel=60000;
+                // Цены климата Loxone
+                p.floor = 20000; p.radiator = 20000;
             }
 
-            // База
+            // Расчет базы системы
             total += sysBase;
 
-            // Точки
+            // Расчет точек
             total += parseInt(form.querySelector('select[name="sh_light"]').value) * p.light;
             total += parseInt(form.querySelector('select[name="sh_light_dim"]').value) * p.dim;
             total += parseInt(form.querySelector('select[name="sh_socket"]').value) * p.socket;
 
-            // Электрокарнизы (счетчик)
+            // Электрокарнизы
             const shCurtainInput = document.querySelector('input[name="sh_curtain"]');
             total += (parseInt(shCurtainInput.value) || 0) * p.curtain;
 
-            // Датчики и выключатели (Счетчики)
+            // 🔥 УПРАВЛЯЕМЫЙ КЛИМАТ УМНОГО ДОМА (С РАЗНЫМИ ЦЕНАМИ) 🔥
+            const shRadInput = document.querySelector('input[name="sh_radiator"]');
+            total += (parseInt(shRadInput.value) || 0) * p.radiator;
+
+            const shFloorInput = document.querySelector('input[name="sh_floor_smart"]');
+            total += (parseInt(shFloorInput.value) || 0) * p.floor;
+
+            // Датчики и выключатели
             if (sysType === 'loxone') {
-                // Смарт выключатели
                 total += (parseInt(document.querySelector('input[name="sh_switches"]').value) || 0) * p.smart_switch;
-                // Аудио (Select)
                 total += parseInt(form.querySelector('select[name="sh_audio"]').value) * p.audio;
             }
 
@@ -910,8 +925,6 @@
 
             // Опции УД
             if(form.querySelector('input[name="sh_leak"]:checked')) total += p.leak;
-
-            // Мастер-кнопки БЕСПЛАТНЫ в УД (как просили)
             if(form.querySelector('input[name="sh_master_full"]:checked')) total += 0;
             if(form.querySelector('input[name="sh_master_local"]:checked')) total += 0;
 
@@ -923,9 +936,7 @@
         // ============================================================
         // 4. ВЫЧИТАНИЕ "ВКЛЮЧЕННЫХ" ОПЦИЙ ИЗ БАЗЫ
         // ============================================================
-
         let deduction = 0;
-
         deduction += is3Ph ? 4000 : 1500; // Отпуск
         deduction += 4000; // Пожар
         deduction += 3000; // Плита
@@ -938,32 +949,24 @@
             deduction += (is3Ph ? 6000 : 3000); // Мастер
             deduction += 3000; // Реле времени
         }
-        if (is3Ph) {
-            deduction += 13000; // Приоритет
-        }
+        if (is3Ph) deduction += 13000;
 
-        // Применяем вычет
         total -= deduction;
-
-        // Защита от отрицательной цены
         if (total < 0) total = 10000;
 
-
         // 5. ФИНАЛ
-        // total = Math.ceil(total / 1000) * 1000; // Округление отключено
         totalEl.textContent = new Intl.NumberFormat('ru-RU').format(total) + ' ₽';
         updateLinks(total, form);
     };
 
-    // ФУНКЦИЯ ДЛЯ КНОПОК +/- (Счетчики)
     function stepVal(name, change) {
         const input = document.querySelector(`input[name="${name}"]`);
         let val = parseInt(input.value) || 0;
         val += change;
         if(val < 0) val = 0;
-        if(val > 20) val = 20; // Максимум 20 штук
+        if(val > 20) val = 20;
         input.value = val;
-        calculate(); // Пересчитываем
+        calculate();
     }
 
     function updateLinks(price, form) {
@@ -975,7 +978,7 @@
                 const checked = form.querySelector(sel + ':checked');
                 return checked ? checked.closest('.option-label').querySelector('.option-text').innerText : '-';
             }
-            if (el.type === 'number') return el.value; // Для инпутов
+            if (el.type === 'number') return el.value;
             return '-';
         };
         const getChecks = (containerSel) => {
@@ -1009,11 +1012,7 @@
         document.getElementById('tgLink').href = `https://t.me/JanPro59?text=${encoded}`;
     }
 
-    if(typeof initPage === 'function') {
-        initPage('calculator');
-    }
     document.addEventListener("DOMContentLoaded", calculate);
-
 </script>
 
 </body>
