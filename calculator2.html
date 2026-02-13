@@ -107,7 +107,31 @@
         }
         .option-input:checked + .option-card .option-marker { border-color: var(--accent); background: var(--accent); }
         .option-input:checked + .option-card .option-marker::after { transform: translate(-50%, -50%) scale(1); }
+
+        /* ОБЫЧНЫЙ DISABLED (серый) */
         .option-input:disabled + .option-card { opacity: 0.4; cursor: not-allowed; filter: grayscale(1); }
+
+        /* 🔥 LOCKED OPTION (Красный, включенный, но нельзя нажать) 🔥 */
+        .option-input.locked-option + .option-card {
+            opacity: 1 !important; /* Полная яркость */
+            filter: none !important;
+            background: rgba(255, 0, 0, 0.15) !important;
+            border-color: var(--accent) !important;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.1) !important;
+            cursor: default; /* Курсор стрелка, не рука */
+        }
+        .option-input.locked-option + .option-card .option-marker {
+            border-color: var(--accent) !important;
+            background: var(--accent) !important;
+        }
+        .option-input.locked-option + .option-card .option-marker::after {
+            transform: translate(-50%, -50%) scale(1) !important;
+        }
+        /* Убираем эффект нажатия при ховере для залоченных */
+        .option-label:hover .option-input.locked-option + .option-card {
+            transform: none;
+        }
+
 
         .option-content { display: flex; flex-direction: column; }
         .option-text { color: #fff; font-weight: 700; font-size: 0.95rem; line-height: 1.1; }
@@ -304,6 +328,10 @@
                         <input type="radio" name="case_type" value="out" class="option-input">
                         <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Накладной</span><span class="option-sub">На стену</span></div></div>
                     </label>
+                    <label class="option-label">
+                        <input type="radio" name="case_type" value="panel" class="option-input">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Монтажная панель</span><span class="option-sub">Без корпуса</span></div></div>
+                    </label>
                 </div>
             </div>
 
@@ -374,6 +402,19 @@
             <div class="calc-section checkbox-mode">
                 <div class="section-header"><div class="section-number">6</div><div class="section-title">Опции щита</div></div>
                 <div class="options-grid">
+
+                    <label class="option-label">
+                        <input type="checkbox" checked disabled class="option-input locked-option">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Реле напряжения</span><span class="option-sub">Защита техники</span></div></div>
+                    </label>
+                    <label class="option-label">
+                        <input type="checkbox" checked disabled class="option-input locked-option">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Дифф защита</span><span class="option-sub">На все группы</span></div></div>
+                    </label>
+                    <label class="option-label" id="opt_abb_block">
+                        <input type="checkbox" checked disabled class="option-input locked-option">
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Корпус ABB</span><span class="option-sub">Mistral / CA / CU</span></div></div>
+                    </label>
 
                     <label class="option-label">
                         <input type="checkbox" name="opt_vacation" value="yes" class="option-input">
@@ -694,7 +735,7 @@
         // ============================================================
         // 1. КОНСТАНТЫ И БАЗОВЫЕ ЦЕНЫ
         // ============================================================
-        let baseModulePrice = 1100; // Базовая цена оборудования за 1 модуль
+        let baseModulePrice = 900; // Базовая цена оборудования за 1 модуль (Обновлено на 900)
         const workAssembly = 400;   // Цена сборки за модуль
         const workProject = 400;    // Цена проекта за модуль
 
@@ -712,7 +753,16 @@
             houseSection.querySelectorAll('input').forEach(el => el.checked = false);
         }
 
-        // 2.2. Классика / Умный дом
+        // 2.2. Корпус ABB (скрыть, если монтажная панель)
+        const caseType = form.querySelector('input[name="case_type"]:checked').value;
+        const abbBlock = document.getElementById('opt_abb_block');
+        if (caseType === 'panel') {
+            abbBlock.classList.add('hidden');
+        } else {
+            abbBlock.classList.remove('hidden');
+        }
+
+        // 2.3. Классика / Умный дом
         const sysType = form.querySelector('input[name="system_type"]:checked').value;
         const smartSection = document.getElementById('smartOptionsSection');
         const classicOnlyOptions = document.querySelectorAll('.classic-only');
@@ -744,7 +794,7 @@
             form.querySelector('select[name="sh_audio"]').value = "0";
         }
 
-        // 2.3. Ввод 3 фазы / 1 фаза
+        // 2.4. Ввод 3 фазы / 1 фаза
         const voltage = form.querySelector('input[name="voltage"]:checked').value;
         const priorityBlock = document.getElementById('priorityRelayBlock');
         const priorityInput = priorityBlock.querySelector('input');
@@ -758,7 +808,7 @@
             priorityBlock.style.opacity = '0.5';
         }
 
-        // 2.4. LED Диммирование
+        // 2.5. LED Диммирование
         const ledCountVal = parseInt(document.querySelector('input[name="led_count"]').value) || 0;
         const ledDimWrapper = document.getElementById('ledDimWrapper');
         if (ledCountVal === 0) {
@@ -946,9 +996,6 @@
 
             // Опции УД (замки, домофоны, панели)
             if(form.querySelector('input[name="sh_leak"]:checked')) total += p.leak;
-            if(form.querySelector('input[name="sh_master_full"]:checked')) total += 0;
-            if(form.querySelector('input[name="sh_master_local"]:checked')) total += 0;
-
             if(form.querySelector('input[name="sh_lock"]:checked')) total += p.lock;
             if(form.querySelector('input[name="sh_intercom"]:checked')) total += p.intercom;
             if(form.querySelector('input[name="sh_touchpanel"]:checked')) total += p.panel;
