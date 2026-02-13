@@ -843,13 +843,29 @@
 
         // 3.5. LED Подсветка
         const ledDim = form.querySelector('select[name="led_dim"]').value;
+
+        let priceLedNoDim = 0;
+        let priceLedDim = 0;
+
+        // ЦЕНЫ ДЛЯ LED ПО ТИПАМ ЩИТОВ
+        // (Сейчас везде одинаковые, но можно менять в каждом блоке)
+        if (sysType === 'classic') {
+            priceLedNoDim = 10200; // Работа + Железо (4*800 + 7000)
+            priceLedDim = 13000;   // Фикс
+        } else if (sysType === 'zigbee') {
+            priceLedNoDim = 10200;
+            priceLedDim = 13000;
+        } else if (sysType === 'wirenboard') {
+            priceLedNoDim = 10200;
+            priceLedDim = 13000;
+        } else if (sysType === 'loxone') {
+            priceLedNoDim = 10200;
+            priceLedDim = 13000;
+        }
+
         if (ledCountVal > 0) {
-            if (ledDim === 'no') {
-                let costPerLedGroup = (4 * (workAssembly + workProject)) + 7000;
-                total += ledCountVal * costPerLedGroup;
-            } else {
-                total += ledCountVal * 13000;
-            }
+            const isDim = (ledDim === 'yes');
+            total += ledCountVal * (isDim ? priceLedDim : priceLedNoDim);
         }
 
         // 3.6. Климат (Базовый)
@@ -869,51 +885,57 @@
                 light: 0, dim: 0, socket: 0, curtain: 0, leak: 0,
                 smart_switch: 0, climate: 0, presence: 0,
                 lock: 0, intercom: 0, panel: 0, audio: 0,
-                floor: 0, radiator: 0
+                floor: 0,    // Цена за 1 зону теплого пола
+                radiator: 0  // Цена за 1 радиатор
             };
 
             if (sysType === 'zigbee') {
                 sysBase = 26000;
-                p.light=1200; p.dim=2200; p.socket=4000; p.curtain=3000; p.leak=40000;
-                p.smart_switch=0; p.climate=3000; p.presence=4000;
-                p.lock=30000; p.intercom=20000; p.panel=20000; p.audio=0;
-                p.floor = 9000; p.radiator = 3000;
+                p.light = 1200; p.dim = 2200; p.socket = 4000; p.curtain = 3000; p.leak = 40000;
+                p.smart_switch = 0; p.climate = 3000; p.presence = 4000;
+                p.lock = 30000; p.intercom = 20000; p.panel = 20000; p.audio = 0;
+                // Цены Zigbee
+                p.floor = 5000;
+                p.radiator = 4500;
             } else if (sysType === 'wirenboard') {
                 sysBase = 50000;
-                p.light=2900; p.dim=5400; p.socket=3200; p.curtain=6400; p.leak=22000;
-                p.smart_switch=0; p.climate=12000; p.presence=4000;
-                p.lock=30000; p.intercom=20000; p.panel=20000; p.audio=0;
-                p.floor = 5000; p.radiator = 5000;
+                p.light = 2900; p.dim = 5400; p.socket = 3200; p.curtain = 6400; p.leak = 22000;
+                p.smart_switch = 0; p.climate = 12000; p.presence = 4000;
+                p.lock = 30000; p.intercom = 20000; p.panel = 20000; p.audio = 0;
+                // Цены Wirenboard
+                p.floor = 8000;
+                p.radiator = 7000;
             } else if (sysType === 'loxone') {
                 sysBase = 120000;
-                p.light=12000; p.dim=18000; p.socket=12000; p.curtain=20000; p.leak=30000;
-                p.smart_switch=15000;
-                p.audio=25000;
-                p.climate=15000; p.presence=21000;
-                p.lock=60000; p.intercom=120000; p.panel=60000;
-                p.floor = 17000; p.radiator = 17000;
+                p.light = 12000; p.dim = 18000; p.socket = 12000; p.curtain = 20000; p.leak = 30000;
+                p.smart_switch = 40000; p.audio = 25000;
+                p.climate = 15000; p.presence = 21000;
+                p.lock = 30000; p.intercom = 200000; p.panel = 150000;
+                // Цены Loxone
+                p.floor = 15000;
+                p.radiator = 18000;
             }
 
             // Расчет базы системы
             total += sysBase;
 
-            // Расчет точек
+            // Расчет точек (свет, розетки, шторы)
             total += parseInt(form.querySelector('select[name="sh_light"]').value) * p.light;
             total += parseInt(form.querySelector('select[name="sh_light_dim"]').value) * p.dim;
             total += parseInt(form.querySelector('select[name="sh_socket"]').value) * p.socket;
 
-            // Электрокарнизы
+            // Электрокарнизы (счетчик)
             const shCurtainInput = document.querySelector('input[name="sh_curtain"]');
             total += (parseInt(shCurtainInput.value) || 0) * p.curtain;
 
-            // 🔥 УПРАВЛЯЕМЫЙ КЛИМАТ УМНОГО ДОМА (С РАЗНЫМИ ЦЕНАМИ) 🔥
+            // 🔥 РАСЧЕТ КЛИМАТА УМНОГО ДОМА (Радиаторы и Теплые полы из раздела 10)
             const shRadInput = document.querySelector('input[name="sh_radiator"]');
             total += (parseInt(shRadInput.value) || 0) * p.radiator;
 
             const shFloorInput = document.querySelector('input[name="sh_floor_smart"]');
             total += (parseInt(shFloorInput.value) || 0) * p.floor;
 
-            // Датчики и выключатели
+            // Датчики и прочие устройства
             if (sysType === 'loxone') {
                 total += (parseInt(document.querySelector('input[name="sh_switches"]').value) || 0) * p.smart_switch;
                 total += parseInt(form.querySelector('select[name="sh_audio"]').value) * p.audio;
@@ -922,7 +944,7 @@
             total += (parseInt(document.querySelector('input[name="sh_climate_sensors"]').value) || 0) * p.climate;
             total += (parseInt(document.querySelector('input[name="sh_presence_sensors"]').value) || 0) * p.presence;
 
-            // Опции УД
+            // Опции УД (замки, домофоны, панели)
             if(form.querySelector('input[name="sh_leak"]:checked')) total += p.leak;
             if(form.querySelector('input[name="sh_master_full"]:checked')) total += 0;
             if(form.querySelector('input[name="sh_master_local"]:checked')) total += 0;
@@ -1011,7 +1033,11 @@
         document.getElementById('tgLink').href = `https://t.me/JanPro59?text=${encoded}`;
     }
 
+    if(typeof initPage === 'function') {
+        initPage('calculator');
+    }
     document.addEventListener("DOMContentLoaded", calculate);
+
 </script>
 
 </body>
