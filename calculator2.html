@@ -959,21 +959,38 @@
 
 
             } else if (sysType === 'wirenboard') {
-                  //цены на опции ВБ
+                  // Цены Wirenboard
                 sysBase = 50000;
-                p.light = 2900; p.dim = 5400; p.socket = 3200; p.curtain = 6400; p.leak = 22000;
-                p.smart_switch = 0; p.climate = 12000; p.presence = 4000;
-                p.lock = 30000; p.intercom = 20000; p.panel = 20000; p.audio = 0;
-                // Цены Wirenboard
-                p.floor = 8000;
-                p.radiator = 7000;
+                p.light = 2900; //релейный свет
+                p.dim = 5400; //диммируемый свет
+                p.socket = 3200; //упр розетки
+                p.curtain = 6400; //карнизы штор
+                p.leak = 22000; //защита от протечки
+                p.smart_switch = 0; //умный выключатель
+                p.climate = 12000; //датчик климата
+                p.presence = 4000; //датчик присутствия
+                p.lock = 30000; //умный замок
+                p.intercom = 20000; //домофон
+                p.panel = 20000; //настенная панель
+                p.audio = 0; //аудиосервер локсон
+                p.floor = 8000; //теплый пол
+                p.radiator = 7000; //радиаторы
+
             } else if (sysType === 'loxone') {
-                sysBase = 120000;
-                p.light = 12000; p.dim = 18000; p.socket = 12000; p.curtain = 20000; p.leak = 30000;
-                p.smart_switch = 40000; p.audio = 25000;
-                p.climate = 15000; p.presence = 21000;
-                p.lock = 30000; p.intercom = 200000; p.panel = 150000;
                 // Цены Loxone
+                sysBase = 120000;
+                p.light = 12000;
+                p.dim = 18000;
+                p.socket = 12000;
+                p.curtain = 20000;
+                p.leak = 30000;
+                p.smart_switch = 40000;
+                p.audio = 25000;
+                p.climate = 15000;
+                p.presence = 21000;
+                p.lock = 30000;
+                p.intercom = 200000;
+                p.panel = 150000;
                 p.floor = 15000;
                 p.radiator = 18000;
             }
