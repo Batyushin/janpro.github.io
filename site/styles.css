@@ -1,4 +1,6 @@
-/* --- ПЕРЕМЕННЫЕ --- */
+/* ========================================= */
+/* 1. ПЕРЕМЕННЫЕ И СБРОС                     */
+/* ========================================= */
 :root {
     --bg-base: #080808;
     --card-bg: rgba(15, 15, 15, 0.5);
@@ -23,13 +25,15 @@ body {
 
 a { text-decoration: none; color: inherit; display: block; }
 
-/* --- ФОН --- */
+
+/* ========================================= */
+/* 2. ФОН И КОНТЕЙНЕР                        */
+/* ========================================= */
 .bg-depth {
     position: fixed; inset: 0; z-index: -2;
     background: radial-gradient(circle at 50% 0%, #801500 0%, #330808 45%, #080808 100%);
 }
 
-/* --- КОНТЕЙНЕР --- */
 .container {
     width: 100%;
     max-width: 1000px;
@@ -38,8 +42,9 @@ a { text-decoration: none; color: inherit; display: block; }
     gap: 20px;
 }
 
+
 /* ========================================= */
-/* --- ЕДИНЫЙ СТИЛЬ ДЛЯ ВСЕХ КАРТОЧЕК --- */
+/* 3. КАРТОЧКИ (БАЗОВЫЙ СТИЛЬ)               */
 /* ========================================= */
 .card {
     background: var(--card-bg);
@@ -65,7 +70,7 @@ a { text-decoration: none; color: inherit; display: block; }
     overflow: hidden;
 }
 
-/* --- SPOTLIGHT EFFECT --- */
+/* Spotlight Effect */
 .card::before {
     content: "";
     position: absolute;
@@ -83,7 +88,7 @@ a { text-decoration: none; color: inherit; display: block; }
 }
 .card:hover::before { opacity: 1; }
 
-/* --- ОБЩИЙ ХОВЕР --- */
+/* Hover */
 a.card:hover {
     border-color: var(--accent); /* Красная рамка */
     transform: translateY(-4px);
@@ -98,7 +103,7 @@ a.card:hover {
     background: rgba(40, 15, 15, 0.6);
 }
 
-/* --- СТРЕЛКА --- */
+/* Стрелка */
 .arrow-icon {
     position: absolute;
     bottom: 20px;
@@ -116,14 +121,20 @@ a.card:hover .arrow-icon {
     text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
 }
 
-/* --- 2. МЕНЮ --- */
+
+/* ========================================= */
+/* 4. МЕНЮ (СОЦИАЛЬНЫЕ КНОПКИ)               */
+/* ========================================= */
 .grid-menu { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
 .social-btn { min-height: 80px; font-weight: 700; font-size: 0.95rem; padding: 15px; }
 .social-btn span { display: flex; align-items: center; gap: 10px; justify-content: center; position: relative; z-index: 4; }
 .btn-icon-img { width: 24px; height: 24px; object-fit: contain; display: block; }
 
 
-/* --- 3. БЛОК "КТО МЫ" и Ссылка на команду --- */
+
+/* ========================================= */
+/* 5. БЛОК «КТО МЫ» (ABOUT)                 */
+/* ========================================= */
 .about-section {
     align-items: flex-start;
     text-align: left;
@@ -198,6 +209,7 @@ a.card:hover .arrow-icon {
 .about-description b { color: #fff; }
 
 /* Ссылка на команду */
+
 .about-team-link {
     position: absolute;
     bottom: 25px;
@@ -236,7 +248,10 @@ a.card:hover .arrow-icon {
 }
 
 
-/* --- ACTION CARDS --- */
+
+/* ========================================= */
+/* 6. ACTION CARDS (Калькулятор, Партнеры)   */
+/* ========================================= */
 .card-content { position: relative; z-index: 4; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
@@ -270,7 +285,10 @@ a.card:hover .arrow-icon {
 .action-card .arrow-icon { bottom: 20px; right: 20px; }
 
 
-/* --- INFO CARDS --- */
+
+/* ========================================= */
+/* 7. INFO CARDS (Проекты, Щиты, Решения)    */
+/* ========================================= */
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
 
 .info-card {
@@ -310,7 +328,10 @@ a.card:hover .arrow-icon {
 .info-card:hover .arrow-icon { opacity: 1; color: var(--accent); transform: translateX(3px); }
 
 
-/* --- BOTTOM ROW SERVICES --- */
+
+/* ========================================= */
+/* 8. НИЖНИЙ РЯД УСЛУГ                       */
+/* ========================================= */
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
 
 .info-card.horizontal-mode {
@@ -321,7 +342,10 @@ a.card:hover .arrow-icon {
 .info-card.horizontal-mode .arrow-icon { right: 20px; bottom: 20px; }
 
 
-/* --- MOBILE ADAPTIVE (Остальное, что не относится к шапке и подвалу) --- */
+
+/* ========================================= */
+/* 9. АДАПТИВ: СЕТКИ И КАРТОЧКИ              */
+/* ========================================= */
 @media (max-width: 900px) {
     .grid-menu { grid-template-columns: 1fr 1fr; }
     .grid-4 { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -344,8 +368,9 @@ a.card:hover .arrow-icon {
     .action-card p { font-size: 0.9rem; }
 }
 
+
 /* ========================================= */
-/* --- ШАПКА (HEADER) ---                    */
+/* 10. ШАПКА (HEADER)                        */
 /* ========================================= */
 .header-card {
     min-height: 200px;
@@ -431,22 +456,9 @@ a.card:hover .arrow-icon {
     text-shadow: 0 0 10px rgba(255,255,255,0.8);
 }
 
-@media (max-width: 900px) {
-    .header-card { min-height: auto; padding: 30px 15px; display: flex; flex-direction: column; }
-    .header-content { flex-direction: column; gap: 0; padding-left: 0; justify-content: flex-start; align-items: center; height: auto; }
-    .header-col-logo { flex: 0 0 auto; width: 100%; justify-content: center; margin-bottom: 0; }
-    .main-logo-img { max-width: 270px; display: block; }
-    .header-col-text { width: 100%; margin-top: -25px; position: relative; flex: auto; }
-    .title-row { justify-content: flex-end; gap: 10px; flex-wrap: wrap; margin-bottom: 5px; }
-    .logo-text { font-size: 1.4rem; }
-    .sp-logo-img { height: 28px; }
-    .desc br { display: inline; }
-    .desc { width: 100%; display: block; font-size: 0.9rem; white-space: normal; text-align: right; opacity: 0.8; margin-top: 5px; line-height: 1.3; }
-}
-
 
 /* ========================================= */
-/* --- ПОДВАЛ (FOOTER) ---                   */
+/* 11. ПОДВАЛ (FOOTER)                       */
 /* ========================================= */
 .footer-card {
     min-height: 80px;
@@ -522,22 +534,9 @@ a.card:hover .arrow-icon {
 }
 .designer-link:hover .city-text { color: #777; }
 
-@media (max-width: 900px) {
-    .footer-card {
-        flex-direction: column; gap: 20px;
-        text-align: center; padding: 25px 20px;
-    }
-    .footer-left { align-items: center; max-width: 100%; }
-    .copyright-row { justify-content: center; }
-    .divider { display: none; }
-    .footer-slogan { display: block; width: 100%; margin-top: 2px; }
-    .footer-legal { margin-left: 0; margin-top: 5px; }
-    .footer-right { align-items: center; }
-}
-
 
 /* ========================================= */
-/* --- ГЛАВНАЯ СТРАНИЦА (INDEX) ---          */
+/* 12. ГЛАВНАЯ СТРАНИЦА                      */
 /* ========================================= */
 .title-icon-svg {
     width: 100%; height: 100%;
@@ -608,7 +607,7 @@ a.card:hover .arrow-icon {
     color: #fff; border-color: #fff;
 }
 
-/* --- БЕГУЩАЯ СТРОКА --- */
+/* Бегущая строка */
 .ticker-wrap {
     width: calc(100% + 50px);
     margin-left: -25px; margin-bottom: -70px; margin-top: 10px;
@@ -630,7 +629,33 @@ a.card:hover .arrow-icon {
     100% { transform: translateX(-50%); }
 }
 
+
+/* ========================================= */
+/* 13. АДАПТИВ: ВСЕ КОМПОНЕНТЫ               */
+/* ========================================= */
 @media (max-width: 900px) {
+    /* Шапка */
+    .header-card { min-height: auto; padding: 30px 15px; display: flex; flex-direction: column; }
+    .header-content { flex-direction: column; gap: 0; padding-left: 0; justify-content: flex-start; align-items: center; height: auto; }
+    .header-col-logo { flex: 0 0 auto; width: 100%; justify-content: center; margin-bottom: 0; }
+    .main-logo-img { max-width: 270px; display: block; }
+    .header-col-text { width: 100%; margin-top: -25px; position: relative; flex: auto; }
+    .title-row { justify-content: flex-end; gap: 10px; flex-wrap: wrap; margin-bottom: 5px; }
+    .logo-text { font-size: 1.4rem; }
+    .sp-logo-img { height: 28px; }
+    .desc br { display: inline; }
+    .desc { width: 100%; display: block; font-size: 0.9rem; white-space: normal; text-align: right; opacity: 0.8; margin-top: 5px; line-height: 1.3; }
+
+    /* Подвал */
+    .footer-card { flex-direction: column; gap: 20px; text-align: center; padding: 25px 20px; }
+    .footer-left { align-items: center; max-width: 100%; }
+    .copyright-row { justify-content: center; }
+    .divider { display: none; }
+    .footer-slogan { display: block; width: 100%; margin-top: 2px; }
+    .footer-legal { margin-left: 0; margin-top: 5px; }
+    .footer-right { align-items: center; }
+
+    /* Главная */
     .about-buttons-wrapper { flex-direction: column; justify-content: center; }
     .nav-btn { width: 100%; }
     .stats-grid { text-align: center; }
