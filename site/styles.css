@@ -611,7 +611,7 @@ a.card:hover .arrow-icon {
 /* --- БЕГУЩАЯ СТРОКА --- */
 .ticker-wrap {
     width: calc(100% + 50px);
-    margin-left: -25px; margin-bottom: -25px; margin-top: 10px;
+    margin-left: -25px; margin-bottom: -70px; margin-top: 10px;
     background: rgba(0, 0, 0, 0.3);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     padding: 12px 0; overflow: hidden; position: relative;
