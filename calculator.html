@@ -600,14 +600,13 @@
                         </select>
                     </div>
 
-                    <div class="styled-select-wrapper">
+                    <div class="styled-select-wrapper no-arrow">
                         <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Отключаемые розетки</label>
-                        <select name="sh_socket" class="styled-select">
-                            <option value="0">Нет</option>
-                            <script>
-                                for(let i=3; i<=21; i+=3) document.write(`<option value="${i}">${i} групп</option>`);
-                            </script>
-                        </select>
+                        <div class="stepper">
+                            <button type="button" class="stepper-btn" onclick="stepVal('sh_socket', -1)">−</button>
+                            <input type="number" name="sh_socket" class="stepper-input" value="0" min="0" max="20" onchange="calculate()">
+                            <button type="button" class="stepper-btn" onclick="stepVal('sh_socket', 1)">+</button>
+                        </div>
                     </div>
 
                     <div class="styled-select-wrapper no-arrow">
@@ -672,10 +671,17 @@
                         </div>
                     </div>
 
-                    <label class="option-label checkbox-mode">
-                        <input type="checkbox" name="sh_leak" value="yes" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Защита от протечек</span><span class="option-sub">Модуль защиты</span></div></div>
-                    </label>
+                    <div class="styled-select-wrapper">
+                        <label style="color: #c0c0c0; font-size: 0.8rem; margin-bottom: 5px; display:block;">Защита от протечек</label>
+                        <select name="sh_leak_sets" class="styled-select" onchange="calculate()">
+                            <option value="0">Нет</option>
+                            <option value="1">1 стояк (хол + гор)</option>
+                            <option value="2">2 стояка (хол + гор)</option>
+                            <option value="3">3 стояка (хол + гор)</option>
+                            <option value="4">4 стояка (хол + гор)</option>
+                            <option value="5">5 стояка (хол + гор)</option>
+                        </select>
+                    </div>
 
                     <label class="option-label checkbox-mode">
                         <input type="checkbox" name="sh_master_full" value="yes" class="option-input">
@@ -1008,7 +1014,7 @@
             // Расчет точек (свет, розетки, шторы)
             total += parseInt(form.querySelector('select[name="sh_light"]').value) * p.light;
             total += parseInt(form.querySelector('select[name="sh_light_dim"]').value) * p.dim;
-            total += parseInt(form.querySelector('select[name="sh_socket"]').value) * p.socket;
+            total += (parseInt(document.querySelector('input[name="sh_socket"]').value) || 0) * p.socket;
 
             // Электрокарнизы (счетчик)
             const shCurtainInput = document.querySelector('input[name="sh_curtain"]');
@@ -1031,7 +1037,8 @@
             total += (parseInt(document.querySelector('input[name="sh_presence_sensors"]').value) || 0) * p.presence;
 
             // Опции УД (замки, домофоны, панели)
-            if(form.querySelector('input[name="sh_leak"]:checked')) total += p.leak;
+            const leakSets = parseInt(form.querySelector('select[name="sh_leak_sets"]').value) || 0;
+            total += leakSets * p.leak;
             if(form.querySelector('input[name="sh_lock"]:checked')) total += p.lock;
             if(form.querySelector('input[name="sh_intercom"]:checked')) total += p.intercom;
             if(form.querySelector('input[name="sh_touchpanel"]:checked')) total += p.panel;
@@ -1080,7 +1087,7 @@
         msg += `📦 Тип щита: ${getVal('input[name="case_type"]')} / ${getVal('input[name="system_type"]')}\n`;
 
         if(sysType !== 'classic') {
-            msg += `🧠 Умный дом: Свет: ${getVal('select[name="sh_light"]')}, Димм: ${getVal('select[name="sh_light_dim"]')}, Розетки: ${getVal('select[name="sh_socket"]')}, Шторы: ${getVal('input[name="sh_curtain"]')}, Протечки: ${form.querySelector('input[name="sh_leak"]:checked') ? 'Да' : 'Нет'}\n`;
+            msg += `🧠 Умный дом: Свет: ${getVal('select[name="sh_light"]')}, Димм: ${getVal('select[name="sh_light_dim"]')}, Розетки: ${getVal('input[name="sh_socket"]')}, Шторы: ${getVal('input[name="sh_curtain"]')}, Протечки: ${getVal('select[name="sh_leak_sets"]')}\n`;
         }
         msg += `⚡ Ввод: ${getVal('input[name="voltage"]')} \n`;
         msg += `🏠 Объект: ${getVal('input[name="obj_type"]')} (${getVal('select[name="area"]')})\n`;
