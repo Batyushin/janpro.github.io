@@ -885,16 +885,18 @@
         // 3.3. Стоимость ОПЦИЙ (1ф / 3ф)
         const is3Ph = (voltage === '3phase');
 
+        // Общие опции, считаются для всех типов щитов
         if(form.querySelector('input[name="opt_vacation"]:checked')) total += is3Ph ? 4000 : 1500;
         if(form.querySelector('input[name="opt_systemwater"]:checked')) total += is3Ph ? 500 : 500;
+        if(form.querySelector('input[name="opt_electricstove"]:checked')) total += is3Ph ? 4000 : 3000;
+        if(form.querySelector('input[name="opt_waterheater1"]:checked')) total += is3Ph ? 4000 : 3000;
+        if(form.querySelector('input[name="opt_waterheater2"]:checked')) total += is3Ph ? 4000 : 3000;
+        if(form.querySelector('input[name="opt_antifieruzo"]:checked'))  total += is3Ph ? 5000 : 3000;
 
+        // Эти две опции только для классических щитов
         if(sysType === 'classic') {
             if(form.querySelector('input[name="opt_master"]:checked')) total += is3Ph ? 6000 : 3000;
             if(form.querySelector('input[name="opt_fan"]:checked')) total += 3000;
-            if(form.querySelector('input[name="opt_electricstove"]:checked')) total += is3Ph ? 4000 : 3000;
-            if(form.querySelector('input[name="opt_waterheater1"]:checked')) total += is3Ph ? 4000 : 3000;
-            if(form.querySelector('input[name="opt_waterheater2"]:checked')) total += is3Ph ? 4000 : 3000;
-            if(form.querySelector('input[name="opt_antifieruzo"]:checked'))  total += is3Ph ? 5000 : 3000;
         }
         if(is3Ph && form.querySelector('input[name="opt_priority"]:checked')) total += 13000;
 
