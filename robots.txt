@@ -1,5 +1,3 @@
 User-agent: *
 Allow: /
 Sitemap: https://janpro.ru/sitemap.xml
-
-Host: https://janpro.ru

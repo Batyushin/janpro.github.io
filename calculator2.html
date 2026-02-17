@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Калькулятор щита | JanPro.ru</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="site/styles.css">
     <link rel="icon" type="image/x-icon" href="site/favicon.ico" />
-    <script src="site/metrics.js"></script>
+    <meta name="description" content="Онлайн-калькулятор стоимости электрощита от JanPro. Рассчитайте цену сборки щита для квартиры или дома за 2 минуты.">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://janpro.ru/calculator2.html" />
+    <meta property="og:title" content="Калькулятор щита | JanPro.ru" />
+    <meta property="og:description" content="Рассчитайте стоимость сборки электрощита для квартиры или дома за 2 минуты." />
+    <meta property="og:image" content="https://janpro.ru/site/img/og-preview.png" />
+    <script src="site/metrics.js" defer></script>
 
     <style>
         /* --- СЛОИ --- */
@@ -701,7 +708,9 @@
 
     <div class="card total-sticky" id="totalBlock">
         <div class="total-info-col">
-            <div class="total-label">Примерная стоимость</div>
+            <div class="total-label-highlighted">
+                <span class="total-label">Стоимость готового щита</span>
+            </div>
             <div class="total-price" id="totalPrice">0 ₽</div>
         </div>
 
