@@ -948,29 +948,57 @@
             };
 
             if (sysType === 'zigbee') {
-                sysBase = 26000;
-                p.light = 1200; p.dim = 2200; p.socket = 4000; p.curtain = 3000; p.leak = 40000;
-                p.smart_switch = 0; p.climate = 3000; p.presence = 4000;
-                p.lock = 30000; p.intercom = 20000; p.panel = 20000; p.audio = 0;
                 // Цены Zigbee
-                p.floor = 5000;
-                p.radiator = 4500;
+                sysBase = 26000; //база щита на зигби
+                p.light = 1200; //релейный свет
+                p.dim = 2200; //диммируемый свет 220
+                p.socket = 4000; //управляемые розетки
+                p.curtain = 3000; //шторы
+                p.leak = 40000;  //защита от протечек
+                p.smart_switch = 0; //умный выключатель для Локсон
+                p.climate = 3000; //датчик климата
+                p.presence = 4000;  //датчик присутсвия
+                p.lock = 30000; // умный замок
+                p.intercom = 20000; //домофон
+                p.panel = 20000; //настенная панель
+                p.audio = 0; //аудиосервер локсон
+                p.floor = 5000; //теплый пол
+                p.radiator = 4500;  // радиаторы
+
             } else if (sysType === 'wirenboard') {
-                sysBase = 50000;
-                p.light = 2900; p.dim = 5400; p.socket = 6600; p.curtain = 6400; p.leak = 22000;
-                p.smart_switch = 0; p.climate = 12000; p.presence = 4000;
-                p.lock = 30000; p.intercom = 20000; p.panel = 20000; p.audio = 0;
                 // Цены Wirenboard
-                p.floor = 8000;
-                p.radiator = 7000;
+                sysBase = 75000;
+                p.light = 4900; //релейный свет
+                p.dim = 10000; //диммируемый свет
+                p.socket = 7000; //упр розетки
+                p.curtain = 9000; //карнизы штор
+                p.leak = 47000; //защита от протечки
+                p.smart_switch = 0; //умный выключатель
+                p.climate = 12000; //датчик климата
+                p.presence = 4000; //датчик присутствия
+                p.lock = 30000; //умный замок
+                p.intercom = 20000; //домофон
+                p.panel = 25000; //настенная панель
+                p.audio = 0; //аудиосервер локсон
+                p.floor = 4400; //теплый пол
+                p.radiator = 4000; //радиаторы
+
             } else if (sysType === 'loxone') {
-                sysBase = 120000;
-                p.light = 12000; p.dim = 18000; p.socket = 12000; p.curtain = 20000; p.leak = 30000;
-                p.smart_switch = 40000; p.audio = 25000;
-                p.climate = 15000; p.presence = 21000;
-                p.lock = 30000; p.intercom = 200000; p.panel = 150000;
                 // Цены Loxone
-                p.floor = 15000;
+                sysBase = 140000;
+                p.light = 12700; //релейный свет
+                p.dim = 36000; //диммируемый свет
+                p.socket = 12000; //упр розетки
+                p.curtain = 17000; //шторы
+                p.leak = 30000; //защита от протечек
+                p.smart_switch = 45000; //умный выключатель
+                p.audio = 47000; //аудиосервер
+                p.climate = 30000;
+                p.presence = 21000;
+                p.lock = 30000;
+                p.intercom = 250000;
+                p.panel = 150000;
+                p.floor = 18000;
                 p.radiator = 18000;
             }
 

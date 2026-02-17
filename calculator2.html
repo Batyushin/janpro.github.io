@@ -11,7 +11,7 @@
     <link rel="icon" type="image/x-icon" href="site/favicon.ico" />
     <meta name="description" content="Онлайн-калькулятор стоимости электрощита от JanPro. Рассчитайте цену сборки щита для квартиры или дома за 2 минуты.">
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://janpro.ru/calculator2.html" />
+    <meta property="og:url" content="https://janpro.ru/calculator.html" />
     <meta property="og:title" content="Калькулятор щита | JanPro.ru" />
     <meta property="og:description" content="Рассчитайте стоимость сборки электрощита для квартиры или дома за 2 минуты." />
     <meta property="og:image" content="https://janpro.ru/site/img/og-preview.png" />
@@ -445,7 +445,7 @@
 
                     <label class="option-label">
                         <input type="checkbox" name="opt_electricstove" value="yes" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Электриплита</span><span class="option-sub">Варочная поверхность</span></div></div>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Электроплита</span><span class="option-sub">Варочная поверхность</span></div></div>
                     </label>
 
                     <label class="option-label">
@@ -674,7 +674,7 @@
 
                     <label class="option-label checkbox-mode">
                         <input type="checkbox" name="sh_leak" value="yes" class="option-input">
-                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Защита от протечек</span><span class="option-sub">модуль защиты</span></div></div>
+                        <div class="option-card"><div class="option-marker"></div><div class="option-content"><span class="option-text">Защита от протечек</span><span class="option-sub">Краны + Датчики</span></div></div>
                     </label>
 
                     <label class="option-label checkbox-mode">
@@ -708,9 +708,7 @@
 
     <div class="card total-sticky" id="totalBlock">
         <div class="total-info-col">
-            <div class="total-label-highlighted">
-                <span class="total-label">Стоимость готового щита</span>
-            </div>
+            <span class="total-label">Стоимость готового щита</span>
             <div class="total-price" id="totalPrice">0 ₽</div>
         </div>
 
@@ -886,12 +884,12 @@
         }
         if(is3Ph && form.querySelector('input[name="opt_priority"]:checked')) total += 13000;
 
-        // Цены доп. опций
+        // Фикс. цены доп. опций
         if(form.querySelector('input[name="opt_fire"]:checked')) total += 4000;
 
         // 3.4. Опции дома
-        if(form.querySelector('input[name="h_gen"]:checked')) total += 12000; // генератора
-        if(form.querySelector('input[name="h_boiler"]:checked')) total += 3000; // бойлер
+        if(form.querySelector('input[name="h_gen"]:checked')) total += 12000;
+        if(form.querySelector('input[name="h_boiler"]:checked')) total += 3000;
         if(form.querySelector('input[name="h_street"]:checked')) total += 3000;
         if(form.querySelector('input[name="h_sauna"]:checked')) total += 7000;
         if(form.querySelector('input[name="h_garage"]:checked')) total += 3000;
@@ -922,6 +920,7 @@
             priceLedDim = 13000;
         }
 
+
         if (ledCountVal > 0) {
             const isDim = (ledDim === 'yes');
             total += ledCountVal * (isDim ? priceLedDim : priceLedNoDim);
@@ -949,7 +948,7 @@
             };
 
             if (sysType === 'zigbee') {
-                 // Цены Zigbee
+                // Цены Zigbee
                 sysBase = 26000; //база щита на зигби
                 p.light = 1200; //релейный свет
                 p.dim = 2200; //диммируемый свет 220
@@ -966,10 +965,8 @@
                 p.floor = 5000; //теплый пол
                 p.radiator = 4500;  // радиаторы
 
-
-
             } else if (sysType === 'wirenboard') {
-                  // Цены Wirenboard
+                // Цены Wirenboard
                 sysBase = 75000;
                 p.light = 4900; //релейный свет
                 p.dim = 10000; //диммируемый свет
