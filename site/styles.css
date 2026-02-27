@@ -661,12 +661,12 @@ a.card:hover .arrow-icon {
     .stats-grid { text-align: center; }
 }
 
+
 /* ========================================= */
 /* ЭФФЕКТ "ЖАР ЗА СТЕКЛОМ          */
 /* ========================================= */
-
+/*
 .card {
-    /* Чтобы огонь не выходил за рамки стекляшки */
     overflow: hidden;
     position: relative;
 }
@@ -676,8 +676,8 @@ a.card:hover .arrow-icon {
     bottom: -20px;
     height: 70%;
     z-index: 0;
-    pointer-events: none; /* Не мешает кликать по кнопкам и ссылкам */
-    animation: fire-fade-in 2s ease-in-out forwards; /* Плавное разгорание в начале */
+    pointer-events: none;
+    animation: fire-fade-in 2s ease-in-out forwards;
 }
 
 @keyframes fire-fade-in {
@@ -714,3 +714,4 @@ a.card:hover .arrow-icon {
         transform: translateY(-130px) scale(0.3) translateX(var(--sway-3));
     }
 }
+*/

@@ -145,8 +145,8 @@ async function initPage(activePage) {
     initSpotlight();
 }
 
+/*
 // --- 5. ЭФФЕКТ "ЖАР ЗА СТЕКЛОМ"  ---
-
     function ignitePermanentFire() {
     const cards = document.querySelectorAll('.card');
     if (cards.length === 0) return;
@@ -226,3 +226,4 @@ async function initPage(activePage) {
     // Запускаем через секунду после загрузки контента, чтобы все ширины посчитались корректно
     setTimeout(ignitePermanentFire, 1000);
 });
+*/
