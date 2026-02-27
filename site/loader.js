@@ -106,6 +106,20 @@ async function loadComponent(elementId, filePath) {
 
     } catch (error) {
         console.error(`Ошибка загрузки компонента ${filePath}:`, error);
+        element.innerHTML = `
+            <div class="card" style="padding:16px; text-align:center; align-items:center;">
+                <p style="margin-bottom:10px; color:#c0c0c0;">
+                    Не удалось загрузить блок страницы.
+                </p>
+                <button
+                    type="button"
+                    style="padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.06); color:#fff; cursor:pointer;"
+                    onclick="loadComponent('${elementId}','${filePath}')"
+                >
+                    Повторить
+                </button>
+            </div>
+        `;
     }
 }
 
