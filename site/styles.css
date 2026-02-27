@@ -624,6 +624,47 @@ a.card:hover .arrow-icon {
     font-size: 0.9rem; font-weight: 700; color: #555;
     text-transform: uppercase; letter-spacing: 2px; white-space: nowrap;
 }
+
+/* Финальный CTA на главной */
+.home-final-cta {
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 22px;
+}
+
+.home-final-cta h2 {
+    font-size: 1.55rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #fff;
+    margin: 0;
+}
+
+.home-final-cta p {
+    max-width: 760px;
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.55;
+    margin: 0;
+}
+
+.home-final-cta .hero-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+
+.home-final-cta .hero-actions .nav-btn {
+    padding: 9px 16px;
+    font-size: 0.8rem;
+    letter-spacing: 0.7px;
+}
+
 @keyframes marquee {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
@@ -659,6 +700,14 @@ a.card:hover .arrow-icon {
     .about-buttons-wrapper { flex-direction: column; justify-content: center; }
     .nav-btn { width: 100%; }
     .stats-grid { text-align: center; }
+
+    .home-final-cta .hero-actions {
+        flex-direction: row;
+    }
+
+    .home-final-cta .hero-actions .nav-btn {
+        width: auto;
+    }
 }
 
 
