@@ -207,7 +207,7 @@
             box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
         }
 
-        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 400px; }
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; width: 100%; max-width: 500px; }
         .calc-social-btn {
             display: flex; align-items: center; justify-content: center; gap: 8px;
             padding: 10px; border-radius: 12px; color: #fff; font-weight: 700; font-size: 0.9rem;
@@ -532,6 +532,9 @@
                 <a href="#" id="tgLink" target="_blank" class="calc-social-btn">
                     <img src="site/img/tg.svg" alt="TG"> <span>Telegram</span>
                 </a>
+                <a href="#" id="maxLink" target="_blank" class="calc-social-btn">
+                    <img src="site/img/max.png" alt="MAX"> <span>MAX</span>
+                </a>
                 <a href="#" id="waLink" target="_blank" class="calc-social-btn">
                     <img src="site/img/whatsapp.png" alt="WA"> <span>WhatsApp</span>
                 </a>
@@ -679,6 +682,7 @@
 
             document.getElementById('tgLink').href = `https://t.me/JanPro59?text=${encodeURIComponent(msg)}`;
             document.getElementById('waLink').href = `https://wa.me/79824699434?text=${encodeURIComponent(msg)}`;
+            document.getElementById('maxLink').href = `https://max.ru/u/f9LHodD0cOLe1eDn2ZmxlSM6Sv0XcM5s1Zc8CYWwZ5hWD7PoEUu8qeb36f8?text=${encodeURIComponent(msg)}`;
         }
     </script>
 
