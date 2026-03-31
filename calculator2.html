@@ -10,10 +10,11 @@
     <link rel="stylesheet" href="site/styles.css">
     <link rel="icon" type="image/x-icon" href="site/favicon.ico" />
     <meta name="description" content="Онлайн-калькулятор стоимости электрощита от JanPro. Рассчитайте цену сборки щита для квартиры или дома за 2 минуты.">
+    <link rel="canonical" href="https://janpro.ru/calculator.html" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://janpro.ru/calculator.html" />
     <meta property="og:title" content="Калькулятор щита | JanPro.ru" />
-    <meta property="og:description" content="Рассчитайте стоимость сборки электрощита для квартиры или дома за 2 минуты." />
+    <meta property="og:description" content="Онлайн-калькулятор стоимости электрощита от JanPro. Рассчитайте цену сборки щита для квартиры или дома за 2 минуты." />
     <meta property="og:image" content="https://janpro.ru/site/img/og-preview.png" />
     <script src="site/metrics.js" defer></script>
 
@@ -235,7 +236,7 @@
             margin: 0 0 10px 0; text-shadow: 0 0 20px rgba(255,0,0,0.3); line-height: 1;
         }
 
-        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 400px; }
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; width: 100%; max-width: 500px; }
 
         .calc-social-btn {
             display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -725,6 +726,9 @@
             <a href="#" id="waLink" target="_blank" class="calc-social-btn">
                 <img src="site/img/whatsapp.png" alt="WA"> <span>WhatsApp</span>
             </a>
+            <a href="#" id="maxLink" target="_blank" class="calc-social-btn">
+                <img src="site/img/max.png" alt="MAX"> <span>MAX</span>
+            </a>
         </div>
         <p class="disclaimer-text">
             *Цена ориентировочная. Включает проектирование, сборку и комплектующие.
@@ -1126,6 +1130,7 @@
         const encoded = encodeURIComponent(msg);
         document.getElementById('waLink').href = `https://wa.me/79824699434?text=${encoded}`;
         document.getElementById('tgLink').href = `https://t.me/JanPro59?text=${encoded}`;
+        document.getElementById('maxLink').href = `https://max.ru/u/f9LHodD0cOLe1eDn2ZmxlSM6Sv0XcM5s1Zc8CYWwZ5hWD7PoEUu8qeb36f8?text=${encoded}`;
     }
 
     if(typeof initPage === 'function') {
